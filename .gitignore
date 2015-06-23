@@ -31,3 +31,6 @@ node_modules
 
 # cordova
 client/platforms
+
+# bower
+client/www/bower_components

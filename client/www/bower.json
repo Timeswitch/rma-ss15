@@ -1,0 +1,19 @@
+{
+  "name": "rma-ss15",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Timeswitch/rma-ss15",
+  "authors": [
+    "Michael Kroll <michael.kroll.94@googlemail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "phaser": "~2.3.0"
+  }
+}
