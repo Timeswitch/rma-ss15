@@ -11,7 +11,7 @@ define(function(){
 
     Boot.prototype.init = function(){
         this.app = require('app');
-        this.app.canvas = document.getElementsByTagName('canvas')[0]
+        this.app.canvas = document.getElementsByTagName('canvas')[0];
         this.app.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
         this.app.game.scale.pageAlignVertically = true;
         this.app.game.scale.pageAlignHorizontally = true;
