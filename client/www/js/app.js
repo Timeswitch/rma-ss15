@@ -41,6 +41,11 @@ define([
                     args.push(arguments[i]);
                 }
 
+                if(method === 'spritesheet'){
+                    args[3] *= 2;
+                    args[4] *= 2;
+                }
+
                 this.game.load[method].apply(this.game.load,args);
             }
         };
