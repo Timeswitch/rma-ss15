@@ -73,5 +73,5 @@ define([
 
     };
 
-    return Boot;
+    return new Boot();
 });
