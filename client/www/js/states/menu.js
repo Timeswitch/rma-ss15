@@ -16,12 +16,16 @@ define(function(){
     };
 
     Menu.prototype.preload = function(){
-        this.load.image("background", "assets/background.png");
+        this.app.load('image',"background", "mainmenu/background.png");
 
     };
 
     Menu.prototype.create = function(){
         this.background = this.add.sprite(0,0,"background");
+
+        var heightRatio = this.app.height/this.background.height;
+        this.background.height = this.app.height;
+        this.background.width = this.background.width * heightRatio;
     };
 
 
