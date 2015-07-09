@@ -22,6 +22,29 @@ define([
             console.log(this.game);
         };
 
+        App.prototype.load = function(method,key,url){
+            if(arguments.length < 3){
+                throw 'invalid_call';
+            }else{
+                var args = [];
+                args.push(key);
+
+                if(window.devicePixelRatio > 1){
+                    url = 'hdpi/' + url;
+                }
+
+                url = 'assets/' + url;
+
+                args.push(url);
+
+                for(var i = 3; i<arguments.length;i++){
+                    args.push(arguments[i]);
+                }
+
+                this.game.load[method].apply(this.game.load,args);
+            }
+        };
+
         return new App();
 
 });
