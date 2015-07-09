@@ -50,6 +50,20 @@ define([
             }
         };
 
+        App.prototype.scaleToScreen = function(sprite,toWith){
+            var ratio;
+
+            if(toWith === true){
+                ratio = this.width / sprite.width;
+                sprite.width = this.width;
+                sprite.height = sprite.height * ratio;
+            }else{
+                ratio = this.height / sprite.height;
+                sprite.height = this.height;
+                sprite.width = sprite.width * ratio;
+            }
+        };
+
         return new App();
 
 });

@@ -23,9 +23,7 @@ define(function(){
     Menu.prototype.create = function(){
         this.background = this.add.sprite(0,0,"background");
 
-        var heightRatio = this.app.height/this.background.height;
-        this.background.height = this.app.height;
-        this.background.width = this.background.width * heightRatio;
+        this.app.scaleToScreen(this.background);
     };
 
 
