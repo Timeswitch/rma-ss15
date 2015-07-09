@@ -50,6 +50,27 @@ define([
             }
         };
 
+        App.prototype.scaleToScreen = function(sprite,toWith){
+            var ratio;
+
+            if(toWith === true){
+                ratio = this.width / sprite.width;
+                sprite.width = this.width;
+                sprite.height = sprite.height * ratio;
+            }else{
+                ratio = this.height / sprite.height;
+                sprite.height = this.height;
+                sprite.width = sprite.width * ratio;
+            }
+        };
+
+        App.prototype.getRobot = function(back){
+            var robot = this.game.add.group();
+            robot.create(0,0,'robobody_1');
+
+            return robot;
+        };
+
         return new App();
 
 });
