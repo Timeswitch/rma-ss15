@@ -26,6 +26,12 @@
         },
         "org.apache.cordova.device": {
             "PACKAGE_NAME": "de.timeswitch.rmass15"
+        },
+        "com.mesmotronic.plugins.fullscreen": {
+            "PACKAGE_NAME": "de.timeswitch.rmass15"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "de.timeswitch.rmass15"
         }
     },
     "dependent_plugins": {}
