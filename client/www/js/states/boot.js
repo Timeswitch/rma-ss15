@@ -66,5 +66,5 @@ define(function(){
 
     }
 
-    return Boot;
+    return new Boot();
 });

@@ -18,7 +18,7 @@ define([
 
 
         App.prototype.run = function(){
-            this.game = new Phaser.Game(this.width,this.height,Phaser.AUTO,'',(new Boot));
+            this.game = new Phaser.Game(this.width,this.height,Phaser.AUTO,'',Boot);
             console.log(this.game);
         };
 
