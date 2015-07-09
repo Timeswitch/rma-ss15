@@ -13,7 +13,7 @@ define([
             this.game = null;
             this.canvas = null;
             this.width = window.innerWidth * window.devicePixelRatio;
-            this.height = window.innerHeight * window.devicePixelRatio
+            this.height = window.innerHeight * window.devicePixelRatio;
         }
 
 
@@ -27,7 +27,7 @@ define([
             if(this.canvas !== null){
 
                 this.width = window.innerWidth * window.devicePixelRatio;
-                this.height = window.innerHeight * window.devicePixelRatio
+                this.height = window.innerHeight * window.devicePixelRatio;
 
                 this.game.renderer.resize(this.width,this.height);
                 this.game.width = this.width;

@@ -1,6 +1,10 @@
 'use strict';
 
-define(function(){
+define([
+
+    "states/menu"
+
+], function(Menu){
 
     function Boot(){
         this.app = null;
@@ -25,6 +29,9 @@ define(function(){
         var text = this.add.text(this.world.centerX, this.world.centerY, "- phaser -\nwith a sprinkle of\npixi dust", style);
 
         text.anchor.set(0.5);
+
+        this.app.game.state.add("Menu", Menu);
+        this.app.game.state.start("Menu");
     };
 
     Boot.prototype.render = function() {
@@ -50,8 +57,8 @@ define(function(){
 
         //  Device: How to get device size.
 
-        //  Use window.screen.width for device width and window.screen.height for device height. 
-        //  .availWidth and .availHeight give you the device size minus UI taskbars. (Try on an iPhone.) 
+        //  Use window.screen.width for device width and window.screen.height for device height.
+        //  .availWidth and .availHeight give you the device size minus UI taskbars. (Try on an iPhone.)
         //  Device size is static and does not change when the page is resized or rotated.
 
         x = 350;
@@ -64,7 +71,7 @@ define(function(){
         this.app.game.debug.text('window.screen.height: ' + window.screen.height, x, y += yi);
         this.app.game.debug.text('window.screen.availHeight: ' + window.screen.availHeight, x, y += yi);
 
-    }
+    };
 
     return Boot;
 });
