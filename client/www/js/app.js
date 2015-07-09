@@ -30,10 +30,10 @@ define([
                 args.push(key);
 
                 if(window.devicePixelRatio > 1){
-                    url = 'hdpi/' + url;
+                    url = 'assets/hdpi/' + url;
+                }else{
+                    url = 'assets/default/' + url;
                 }
-
-                url = 'assets/' + url;
 
                 args.push(url);
 
