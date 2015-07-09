@@ -22,8 +22,11 @@ define(function(){
 
     Menu.prototype.create = function(){
         this.background = this.add.sprite(0,0,"background");
-
         this.app.scaleToScreen(this.background);
+
+        var robot = this.app.getRobot();
+        robot.x = this.game.world.centerX;
+        robot.y = this.game.world.centerY;
     };
 
 

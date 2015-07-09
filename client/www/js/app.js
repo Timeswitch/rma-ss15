@@ -64,6 +64,13 @@ define([
             }
         };
 
+        App.prototype.getRobot = function(back){
+            var robot = this.game.add.group();
+            robot.create(0,0,'robobody_1');
+
+            return robot;
+        };
+
         return new App();
 
 });
