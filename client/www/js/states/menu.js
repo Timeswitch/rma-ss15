@@ -17,6 +17,7 @@ define(function(){
 
     Menu.prototype.preload = function(){
         this.app.load('image','background', 'mainmenu/background.png');
+        this.app.load('image','logo', 'mainmenu/logo.png');
 
     };
 
