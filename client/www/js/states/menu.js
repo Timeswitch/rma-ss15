@@ -19,8 +19,8 @@ define(function(){
         this.load.image('background', 'assets/mainmenu/background.png');
         this.load.image('logo', 'assets/mainmenu/logo.png');
 
-        this.load.spritesheet('buttonFight', 'assets/mainmenu/buttonFight.png', 128, 128, 3);
-        this.load.spritesheet('buttonScan', 'assets/mainmenu/buttonScan.png', 128, 128, 2);
+        this.load.spritesheet('buttonLeft', 'assets/mainmenu/left.png', 32, 120, 2);
+        this.load.spritesheet('buttonRight', 'assets/mainmenu/right.png', 32, 120, 2);
         this.load.spritesheet('buttonInventory', 'assets/mainmenu/buttonInventory.png', 128, 128, 2);
 
     };
@@ -33,13 +33,13 @@ define(function(){
         robot.x = this.game.world.centerX;
         robot.y = this.game.world.centerY;
 
-        this.logo = this.add.sprite(this.world.centerX, this.world.centerY - (this.app.height / 3), 'logo');
+        this.logo = this.app.add('sprite', this.world.centerX, this.world.centerY - (this.app.height / 3), 'logo');
         this.logo.anchor.set(0.5);
 
-        this.buttonFight = this.app.add('button',this.world.centerX - (this.world.centerX/2), this.world.centerY, 'buttonFight', this.goFight, this, 1, 1, 2, 2);
-        this.buttonFight.anchor.set(0.5);
-        this.buttonScan = this.app.add('button',this.world.centerX + (this.world.centerX/2), this.world.centerY, 'buttonScan', this.goScan, this, 0, 0, 1, 1);
-        this.buttonScan.anchor.set(0.5);
+        this.buttonLeft = this.app.add('button',this.world.centerX - (this.world.centerX * 0.9), this.world.centerY, 'buttonLeft', this.goFight, this, 0, 0, 1, 1);
+        this.buttonLeft.anchor.set(0.5);
+        this.buttonRight = this.app.add('button',this.world.centerX + (this.world.centerX * 0.9), this.world.centerY, 'buttonRight', this.goScan, this, 0, 0, 1, 1);
+        this.buttonRight.anchor.set(0.5);
         this.buttonInventory = this.app.add('button',this.world.centerX, this.world.centerY + (this.world.centerY * 0.7)  , 'buttonInventory', this.goInventory, this, 0, 0, 1, 1);
         this.buttonInventory.anchor.set(0.5);
     };
