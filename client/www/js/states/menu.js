@@ -18,6 +18,7 @@ define(function(){
     Menu.prototype.preload = function(){
         this.load.image('background', 'assets/mainmenu/background.png');
         this.load.image('logo', 'assets/mainmenu/logo.png');
+        this.load.image('test', 'assets/test.png');
 
         this.load.spritesheet('buttonFight', 'assets/mainmenu/buttonFight.png', 128, 128, 3);
         this.load.spritesheet('buttonScan', 'assets/mainmenu/buttonScan.png', 128, 128, 2);
@@ -29,9 +30,12 @@ define(function(){
         this.app.background = this.add.sprite(0,0,'background');
         this.app.scaleToScreen(this.app.background);
 
-        var robot = this.app.makeRobot();
-        robot.x = this.game.world.centerX;
-        robot.y = this.game.world.centerY;
+        //var robot = this.app.makeRobot();
+        //robot.x = this.game.world.centerX;
+        //robot.y = this.game.world.centerY;
+
+        var test = this.app.add('sprite',this.world.centerX,this.world.centerY,'test');
+        test.anchor.set(0.5);
 
         this.logo = this.add.sprite(this.world.centerX, this.world.centerY - (this.app.height / 3), 'logo');
         this.logo.anchor.set(0.5);
