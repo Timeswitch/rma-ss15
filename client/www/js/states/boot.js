@@ -2,9 +2,12 @@
 
 define([
 
-    "states/menu"
+    'states/menu',
+    'states/scan',
+    'states/fight',
+    'states/inventory'
 
-], function(Menu){
+], function(Menu, Scan, Fight, Inventory){
 
     function Boot(){
         this.app = null;
@@ -35,7 +38,12 @@ define([
 
         text.anchor.set(0.5);
 
-        this.app.game.state.add("Menu", Menu);
+        this.app.game.state.add('Menu', Menu);
+        this.app.game.state.add('Scan', Scan);
+        this.app.game.state.add('Fight', Fight);
+        this.app.game.state.add('Inventory', Inventory);
+
+
         this.app.game.state.start("Menu");
     };
 
