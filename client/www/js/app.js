@@ -41,7 +41,7 @@ define([
                     args.push(arguments[i]);
                 }
 
-                if(method === 'spritesheet'){
+                if(window.devicePixelRatio > 1 && method === 'spritesheet'){
                     args[3] *= 2;
                     args[4] *= 2;
                 }
@@ -64,7 +64,7 @@ define([
             }
         };
 
-        App.prototype.getRobot = function(back){
+        App.prototype.makeRobot = function(config,back){
             var robot = this.game.add.group();
             robot.create(0,0,'robobody_1');
 
