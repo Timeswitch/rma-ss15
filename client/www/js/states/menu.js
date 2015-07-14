@@ -16,8 +16,8 @@ define(function(){
     };
 
     Menu.prototype.preload = function(){
-        this.app.load('image','background', 'mainmenu/background.png');
-        this.app.load('image','logo', 'mainmenu/logo.png');
+        this.load.image('background', 'mainmenu/background.png');
+        this.load.image('logo', 'mainmenu/logo.png');
 
         this.load.spritesheet('buttonFight', 'assets/default/mainmenu/buttonFight.png', 128, 128, 3);
         this.load.spritesheet('buttonScan', 'assets/default/mainmenu/buttonScan.png', 128, 128, 2);

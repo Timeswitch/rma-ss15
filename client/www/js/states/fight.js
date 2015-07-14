@@ -17,7 +17,7 @@ define(function() {
 
     Fight.prototype.preload = function(){
         this.load.spritesheet('buttonBack', 'assets/default/buttonBack.png', 128, 128, 2);
-        this.app.load('image', 'fightLogo', 'fight/fightLogo.png');
+        this.load.image('fightLogo', 'fight/fightLogo.png');
     };
 
     Fight.prototype.create = function(){

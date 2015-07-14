@@ -17,8 +17,8 @@ define(function() {
 
     Scan.prototype.preload = function(){
         //this.load.spritesheet('buttonBack', 'assets/default/buttonBack.png', 128, 128, 2);
-        this.app.load('spritesheet', 'buttonBack', 'buttonBack.png', 128, 128,2);
-        this.app.load('image', 'scanLogo', 'scan/scanLogo.png');
+        this.load.spritesheet('buttonBack', 'buttonBack.png', 128, 128,2);
+        this.load.image('scanLogo', 'scan/scanLogo.png');
     };
 
     Scan.prototype.create = function(){

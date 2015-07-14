@@ -17,7 +17,7 @@ define(function() {
 
     Inventory.prototype.preload = function(){
         this.load.spritesheet('buttonBack', 'assets/default/buttonBack.png', 128, 128, 2);
-        this.app.load('image', 'inventoryLogo', 'inventory/inventoryLogo.png');
+        this.load.image('inventoryLogo', 'inventory/inventoryLogo.png');
     };
 
     Inventory.prototype.create = function(){

@@ -24,34 +24,6 @@ define([
             console.log(this.game);
         };
 
-        App.prototype.load = function(method,key,url){
-            if(arguments.length < 3){
-                throw 'invalid_call';
-            }else{
-                var args = [];
-                args.push(key);
-
-                if(window.devicePixelRatio > 1){
-                    url = 'assets/hdpi/' + url;
-                }else{
-                    url = 'assets/default/' + url;
-                }
-
-                args.push(url);
-
-                for(var i = 3; i<arguments.length;i++){
-                    args.push(arguments[i]);
-                }
-
-                if(window.devicePixelRatio > 1 && method === 'spritesheet'){
-                    args[3] *= 2;
-                    args[4] *= 2;
-                }
-
-                this.game.load[method].apply(this.game.load,args);
-            }
-        };
-
         App.prototype.add = function(method){
             var object = this.game.add[method].apply(this.game.add,Array.prototype.splice.call(arguments,1));
             this.applyScaleTo(object);
