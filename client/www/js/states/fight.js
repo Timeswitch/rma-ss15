@@ -21,9 +21,9 @@ define(function() {
     };
 
     Fight.prototype.create = function(){
-        this.fightLogo = this.add.sprite(this.world.centerX, this.world.centerY - (this.app.height / 3), 'fightLogo');
+        this.fightLogo = this.app.add('sprite', this.world.centerX, this.world.centerY - (this.app.height / 3), 'fightLogo');
         this.fightLogo.anchor.set(0.5);
-        this.buttonBack = this.add.button(this.world.centerX / 4, this.world.centerX / 4, 'buttonBack', this.goBack, this, 0, 0, 1, 1);
+        this.buttonBack = this.app.add('button',this.world.centerX / 4, this.world.centerX / 4, 'buttonBack', this.goBack, this, 0, 0, 1, 1);
         this.buttonBack.anchor.set(0.5);
         this.buttonBack.scale.setTo(0.5, 0.5);
     };
