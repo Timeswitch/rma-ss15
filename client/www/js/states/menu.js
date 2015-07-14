@@ -16,12 +16,12 @@ define(function(){
     };
 
     Menu.prototype.preload = function(){
-        this.load.image('background', 'mainmenu/background.png');
-        this.load.image('logo', 'mainmenu/logo.png');
+        this.load.image('background', 'assets/mainmenu/background.png');
+        this.load.image('logo', 'assets/mainmenu/logo.png');
 
-        this.load.spritesheet('buttonFight', 'assets/default/mainmenu/buttonFight.png', 128, 128, 3);
-        this.load.spritesheet('buttonScan', 'assets/default/mainmenu/buttonScan.png', 128, 128, 2);
-        this.load.spritesheet('buttonInventory', 'assets/default/mainmenu/buttonInventory.png', 128, 128, 2);
+        this.load.spritesheet('buttonFight', 'assets/mainmenu/buttonFight.png', 128, 128, 3);
+        this.load.spritesheet('buttonScan', 'assets/mainmenu/buttonScan.png', 128, 128, 2);
+        this.load.spritesheet('buttonInventory', 'assets/mainmenu/buttonInventory.png', 128, 128, 2);
 
     };
 
