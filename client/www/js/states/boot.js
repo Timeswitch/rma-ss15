@@ -28,6 +28,13 @@ define([
         this.app.game.scale.pageAlignVertically = true;
         this.app.game.scale.pageAlignHorizontally = true;
 
+        if(this.app.game.context != null){
+            Phaser.Canvas.setSmoothingEnabled(this.game.context, false);
+        }
+
+        Phaser.Canvas.setImageRenderingCrisp(this.app.game.canvas);
+        PIXI.scaleModes.DEFAULT = PIXI.scaleModes.NEAREST;
+
         console.log(this);
     };
 
