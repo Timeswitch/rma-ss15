@@ -17,8 +17,6 @@ define([
     Boot.prototype = new Phaser.State();
 
     Boot.prototype.preload = function(){
-        //Roboteile laden...
-        this.load.image('robobody_1','robotparts/body/body_1.png');
     };
 
     Boot.prototype.init = function(){
