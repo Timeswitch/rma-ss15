@@ -18,7 +18,7 @@ define([
 
     Boot.prototype.preload = function(){
         //Roboteile laden...
-        this.app.load('image','robobody_1','robotparts/body/body_1.png');
+        this.load.image('robobody_1','robotparts/body/body_1.png');
     };
 
     Boot.prototype.init = function(){
