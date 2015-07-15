@@ -39,7 +39,9 @@ define(function(){
 
         this.robot = null;
 
-        this.pageMain = null;
+        this.content = null;
+        this.contentPage = 0;
+        this.lastPointerX = 0;
     }
 
     Menu.prototype = new Phaser.State();
@@ -80,10 +82,30 @@ define(function(){
         this.robot.x = this.world.centerX - (this.robot.width/2);
         this.robot.y = this.world.centerY - (this.robot.height/2);
 
+        this.content = this.game.add.group();
+        this.content.add(this.logo);
+        this.content.add(this.robot);
+
     };
 
     Menu.prototype.update = function(){
         this.filter.update();
+
+        if(this.input.activePointer.justPressed()){
+            this.lastPointerX = this.input.activePointer.x;
+        }
+
+        if(this.input.activePointer.isDown){
+            var move = this.input.activePointer.x - this.lastPointerX;
+
+            this.content.x += move;
+            this.lastPointerX = this.input.activePointer.x;
+        }
+
+        if(this.input.activePointer.justReleased()){
+            this.content.x = this.game.width * this.contentPage;
+        }
+
     };
 
 
