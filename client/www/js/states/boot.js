@@ -17,6 +17,7 @@ define([
     Boot.prototype = new Phaser.State();
 
     Boot.prototype.preload = function(){
+        this.app.loadRoboParts();
     };
 
     Boot.prototype.init = function(){

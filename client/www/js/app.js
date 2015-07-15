@@ -37,11 +37,39 @@ define([
             }
         };
 
+        App.prototype.loadRoboParts = function(){
+            this.game.load.image('robo_body_0','assets/robotparts/body_0.png');
+            this.game.load.image('robo_legs_0','assets/robotparts/legs_0.png');
+            this.game.load.image('robo_head_0','assets/robotparts/head_0.png');
+            this.game.load.image('robo_arm_left_0','assets/robotparts/arm_left_0.png');
+            this.game.load.image('robo_arm_right_0','assets/robotparts/arm_right_0.png');
+        };
+
         App.prototype.makeRobot = function(config,back){
             var robot = this.game.add.group();
-            robot.create(0,0,'robobody_1');
+
+            robot.create(24,0,'robo_head_0');
+            robot.create(24,32,'robo_body_0');
+            robot.create(24,80,'robo_legs_0');
+            robot.create(0,32,'robo_arm_left_0');
+            robot.create(56,32,'robo_arm_right_0');
 
             return robot;
+        };
+
+        App.prototype.scaleMax = function(object,roomX, roomY){
+            var scaleX = roomX / object.width;
+            var scaleY = roomY / object.height;
+
+            var scale = 1;
+
+            if(scaleX < scaleY){
+                scale = Math.floor(scaleX);
+            }else{
+                scale = Math.floor(scaleY);
+            }
+
+            object.scale.set(scale,scale);
         };
 
         return new App();
