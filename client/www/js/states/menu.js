@@ -39,6 +39,8 @@ define(function(){
 
         this.robot = null;
 
+        this.scanIcon = null;
+
         this.infoText = null;
 
         this.content = null;
@@ -58,6 +60,7 @@ define(function(){
     Menu.prototype.preload = function(){
         this.load.image('background', 'assets/mainmenu/background.png');
         this.load.image('logo', 'assets/logo.png');
+        this.load.image('scan_icon', 'assets/mainmenu/scan.png');
         this.load.spritesheet('arrow_left', 'assets/mainmenu/left.png',32,120);
         this.load.spritesheet('arrow_right', 'assets/mainmenu/right.png',32,120);
 
@@ -72,21 +75,29 @@ define(function(){
         this.background.height = this.app.height;
         this.background.filters = [this.filter];
 
+        this.content = this.game.add.group();
+
         this.robot = this.app.makeRobot();
-
         this.app.scaleMax(this.robot,this.world.width - 112,this.world.height - 260);
-
         this.robot.x = this.world.centerX - (this.robot.width/2);
         this.robot.y = this.world.centerY - (this.robot.height/2);
+        this.content.add(this.robot);
 
-        this.infoText = this.add.text(this.world.centerX,this.app.height - 50,'Zusammenstellung',{font: "40px bitwise",fill: '#419001',align: 'center'});
+        this.scanIcon = this.add.sprite(this.world.centerX,this.world.centerY,'scan_icon');
+        this.scanIcon.x += this.app.width;
+        this.scanIcon.anchor.set(0.5);
+        this.content.add(this.scanIcon);
+
+        this.infoText = this.add.text(this.world.centerX,this.app.height - 50,'Zusammenstellung',{font: "35px bitwise",fill: '#419001',align: 'center'});
         this.infoText.anchor.set(0.5);
 
-        this.content = this.game.add.group();
-        this.content.add(this.robot);
+
+
 
         this.logo = this.add.sprite(this.world.centerX, 80, 'logo');
         this.logo.anchor.set(0.5);
+
+
 
         this.arrowLeft = this.add.button(32, this.world.centerY, 'arrow_left');
         this.arrowLeft.anchor.set(0.5);
