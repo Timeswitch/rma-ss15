@@ -43,6 +43,8 @@ define(function(){
 
         this.content = null;
         this.contentPage = 0;
+        this.contentPageMin = -1;
+        this.contentPageMax = 1;
         this.lastPointerX = 0;
         this.pointerDown = false;
     }
@@ -70,14 +72,6 @@ define(function(){
         this.background.height = this.app.height;
         this.background.filters = [this.filter];
 
-        this.logo = this.add.sprite(this.world.centerX, 80, 'logo');
-        this.logo.anchor.set(0.5);
-
-        this.arrowLeft = this.add.button(32, this.world.centerY, 'arrow_left');
-        this.arrowLeft.anchor.set(0.5);
-        this.arrowRight = this.add.button(this.world.width - 32, this.world.centerY, 'arrow_right');
-        this.arrowRight.anchor.set(0.5);
-
         this.robot = this.app.makeRobot();
 
         this.app.scaleMax(this.robot,this.world.width - 112,this.world.height - 260);
@@ -90,6 +84,14 @@ define(function(){
 
         this.content = this.game.add.group();
         this.content.add(this.robot);
+
+        this.logo = this.add.sprite(this.world.centerX, 80, 'logo');
+        this.logo.anchor.set(0.5);
+
+        this.arrowLeft = this.add.button(32, this.world.centerY, 'arrow_left');
+        this.arrowLeft.anchor.set(0.5);
+        this.arrowRight = this.add.button(this.world.width - 32, this.world.centerY, 'arrow_right');
+        this.arrowRight.anchor.set(0.5);
 
     };
 
@@ -118,13 +120,12 @@ define(function(){
                 var pos = -(this.game.width * this.contentPage);
                 var delta = this.content.x - pos;
 
-                if(delta > this.app.width/8 ){
+                if(delta > this.app.width/8 && this.contentPage > this.contentPageMin){
                     this.contentPage--;
-                }else if(delta < -(this.app.width/8)){
+                }else if(delta < -(this.app.width/8) && this.contentPage < this.contentPageMax){
                     this.contentPage++;
                 }
 
-                this.content.x = -(this.game.width * this.contentPage);
                 switch(this.contentPage){
                     case -1:
                         this.infoText.text = 'Inventar';
@@ -136,6 +137,9 @@ define(function(){
                         this.infoText.text = 'Scannen';
                         break;
                 }
+
+                this.content.x = -(this.game.width * this.contentPage);
+
             }
         }
 
