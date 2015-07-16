@@ -49,6 +49,7 @@ define(function(){
         this.contentPageMax = 1;
         this.lastPointerX = 0;
         this.pointerDown = false;
+        this.contentTween = null;
     }
 
     Menu.prototype = new Phaser.State();
@@ -115,6 +116,9 @@ define(function(){
             if(!this.pointerDown){
                 this.lastPointerX = this.input.activePointer.x;
                 this.pointerDown = true;
+                if(this.contentTween != null){
+                    this.contentTween.stop();
+                }
             }
 
             var move = this.input.activePointer.x - this.lastPointerX;
@@ -149,7 +153,9 @@ define(function(){
                         break;
                 }
 
-                this.content.x = -(this.game.width * this.contentPage);
+                pos = -(this.game.width * this.contentPage);
+                this.contentTween = this.add.tween(this.content).to({x:pos},150);
+                this.contentTween.start();
 
             }
         }
