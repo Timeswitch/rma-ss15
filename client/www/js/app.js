@@ -38,9 +38,9 @@ define([
         };
 
         App.prototype.loadRoboParts = function(){
-            this.game.load.image('robo_body_0','assets/robotparts/body_0.png');
+            this.game.load.image('robo_body_0','assets/robotparts/body_1.png');
             this.game.load.image('robo_legs_0','assets/robotparts/legs_0.png');
-            this.game.load.image('robo_head_0','assets/robotparts/head_0.png');
+            this.game.load.image('robo_head_0','assets/robotparts/head_2.png');
             this.game.load.image('robo_arm_left_0','assets/robotparts/arm_left_0.png');
             this.game.load.image('robo_arm_right_0','assets/robotparts/arm_right_0.png');
         };
