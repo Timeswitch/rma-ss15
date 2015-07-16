@@ -39,6 +39,8 @@ define(function(){
 
         this.robot = null;
 
+        this.infoText = null;
+
         this.content = null;
         this.contentPage = 0;
         this.lastPointerX = 0;
@@ -83,39 +85,57 @@ define(function(){
         this.robot.x = this.world.centerX - (this.robot.width/2);
         this.robot.y = this.world.centerY - (this.robot.height/2);
 
-        var textRobot = this.add.text(this.world.centerX,this.app.height - 50,'Ausrüstung',{font: "40px bitwise",fill: '#419001',align: 'center'});
-        textRobot.anchor.set(0.5);
+        this.infoText = this.add.text(this.world.centerX,this.app.height - 50,'Zusammenstellung',{font: "40px bitwise",fill: '#419001',align: 'center'});
+        this.infoText.anchor.set(0.5);
 
         this.content = this.game.add.group();
         this.content.add(this.robot);
-        this.content.add(textRobot);
 
     };
 
     Menu.prototype.update = function(){
         this.filter.update();
 
-        if(this.input.activePointer.justPressed()){
-            this.lastPointerX = this.input.activePointer.x;
-            this.pointerDown = true;
-        }
-
         if(this.input.activePointer.isDown){
+
+
+            if(!this.pointerDown){
+                this.lastPointerX = this.input.activePointer.x;
+                this.pointerDown = true;
+            }
+
             var move = this.input.activePointer.x - this.lastPointerX;
 
             this.content.x += move;
+
             this.lastPointerX = this.input.activePointer.x;
         }
 
         if(this.input.activePointer.justReleased()){
             if(this.pointerDown){
                 this.pointerDown = false;
-                if(this.input.activePointer.x > this.app.width / 3 * 2 ){
+
+                var pos = -(this.game.width * this.contentPage);
+                var delta = this.content.x - pos;
+
+                if(delta > this.app.width/8 ){
                     this.contentPage--;
-                }else if(this.input.activePointer.x < this.app.width /3){
+                }else if(delta < -(this.app.width/8)){
                     this.contentPage++;
                 }
+
                 this.content.x = -(this.game.width * this.contentPage);
+                switch(this.contentPage){
+                    case -1:
+                        this.infoText.text = 'Inventar';
+                        break;
+                    case 0:
+                        this.infoText.text = 'Zusammenstellung';
+                        break;
+                    case 1:
+                        this.infoText.text = 'Scannen';
+                        break;
+                }
             }
         }
 
