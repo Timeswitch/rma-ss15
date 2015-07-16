@@ -42,6 +42,7 @@ define(function(){
         this.content = null;
         this.contentPage = 0;
         this.lastPointerX = 0;
+        this.pointerDown = false;
     }
 
     Menu.prototype = new Phaser.State();
@@ -93,6 +94,7 @@ define(function(){
 
         if(this.input.activePointer.justPressed()){
             this.lastPointerX = this.input.activePointer.x;
+            this.pointerDown = true;
         }
 
         if(this.input.activePointer.isDown){
@@ -103,9 +105,21 @@ define(function(){
         }
 
         if(this.input.activePointer.justReleased()){
-            this.content.x = this.game.width * this.contentPage;
+            if(this.pointerDown){
+                this.pointerDown = false;
+                if(this.input.activePointer.x > this.app.width / 3 * 2 ){
+                    this.contentPage--;
+                }else if(this.input.activePointer.x < this.app.width /3){
+                    this.contentPage++;
+                }
+                this.content.x = -(this.game.width * this.contentPage);
+            }
         }
 
+    };
+
+    Menu.prototype.render = function(){
+        this.app.game.debug.text(''+this.contentPage, 10, 10);
     };
 
 
