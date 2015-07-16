@@ -83,9 +83,12 @@ define(function(){
         this.robot.x = this.world.centerX - (this.robot.width/2);
         this.robot.y = this.world.centerY - (this.robot.height/2);
 
+        var textRobot = this.add.text(this.world.centerX,this.app.height - 50,'Ausrüstung',{font: "40px bitwise",fill: '#419001',align: 'center'});
+        textRobot.anchor.set(0.5);
+
         this.content = this.game.add.group();
-        this.content.add(this.logo);
         this.content.add(this.robot);
+        this.content.add(textRobot);
 
     };
 
