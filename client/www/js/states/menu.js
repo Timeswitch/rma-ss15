@@ -85,8 +85,11 @@ define(function(){
         this.content.add(this.robot);
 
         this.scanIcon = this.add.sprite(this.world.centerX,this.world.centerY,'scan_icon');
+        this.app.scaleMax(this.scanIcon,this.world.width - 180,this.world.height - 260);
         this.scanIcon.x += this.app.width;
         this.scanIcon.anchor.set(0.5);
+        this.scanIcon.tint = 0x419001;
+        this.scanIcon.alpha = 0.8;
         this.content.add(this.scanIcon);
 
         this.infoText = this.add.text(this.world.centerX,this.app.height - 50,'Zusammenstellung',{font: "35px bitwise",fill: '#419001',align: 'center'});
