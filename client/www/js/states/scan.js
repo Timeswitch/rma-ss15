@@ -9,7 +9,9 @@ define(function() {
         this.app = null;
     }
 
-    Scan.prototype = new Phaser.State();
+    Scan.prototype = Object.create(Phaser.State.prototype);
+    Scan.prototype.constructor = Scan;
+
 
     Scan.prototype.init = function(){
         this.app = require('app');

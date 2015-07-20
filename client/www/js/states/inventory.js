@@ -9,7 +9,9 @@ define(function() {
         this.app = null;
     }
 
-    Inventory.prototype = new Phaser.State();
+    Inventory.prototype = Object.create(Phaser.State.prototype);
+    Inventory.prototype.constructor = Inventory;
+
 
     Inventory.prototype.init = function(){
         this.app = require('app');

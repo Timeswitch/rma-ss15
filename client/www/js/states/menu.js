@@ -52,7 +52,9 @@ define(function(){
         this.contentTween = null;
     }
 
-    Menu.prototype = new Phaser.State();
+    Menu.prototype = Object.create(Phaser.State.prototype);
+    Menu.prototype.constructor = Menu;
+
 
     Menu.prototype.init = function(){
         this.app = require('app');

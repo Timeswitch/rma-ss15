@@ -9,7 +9,9 @@ define(function() {
         this.app = null;
     }
 
-    Fight.prototype = new Phaser.State();
+    Fight.prototype = Object.create(Phaser.State.prototype);
+    Fight.prototype.constructor = Fight;
+
 
     Fight.prototype.init = function(){
         this.app = require('app');
