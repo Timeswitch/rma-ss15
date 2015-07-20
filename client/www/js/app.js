@@ -5,9 +5,10 @@
 
 define([
 
-    'states/boot'
+    'states/boot',
+    'inc/RobotGroup'
 
-],function(Boot){
+],function(Boot,RobotGroup){
 
         function App(){
             this.game = null;
@@ -46,13 +47,7 @@ define([
         };
 
         App.prototype.makeRobot = function(config,back){
-            var robot = this.game.add.group();
-
-            robot.create(24,0,'robo_head_0');
-            robot.create(24,32,'robo_body_0');
-            robot.create(24,80,'robo_legs_0');
-            robot.create(0,32,'robo_arm_left_0');
-            robot.create(56,32,'robo_arm_right_0');
+            var robot = new RobotGroup(this.game);
 
             return robot;
         };
