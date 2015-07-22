@@ -91,6 +91,8 @@ define(function(){
         this.app.scaleMax(this.robot,this.world.width - 112,this.world.height - 260);
         this.robot.x = this.world.centerX - (this.robot.width/2);
         this.robot.y = this.world.centerY - (this.robot.height/2);
+        //this.robot.setAll('tint', 0x76dc51);
+        this.robot.alpha = 0.5;
         this.content.add(this.robot);
 
         this.scanIcon = this.add.sprite(this.world.centerX,this.world.centerY,'scan_icon');
@@ -98,10 +100,19 @@ define(function(){
         this.scanIcon.x += this.app.width;
         this.scanIcon.anchor.set(0.5);
         this.scanIcon.tint = 0x419001;
-        this.scanIcon.alpha = 0.8;
-        this.content.add(this.scanIcon);
-
+        this.scanIcon.alpha = 0.5;
         this.scanIcon.inputEnabled = true;
+        this.scanIcon.events.onInputDown.add(function(){
+            this.scanIcon.alpha = 0.2;
+            this.scanIcon.lastPos = this.input.activePointer.x;
+        },this);
+        this.scanIcon.events.onInputUp.add(function(){
+            this.scanIcon.alpha = 0.5;
+            if(Math.abs(this.input.activePointer.x-this.scanIcon.lastPos) <= 5){
+                this.onScanClick();
+            }
+        },this);
+        this.content.add(this.scanIcon);
 
         this.infoText = this.add.text(this.world.centerX,this.app.height - 50,'Zusammenstellung',{font: "35px bitwise",fill: '#419001',align: 'center'});
         this.infoText.anchor.set(0.5);
@@ -153,11 +164,6 @@ define(function(){
                     this.contentPage--;
                 }else if(delta < -(this.app.width/8) && this.contentPage < this.contentPageMax){
                     this.contentPage++;
-                }else if(delta <= 5){
-                    if(this.scanIcon.input.pointerOver()){
-                        this.onScanClick();
-                    }
-
                 }
 
                 this.bouncePage();
