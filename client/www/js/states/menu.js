@@ -101,6 +101,9 @@ define(function(){
         this.scanIcon.alpha = 0.8;
         this.content.add(this.scanIcon);
 
+        this.scanIcon.inputEnabled = true;
+        this.scanIcon.events.onInputDown.add(this.onScanClick,this);
+
         this.infoText = this.add.text(this.world.centerX,this.app.height - 50,'Zusammenstellung',{font: "35px bitwise",fill: '#419001',align: 'center'});
         this.infoText.anchor.set(0.5);
 
@@ -141,41 +144,54 @@ define(function(){
         }
 
         if(this.input.activePointer.justReleased()){
-            if(this.pointerDown){
-                this.pointerDown = false;
-
-                var pos = -(this.game.width * this.contentPage);
-                var delta = this.content.x - pos;
-
-                if(delta > this.app.width/8 && this.contentPage > this.contentPageMin){
-                    this.contentPage--;
-                }else if(delta < -(this.app.width/8) && this.contentPage < this.contentPageMax){
-                    this.contentPage++;
-                }
-
-                switch(this.contentPage){
-                    case -1:
-                        this.infoText.text = 'Inventar';
-                        break;
-                    case 0:
-                        this.infoText.text = 'Zusammenstellung';
-                        break;
-                    case 1:
-                        this.infoText.text = 'Scannen';
-                        break;
-                }
-
-                pos = -(this.game.width * this.contentPage);
-                this.contentTween = this.add.tween(this.content).to({x:pos},150);
-                this.contentTween.start();
-
-            }
+            this.stopPageDrag();
         }
 
     };
 
+    Menu.prototype.stopPageDrag =function(){
+        if(this.pointerDown){
+            this.pointerDown = false;
+
+            var pos = -(this.game.width * this.contentPage);
+            var delta = this.content.x - pos;
+
+            if(delta > this.app.width/8 && this.contentPage > this.contentPageMin){
+                this.contentPage--;
+            }else if(delta < -(this.app.width/8) && this.contentPage < this.contentPageMax){
+                this.contentPage++;
+            }
+
+            switch(this.contentPage){
+                case -1:
+                    this.infoText.text = 'Inventar';
+                    break;
+                case 0:
+                    this.infoText.text = 'Zusammenstellung';
+                    break;
+                case 1:
+                    this.infoText.text = 'Scannen';
+                    break;
+            }
+
+            pos = -(this.game.width * this.contentPage);
+            this.contentTween = this.add.tween(this.content).to({x:pos},150);
+            this.contentTween.start();
+
+        }
+    };
+
     Menu.prototype.render = function(){
         this.app.game.debug.text(''+this.contentPage, 10, 10);
+    };
+
+    Menu.prototype.onScanClick = function(event, sprite){
+        this.stopPageDrag();
+        cordova.plugins.barcodeScanner.scan(function(result){
+            alert(result.format);
+        },function(error){
+            alert(fail);
+        });
     };
 
 
