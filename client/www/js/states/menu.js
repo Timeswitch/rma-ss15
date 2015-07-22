@@ -101,17 +101,11 @@ define(function(){
         this.scanIcon.anchor.set(0.5);
         this.scanIcon.tint = 0x419001;
         this.scanIcon.alpha = 0.5;
-        this.scanIcon.inputEnabled = true;
-        this.scanIcon.events.onInputDown.add(function(){
-            this.scanIcon.alpha = 0.2;
-            this.scanIcon.lastPos = this.input.activePointer.x;
-        },this);
-        this.scanIcon.events.onInputUp.add(function(){
-            this.scanIcon.alpha = 0.5;
-            if(Math.abs(this.input.activePointer.x-this.scanIcon.lastPos) <= 5){
-                this.onScanClick();
-            }
-        },this);
+
+        this.createOnClick(this.scanIcon,function(){
+            this.onScanClick();
+        });
+
         this.content.add(this.scanIcon);
 
         this.infoText = this.add.text(this.world.centerX,this.app.height - 50,'Zusammenstellung',{font: "35px bitwise",fill: '#419001',align: 'center'});
@@ -193,6 +187,20 @@ define(function(){
 
     Menu.prototype.render = function(){
         this.app.game.debug.text(''+this.contentPage, 10, 10);
+    };
+
+    Menu.prototype.createOnClick = function(object,handler){
+        object.inputEnabled = true;
+        object.events.onInputDown.add(function(){
+            object.alpha = 0.2;
+            object.lastPos = this.input.activePointer.x;
+        },this);
+        object.events.onInputUp.add(function(){
+            object.alpha = 0.5;
+            if(Math.abs(this.input.activePointer.x-object.lastPos) <= 5){
+                handler.call(this);
+            }
+        },this);
     };
 
     Menu.prototype.onScanClick = function(){
