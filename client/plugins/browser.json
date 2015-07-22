@@ -11,6 +11,10 @@
                         {
                             "xml": "<feature name=\"Device\"><param name=\"browser-package\" value=\"Device\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"BarcodeScanner\"><param name=\"browser-package\" value=\"BarcodeScanner\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -28,6 +32,9 @@
             "PACKAGE_NAME": "de.timeswitch.rmass15"
         },
         "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "de.timeswitch.rmass15"
+        },
+        "phonegap-plugin-barcodescanner": {
             "PACKAGE_NAME": "de.timeswitch.rmass15"
         }
     },
