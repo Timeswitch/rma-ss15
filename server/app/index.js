@@ -3,6 +3,7 @@
  */
 
 var http = require('http');
+var App = require('./App.js');
 
 var server = http.createServer(function(req,res){
     res.writeHead(200,{'Content-Type': 'text/html'});
@@ -10,12 +11,6 @@ var server = http.createServer(function(req,res){
 });
 
 var io = require('socket.io').listen(server);
+var app = new App(io,server);
 
-io.on('connection',function(socket){
-    socket.emit('welcome',{
-        message: 'Welcome!',
-        id: socket.id
-    })
-});
-
-server.listen(2209);
+app.start();
