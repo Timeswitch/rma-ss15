@@ -4,7 +4,10 @@
 'use strict';
 
 requirejs.config({
-    baseUrl: 'js'
+    baseUrl: 'js',
+    paths: {
+        'socket.io': '../bower_components/socket.io-client/socket.io'
+    }
 });
 
 requirejs([

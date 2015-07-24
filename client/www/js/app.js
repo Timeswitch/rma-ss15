@@ -4,14 +4,15 @@
 'use strict';
 
 define([
-
+    'inc/ConnectionController',
     'states/boot',
     'inc/RobotGroup'
 
-],function(Boot,RobotGroup){
+],function(ConnectionController,Boot,RobotGroup){
 
         function App(){
             this.game = null;
+            this.connection = null;
             this.canvas = null;
             this.width = window.innerWidth;// * window.devicePixelRatio;
             this.height = window.innerHeight;// * window.devicePixelRatio;
@@ -19,6 +20,7 @@ define([
 
 
         App.prototype.run = function(){
+            this.connection = new ConnectionController('http://localhost:2209');
             this.game = new Phaser.Game(this.width,this.height,Phaser.AUTO,'',Boot);
 
             console.log(this.game);
