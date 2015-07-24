@@ -1,0 +1,11 @@
+{
+  "name": "rma-ss15-server",
+  "version": "0.0.1",
+  "description": "Server für unser RMA Projekt",
+  "dependencies": {
+    "socket.io": "^1.3.6"
+  },
+  "scripts": {
+    "start": "node app/index.js"
+  }
+}
