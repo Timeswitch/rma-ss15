@@ -14,6 +14,9 @@ function Database(config){
             password: config.password,
             database: config.database,
             filename: config.filename
+        },
+        migrations: {
+            tableName: 'knex_migrations'
         }
     });
 }
