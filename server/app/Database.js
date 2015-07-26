@@ -20,7 +20,7 @@ function Database(config){
         }
     });
 
-    return connection;
+    return Bookshelf(connection);
 }
 
 module.exports = Database;
