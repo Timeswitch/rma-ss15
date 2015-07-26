@@ -19,6 +19,8 @@ function Database(config){
             tableName: 'knex_migrations'
         }
     });
+
+    return connection;
 }
 
 module.exports = Database;
