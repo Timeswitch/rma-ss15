@@ -16,7 +16,8 @@ function Database(config){
             filename: config.filename
         },
         migrations: {
-            tableName: 'knex_migrations'
+            tableName: 'knex_migrations',
+            directory: 'app/migrations'
         }
     });
 
