@@ -31,7 +31,7 @@ App.prototype.onDisconnect = function(connection){
 };
 
 App.prototype.start = function(){
-    this.server.listen(config.game.port);
+    this.server.listen(this.config.game.port);
 };
 
 module.exports = App;
