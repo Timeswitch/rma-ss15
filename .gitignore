@@ -39,7 +39,7 @@ client/www/bower_components
 server/app/config.js
 
 #dev stuff
-server/app/dev.sqlite3
+server/dev.sqlite3
 
 #mac stuff
 .DS_Store
