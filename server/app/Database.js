@@ -3,7 +3,7 @@
  */
 
 var Knex = require('knex');
-var Bookshelf = require('booksheld');
+var Bookshelf = require('bookshelf');
 
 function Database(config){
     var connection = Knex({
