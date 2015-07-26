@@ -40,3 +40,6 @@ server/app/config.js
 
 #dev stuff
 server/app/dev.sqlite3
+
+#mac stuff
+.DS_Store
