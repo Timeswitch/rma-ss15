@@ -5,5 +5,4 @@
 var config = require('./config.js');
 var database = require('./Database.js')(config.database);
 
-
 database.knex.migrate.latest();

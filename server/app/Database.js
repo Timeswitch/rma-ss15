@@ -17,7 +17,7 @@ function Database(config){
         },
         migrations: {
             tableName: 'knex_migrations',
-            directory: 'app/migrations'
+            directory: 'app/Migrations'
         }
     });
 
