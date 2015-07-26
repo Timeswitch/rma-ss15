@@ -1,10 +1,11 @@
 module.exports = {
     "database": {
-        "driver": "postgres",
+        "driver": "pg",
         "server": "localhost",
         "port": "5432",
         "user": "root",
-        "password": "root"
+        "password": "root",
+        "database": "robowar"
     },
     "game": {
         "port": "2209"

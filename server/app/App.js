@@ -2,12 +2,13 @@
  * Created by michael on 24/07/15.
  */
 
-var config = require('./config.js');
 var ConnectionController = require('./Controllers/ConnectionController.js');
 
-function App(io,server){
+function App(io,server,database,config){
     this.io = io;
     this.server = server;
+    this.database = database;
+    this.config = config;
 
     this.connections = [];
 
