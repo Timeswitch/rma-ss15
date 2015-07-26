@@ -2,6 +2,7 @@
  * Created by michael on 24/07/15.
  */
 
+var config = require('./config.js');
 var ConnectionController = require('./Controllers/ConnectionController.js');
 
 function App(io,server){
@@ -29,7 +30,7 @@ App.prototype.onDisconnect = function(connection){
 };
 
 App.prototype.start = function(){
-    this.server.listen(2209);
+    this.server.listen(config.game.port);
 };
 
 module.exports = App;
