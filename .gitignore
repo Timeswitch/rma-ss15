@@ -37,3 +37,6 @@ client/www/bower_components
 
 # config
 server/app/config.js
+
+#dev stuff
+server/app/dev.sqlite3
