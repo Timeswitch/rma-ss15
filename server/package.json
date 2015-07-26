@@ -9,6 +9,6 @@
   },
   "scripts": {
     "start": "node app/index.js",
-    "setup": "node app/setup.js"
+    "install": "node app/install.js"
   }
 }
