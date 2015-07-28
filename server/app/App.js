@@ -27,7 +27,7 @@ App.prototype.onConnect = function(socket){
 
 App.prototype.onDisconnect = function(connection){
     this.connections.splice(this.connections.indexOf(connection),1);
-    console.log('Spieler hat die verbindung unterbrochen.');
+    console.log('Spieler hat die Verbindung unterbrochen.');
 };
 
 App.prototype.start = function(){
