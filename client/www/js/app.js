@@ -16,11 +16,16 @@ define([
             this.canvas = null;
             this.width = window.innerWidth;// * window.devicePixelRatio;
             this.height = window.innerHeight;// * window.devicePixelRatio;
+
+            this.user = null;
         }
 
 
         App.prototype.run = function(){
-            this.connection = new ConnectionController('http://localhost:2209');
+
+            this.user = localStorage.getItem('user');
+
+            this.connection = new ConnectionController(this,'http://localhost:2209');
             this.game = new Phaser.Game(this.width,this.height,Phaser.AUTO,'',Boot);
 
             console.log(this.game);

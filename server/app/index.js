@@ -6,6 +6,7 @@ var config = require('./config.js');
 var http = require('http');
 var Knex = require('knex');
 var App = require('./App.js');
+var database = require('./Database.js');
 
 var server = http.createServer(function(req,res){
     res.writeHead(200,{'Content-Type': 'text/html'});
@@ -13,8 +14,6 @@ var server = http.createServer(function(req,res){
 });
 
 var io = require('socket.io').listen(server);
-
-var database = require('./Database.js')(config.database);
 
 var app = new App(io,server,database,config);
 
