@@ -25,7 +25,8 @@ define(['socket.io'],function(io){
     };
 
     ConnectionController.prototype.onLoggedIn = function(data){
-        alert(JSON.stringify(data));
+        this.app.saveUser(data.user);
+        this.app.startState('Menu');
     };
 
     ConnectionController.prototype.register = function(){

@@ -52,7 +52,8 @@ define([
         this.app.game.state.add('Inventory', Inventory);
 
 
-        this.app.game.state.start("Menu");
+        //this.app.game.state.start("Menu");
+        this.app.initConnection();
     };
 
     return new Boot();

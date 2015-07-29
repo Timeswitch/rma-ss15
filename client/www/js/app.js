@@ -23,9 +23,7 @@ define([
 
         App.prototype.run = function(){
 
-            this.user = localStorage.getItem('user');
-
-            this.connection = new ConnectionController(this,'http://localhost:2209');
+            this.loadUser();
             this.game = new Phaser.Game(this.width,this.height,Phaser.AUTO,'',Boot);
 
             console.log(this.game);
@@ -43,6 +41,19 @@ define([
                 sprite.height = this.height;
                 sprite.width = sprite.width * ratio;
             }
+        };
+
+        App.prototype.initConnection = function(){
+            this.connection = new ConnectionController(this,'http://localhost:2209');
+        };
+
+        App.prototype.saveUser = function(user){
+            this.user = user;
+            localStorage.setItem('user',JSON.stringify(user));
+        };
+
+        App.prototype.loadUser = function(){
+            this.user = localStorage.getItem('user');
         };
 
         App.prototype.loadRoboParts = function(){
@@ -133,6 +144,10 @@ define([
             }
 
             object.scale.set(scale,scale);
+        };
+
+        App.prototype.startState = function(state){
+            this.game.state.start(state);
         };
 
         return new App();
