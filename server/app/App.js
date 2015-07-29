@@ -40,4 +40,8 @@ App.prototype.createUser = Promise.method(function(data){
     return User.forge(data).save();
 });
 
+App.prototype.getUser = Promise.method(function(username){
+    return (new User({username: username}).fetch({require: true}));
+});
+
 module.exports = App;

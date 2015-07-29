@@ -53,7 +53,7 @@ define([
         };
 
         App.prototype.loadUser = function(){
-            this.user = localStorage.getItem('user');
+            this.user = JSON.parse(localStorage.getItem('user'));
         };
 
         App.prototype.loadRoboParts = function(){
