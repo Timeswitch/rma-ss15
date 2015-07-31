@@ -4,4 +4,6 @@
 
 var database = require('./Database.js');
 
-database.knex.migrate.latest();
+database.knex.migrate.latest().then(function(){
+    process.exit();
+});
