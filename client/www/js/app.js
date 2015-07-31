@@ -18,6 +18,7 @@ define([
             this.height = window.innerHeight;// * window.devicePixelRatio;
 
             this.user = null;
+            this.robot = {};
         }
 
 

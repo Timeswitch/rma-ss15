@@ -61,7 +61,8 @@ ConnectionController.prototype.onLogin = function(data){
 
 ConnectionController.prototype.onLoggedIn = function(){
     this.socket.emit('loggedIn',{
-        user: this.user.toJSON()
+        user: this.user.toJSON(),
+        robot: this.user.robot()
     });
 
     console.log('Spieler ' + this.user.get('username') + ' hat sich angemeldet.');

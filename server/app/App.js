@@ -46,7 +46,6 @@ App.prototype.createUser = function(data){
     });
 
 
-    return User.forge(data).save();
 };
 
 App.prototype.getUser = function(username){

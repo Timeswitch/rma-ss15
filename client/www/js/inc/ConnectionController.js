@@ -26,6 +26,8 @@ define(['socket.io'],function(io){
 
     ConnectionController.prototype.onLoggedIn = function(data){
         this.app.saveUser(data.user);
+        this.app.robot = data.robot;
+        console.log(data.robot);
         this.app.startState('Menu');
     };
 
