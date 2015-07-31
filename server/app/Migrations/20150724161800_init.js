@@ -15,10 +15,10 @@ module.exports.up = function(knex,Promise) {
 
     }).createTable('robot', function (table) {
         table.increments('id').primary();
-        table.string('arms').references('robotpart.slot');
-        table.string('legs').references('robotpart.slot');
-        table.string('body').references('robotpart.slot');
-        table.string('head').references('robotpart.slot');
+        table.integer('arms').references('robotpart.slot');
+        table.integer('legs').references('robotpart.slot');
+        table.integer('body').references('robotpart.slot');
+        table.integer('head').references('robotpart.slot');
 
     }).createTable('user', function (table) {
         table.increments('id').primary();
