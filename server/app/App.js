@@ -5,6 +5,7 @@
 var Promise = require('bluebird');
 var ConnectionController = require('./Controllers/ConnectionController.js');
 var User = require('./Models/User.js');
+var Robot = require('./Models/Robot.js');
 
 function App(io,server,database,config){
     this.io = io;
@@ -36,12 +37,20 @@ App.prototype.onDisconnect = function(connection){
     console.log('Spieler hat die Verbindung unterbrochen.');
 };
 
-App.prototype.createUser = Promise.method(function(data){
-    return User.forge(data).save();
-});
+App.prototype.createUser = function(data){
 
-App.prototype.getUser = Promise.method(function(username){
+    return Robot.forge().save().then(function(robot){
+        var user = User.forge(data);
+        user.set('robot_id',robot.get('id'));
+        return user.save();
+    });
+
+
+    return User.forge(data).save();
+};
+
+App.prototype.getUser = function(username){
     return (new User({username: username}).fetch({require: true}));
-});
+};
 
 module.exports = App;

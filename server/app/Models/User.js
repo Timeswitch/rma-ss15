@@ -4,8 +4,14 @@
 
 var database = require('../Database.js');
 
+var Robot = require('./Robot.js');
+
 var User = database.Model.extend({
-    tableName: 'user'
+    tableName: 'user',
+    robot: function(){
+        return this.hasOne(Robot);
+    }
+
 });
 
 module.exports = User;
