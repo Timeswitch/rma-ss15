@@ -11,7 +11,7 @@ var RobotPart = require('./RobotPart.js');
 var Inventory = database.Model.extend({
     tableName: 'inventory',
     user: function(){
-        return this.belongsTo(user);
+        return this.belongsTo(User);
     },
     robotpart: function(){
         return this.hasMany(RobotPart);
