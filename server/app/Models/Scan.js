@@ -9,7 +9,7 @@ var User = require('./User.js');
 var Scans = database.Model.extend({
     tableName: 'scans',
     user: function(){
-        return this.belongsToMany(User);
+        return this.belongsTo(User);
     }
 
 });
