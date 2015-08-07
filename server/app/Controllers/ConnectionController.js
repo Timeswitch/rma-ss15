@@ -53,7 +53,7 @@ ConnectionController.prototype.onLogin = function(data){
             console.log('Ungültiger Loginversuch (Benutzer ungültiget Token "'+data.user.logintoken+'" != "'+user.get('logintoken')+'"), erzeuge neuen Benuzter...');
             self.onRegister();
         }
-    }).error(function(){
+    }).catch(function(){
         console.log('Ungültiger Loginversuch (Benutzer existiert nicht), erzeuge neuen Benuzter...');
         self.onRegister();
     });
