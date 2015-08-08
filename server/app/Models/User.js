@@ -11,15 +11,15 @@ var Scan = require('./Scan.js');
 var User = database.Model.extend({
     tableName: 'user',
     robot: function(){
-        return this.hasOne(Robot);
+        return this.hasOne('Robot','user_id');
     },
     scans: function(){
-        return this.hasMany(Scan);
+        return this.hasMany('Scan');
     },
     friends: function(){
-        return this.belongsToMany(User,'friends','user_id2');
+        return this.belongsToMany('User','friends','user_id2');
     }
 
 });
 
-module.exports = User;
+module.exports = database.model('User',User);

@@ -19,6 +19,7 @@ module.exports.up = function(knex,Promise) {
         table.integer('legs').references('robotpart.slot');
         table.integer('body').references('robotpart.slot');
         table.integer('head').references('robotpart.slot');
+        table.integer('user_id').unique().references('user.id');
 
     }).createTable('user', function (table) {
         table.increments('id').primary();
@@ -26,7 +27,6 @@ module.exports.up = function(knex,Promise) {
         table.uuid('logintoken');
         table.integer('wins');
         table.integer('defeats');
-        table.integer('robot_id').unique().references('robot.id');
 
     }).createTable('inventar', function (table) {
         table.integer('user_id').references('user.id');

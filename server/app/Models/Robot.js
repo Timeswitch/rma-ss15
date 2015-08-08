@@ -10,21 +10,21 @@ var RobotPart = require('./Robotpart.js');
 var Robot = database.Model.extend({
     tableName: 'robot',
     user: function(){
-        return this.belongsTo(User);
+        return this.belongsTo('User','user_id');
     },
-    head: function(){
-        return this.hasOne(RobotPart,'head');
-    },
-    body: function(){
-        return this.hasOne(RobotPart,'body');
-    },
-    arms: function(){
-        return this.hasOne(RobotPart,'arms');
-    },
-    legs: function(){
-        return this.hasOne(RobotPart,'legs');
-    }
+    //head: function(){
+    //    return this.hasOne(RobotPart,'head');
+    //},
+    //body: function(){
+    //    return this.hasOne(RobotPart,'body');
+    //},
+    //arms: function(){
+    //    return this.hasOne(RobotPart,'arms');
+    //},
+    //legs: function(){
+    //    return this.hasOne(RobotPart,'legs');
+    //}
 
 });
 
-module.exports = Robot;
+module.exports = database.model('Robot',Robot);

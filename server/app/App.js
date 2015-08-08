@@ -39,17 +39,15 @@ App.prototype.onDisconnect = function(connection){
 
 App.prototype.createUser = function(data){
 
-    return Robot.forge().save().then(function(robot){
-        var user = User.forge(data);
-        user.set('robot_id',robot.get('id'));
-        return user.save();
+    return User.forge(data).save().then(function(user){
+        return Robot.forge({user_id: user.id}).save().then(function(robot){
+            return robot.user().fetch({withRelated: ['robot']});
+        })
     });
-
-
 };
 
 App.prototype.getUser = function(username){
-    return (new User({username: username}).fetch({require: true}));
+    return (new User({username: username}).fetch({require: true, withRelated: ['robot']}));
 };
 
 module.exports = App;

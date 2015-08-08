@@ -21,4 +21,7 @@ var connection = Knex({
     }
 });
 
-module.exports = Bookshelf(connection);
+var database = Bookshelf(connection);
+database.plugin('registry');
+
+module.exports = database;
