@@ -20,7 +20,7 @@ var User = database.Model.extend({
         return this.belongsToMany('User','friends','user_id2');
     },
     inventory: function(){
-        return this.hasMany('RobotPart','inventar','robotpart_id');
+        return this.hasMany('RobotPart','inventar','robotpart_id').withPivot('count');
     }
 
 });
