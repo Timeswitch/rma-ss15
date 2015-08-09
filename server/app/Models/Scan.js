@@ -6,7 +6,7 @@ var database = require('../Database.js');
 
 var User = require('./User.js');
 
-var Scans = database.Model.extend({
+var Scan = database.Model.extend({
     tableName: 'scans',
     user: function(){
         return this.belongsTo(User);
@@ -14,4 +14,4 @@ var Scans = database.Model.extend({
 
 });
 
-module.exports = Scans;
+module.exports = database.model('Scan',Scan);
