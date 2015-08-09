@@ -4,10 +4,8 @@
 
 var database = require('../Database.js');
 
-var Robot = require('./Robot.js');
-
 var RobotPart = database.Model.extend({
     tableName: 'robotpart'
 });
 
-module.exports = RobotPart;
+module.exports = database.model('RobotPart',RobotPart);

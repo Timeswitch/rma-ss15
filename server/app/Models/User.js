@@ -5,7 +5,7 @@
 var database = require('../Database.js');
 
 var Robot = require('./Robot.js');
-
+var RobotPart = require('./RobotPart.js');
 var Scan = require('./Scan.js');
 
 var User = database.Model.extend({
@@ -18,6 +18,9 @@ var User = database.Model.extend({
     },
     friends: function(){
         return this.belongsToMany('User','friends','user_id2');
+    },
+    inventory: function(){
+        return this.hasMany('RobotPart','inventar','robotpart_id');
     }
 
 });
