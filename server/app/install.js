@@ -23,7 +23,17 @@ database.knex.migrate.latest().then(function(){
     }
 
     //Heads
-    newItem('test','head',0,0,1,1,null);
+    newItem('Test Head','head',0,0,0,0,null);
+
+    //Bodies
+    newItem('Test Body','body',0,0,0,0,null);
+
+    //Arms
+    newItem('Test Arms','head',0,0,0,0,null);
+
+    //Legs
+    newItem('Test Legs','head',0,0,0,0,null);
+
 
     Promise.all(defaultItems).then(function(){
         process.exit();
