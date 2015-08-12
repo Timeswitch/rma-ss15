@@ -9,13 +9,15 @@ define(['socket.io'],function(io){
         this.socket = io(server);
         this.id = -1;
 
-        this.socket.on('welcome',this.onConnect.bind(this));
+        this.socket.on('sync',this.onConnect.bind(this));
 
         this.socket.on('loggedIn',this.onLoggedIn.bind(this));
     }
 
     ConnectionController.prototype.onConnect = function(data){
         this.id = data.id;
+
+        console.log(data.items);
 
         if(this.app.user === null){
             this.register();

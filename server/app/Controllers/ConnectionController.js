@@ -2,6 +2,8 @@
  * Created by michael on 24/07/15.
  */
 
+var RobotPart = require('../Models/RobotPart.js');
+
 function ConnectionController(socket,app){
     this.socket = socket;
     this.app = app;
@@ -12,14 +14,18 @@ function ConnectionController(socket,app){
 }
 
 ConnectionController.prototype.init = function(){
-    this.socket.emit('welcome',{
-        id: this.socket.id
-    });
-
+    var self = this;
     this.socket.on('disconnect',this.onDisconnect.bind(this));
-
     this.socket.on('register',this.onRegister.bind(this));
     this.socket.on('login',this.onLogin.bind(this));
+
+    new RobotPart().fetchAll().then(function(items){
+        self.socket.emit('sync',{
+            id: self.socket.id,
+            items: items.toJSON()
+        });
+    });
+
 };
 
 ConnectionController.prototype.onDisconnect = function(data){
