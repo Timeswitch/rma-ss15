@@ -12,18 +12,18 @@ var Robot = database.Model.extend({
     user: function(){
         return this.belongsTo('User','user_id');
     },
-    //head: function(){
-    //    return this.hasOne(RobotPart,'head');
-    //},
-    //body: function(){
-    //    return this.hasOne(RobotPart,'body');
-    //},
-    //arms: function(){
-    //    return this.hasOne(RobotPart,'arms');
-    //},
-    //legs: function(){
-    //    return this.hasOne(RobotPart,'legs');
-    //}
+    head: function(){
+        return this.belongsTo(RobotPart,'head');
+    },
+    body: function(){
+        return this.belongsTo(RobotPart,'body');
+    },
+    arms: function(){
+        return this.belongsTo(RobotPart,'arms');
+    },
+    legs: function(){
+        return this.belongsTo(RobotPart,'legs');
+    }
 
 });
 
