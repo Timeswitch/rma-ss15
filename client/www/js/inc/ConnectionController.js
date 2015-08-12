@@ -17,7 +17,7 @@ define(['socket.io'],function(io){
     ConnectionController.prototype.onConnect = function(data){
         this.id = data.id;
 
-        console.log(data.items);
+        this.app.injectItems(data.items);
 
         if(this.app.user === null){
             this.register();

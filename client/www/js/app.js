@@ -6,9 +6,10 @@
 define([
     'inc/ConnectionController',
     'states/boot',
-    'inc/RobotGroup'
+    'inc/RobotGroup',
+    'inc/RobotPart'
 
-],function(ConnectionController,Boot,RobotGroup){
+],function(ConnectionController,Boot,RobotGroup,RobotPart){
 
         function App(){
             this.game = null;
@@ -17,8 +18,12 @@ define([
             this.width = window.innerWidth;// * window.devicePixelRatio;
             this.height = window.innerHeight;// * window.devicePixelRatio;
 
+            this.store = new JSData.DS();
             this.user = null;
-            this.robot = {};
+
+            this.models = {
+                RobotPart: RobotPart(this.store)
+            };
         }
 
 
@@ -149,6 +154,10 @@ define([
 
         App.prototype.startState = function(state){
             this.game.state.start(state);
+        };
+
+        App.prototype.injectItems = function(items){
+            this.store.inject('RobotPart',items);
         };
 
         return new App();
