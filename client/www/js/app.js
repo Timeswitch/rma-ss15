@@ -4,12 +4,12 @@
 'use strict';
 
 define([
-    'inc/ConnectionController',
     'states/boot',
-    'inc/RobotGroup',
-    'inc/RobotPart'
+    'inc/controllers/ConnectionController',
+    'inc/gameobjects/RobotGroup',
+    'inc/models/RobotPart'
 
-],function(ConnectionController,Boot,RobotGroup,RobotPart){
+],function(Boot,ConnectionController,RobotGroup,RobotPart){
 
         function App(){
             this.game = null;
