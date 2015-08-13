@@ -42,10 +42,10 @@ App.prototype.createUser = function(data){
     return User.forge(data).save().then(function(user){
         return Robot.forge({
             user_id: user.id,
-            head_id: 1,
-            body_id: 2,
-            arms_id: 3,
-            legs_id: 4
+            head_id: config.game.defaultRobot.head,
+            body_id: config.game.defaultRobot.body,
+            arms_id: config.game.defaultRobot.arms,
+            legs_id: config.game.defaultRobot.legs
         }).save().then(function(robot){
             return robot.user().fetch({require: true, withRelated: ['robot']});
         })

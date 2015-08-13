@@ -8,6 +8,12 @@ module.exports = {
         "database": "robowar"
     },
     "game": {
-        "port": "2209"
+        "port": "2209",
+        "defaultRobot": {
+            "head": 1,
+            "body": 2,
+            "arms": 3,
+            "legs": 4
+        }
     }
 };
