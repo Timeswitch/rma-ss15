@@ -38,14 +38,14 @@ App.prototype.onDisconnect = function(connection){
 };
 
 App.prototype.createUser = function(data){
-
+    var self = this;
     return User.forge(data).save().then(function(user){
         return Robot.forge({
             user_id: user.id,
-            head_id: 1,
-            body_id: 2,
-            arms_id: 3,
-            legs_id: 4
+            head_id: self.config.game.defaultRobot.head,
+            body_id: self.config.game.defaultRobot.body,
+            arms_id: self.config.game.defaultRobot.arms,
+            legs_id: self.config.game.defaultRobot.legs
         }).save().then(function(robot){
             return robot.user().fetch({require: true, withRelated: ['robot']});
         })
