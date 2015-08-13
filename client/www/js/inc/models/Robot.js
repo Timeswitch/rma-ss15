@@ -35,6 +35,18 @@ define(function() {
                         }
                     ]
                 }
+            },
+            methods:{
+                getConfig: function(){
+                    var config = {
+                        head: this.head.image,
+                        body: this.body.image,
+                        arms: this.arms.image,
+                        legs: this.legs.image
+                    }
+
+                    return config;
+                }
             }
         });
 

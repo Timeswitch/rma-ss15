@@ -141,12 +141,7 @@ define([
 
         App.prototype.makeRobot = function(config,back){
             if(config === 'player'){
-                config = {
-                    head: Math.floor(Math.random() * 5),
-                    body: Math.floor(Math.random() * 5),
-                    arms: Math.floor(Math.random() * 5),
-                    legs: Math.floor(Math.random() * 5)
-                };
+                config = this.user.robot.getConfig();
             }
 
             var robot = new RobotGroup(this.game,config,back);
