@@ -17,7 +17,7 @@ define(['socket.io'],function(io){
     ConnectionController.prototype.onConnect = function(data){
         this.id = data.id;
 
-        this.app.injectItems(data.items);
+        this.app.injectData('RobotPart',data.items);
 
         if(this.app.user === null){
             this.register();
@@ -27,9 +27,10 @@ define(['socket.io'],function(io){
     };
 
     ConnectionController.prototype.onLoggedIn = function(data){
-        this.app.saveUser(data.user);
-        this.app.robot = data.robot;
-        console.log(data.robot);
+        this.app.injectData('User',data.user);
+
+        this.app.saveUser(data.user.id);
+
         this.app.startState('Menu');
     };
 

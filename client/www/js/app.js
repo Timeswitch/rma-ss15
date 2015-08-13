@@ -7,9 +7,11 @@ define([
     'states/boot',
     'inc/controllers/ConnectionController',
     'inc/gameobjects/RobotGroup',
-    'inc/models/RobotPart'
+    'inc/models/RobotPart',
+    'inc/models/Robot',
+    'inc/models/User',
 
-],function(Boot,ConnectionController,RobotGroup,RobotPart){
+],function(Boot,ConnectionController,RobotGroup,RobotPart,Robot,User){
 
         function App(){
             this.game = null;
@@ -22,7 +24,9 @@ define([
             this.user = null;
 
             this.models = {
-                RobotPart: RobotPart(this.store)
+                RobotPart: RobotPart(this.store),
+                User: User(this.store),
+                Robot: Robot(this.store)
             };
         }
 
@@ -53,13 +57,17 @@ define([
             this.connection = new ConnectionController(this,'http://localhost:2209');
         };
 
-        App.prototype.saveUser = function(user){
-            this.user = user;
-            localStorage.setItem('user',JSON.stringify(user));
+        App.prototype.saveUser = function(id){
+            this.user = this.store.get('User',id);
+            localStorage.setItem('user',JSON.stringify(this.user));
         };
 
         App.prototype.loadUser = function(){
-            this.user = JSON.parse(localStorage.getItem('user'));
+            var user = JSON.parse(localStorage.getItem('user'));
+            if(user != null){
+                this.injectData('User',user);
+                this.saveUser(user.id);
+            }
         };
 
         App.prototype.loadRoboParts = function(){
@@ -156,8 +164,8 @@ define([
             this.game.state.start(state);
         };
 
-        App.prototype.injectItems = function(items){
-            this.store.inject('RobotPart',items);
+        App.prototype.injectData = function(model,data){
+            this.store.inject(model,data);
         };
 
         return new App();
