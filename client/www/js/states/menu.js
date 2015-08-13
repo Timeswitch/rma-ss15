@@ -80,12 +80,7 @@ define(function(){
 
         this.content = this.game.add.group();
 
-        this.robot = this.app.makeRobot({
-            head: Math.floor(Math.random() * 5),
-            body: Math.floor(Math.random() * 5),
-            arms: Math.floor(Math.random() * 5),
-            legs: Math.floor(Math.random() * 5)
-        });
+        this.robot = this.app.makeRobot('player');
 
 
         this.app.scaleMax(this.robot,this.world.width - 112,this.world.height - 260);

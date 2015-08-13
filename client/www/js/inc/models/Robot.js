@@ -14,6 +14,26 @@ define(function() {
                         localField: 'user',
                         localKey: 'user_id'
                     }
+                },
+                hasOne: {
+                    RobotPart: [
+                        {
+                            localField: 'head',
+                            localKey: 'head_id'
+                        },
+                        {
+                            localField: 'body',
+                            localKey: 'body_id'
+                        },
+                        {
+                            localField: 'arms',
+                            localKey: 'arms_id'
+                        },
+                        {
+                            localField: 'legs',
+                            localKey: 'arms_id'
+                        }
+                    ]
                 }
             }
         });

@@ -29,10 +29,10 @@ database.knex.migrate.latest().then(function(){
     newItem('Test Body','body',0,0,0,0,null);
 
     //Arms
-    newItem('Test Arms','head',0,0,0,0,null);
+    newItem('Test Arms','arms',0,0,0,0,null);
 
     //Legs
-    newItem('Test Legs','head',0,0,0,0,null);
+    newItem('Test Legs','legs',0,0,0,0,null);
 
 
     Promise.all(defaultItems).then(function(){

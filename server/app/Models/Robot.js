@@ -13,16 +13,16 @@ var Robot = database.Model.extend({
         return this.belongsTo('User','user_id');
     },
     head: function(){
-        return this.belongsTo(RobotPart,'head');
+        return this.belongsTo(RobotPart,'head_id');
     },
     body: function(){
-        return this.belongsTo(RobotPart,'body');
+        return this.belongsTo(RobotPart,'body_id');
     },
     arms: function(){
-        return this.belongsTo(RobotPart,'arms');
+        return this.belongsTo(RobotPart,'arms_id');
     },
     legs: function(){
-        return this.belongsTo(RobotPart,'legs');
+        return this.belongsTo(RobotPart,'legs_id');
     }
 
 });

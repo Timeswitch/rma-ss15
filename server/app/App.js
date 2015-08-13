@@ -42,12 +42,12 @@ App.prototype.createUser = function(data){
     return User.forge(data).save().then(function(user){
         return Robot.forge({
             user_id: user.id,
-            head: 1,
-            body: 2,
-            arms: 3,
-            legs: 4
+            head_id: 1,
+            body_id: 2,
+            arms_id: 3,
+            legs_id: 4
         }).save().then(function(robot){
-            return robot.user().fetch({withRelated: ['robot']});
+            return robot.user().fetch({require: true, withRelated: ['robot']});
         })
     });
 };
