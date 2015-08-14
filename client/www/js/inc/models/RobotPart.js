@@ -20,7 +20,7 @@ define(function() {
                             };
                         }
 
-                        path = path.substring(0,path.length) + side;
+                        path = path.substring(0,path.length) + '_' + side;
                     }
 
                     if(back === true){
