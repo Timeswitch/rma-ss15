@@ -7,7 +7,37 @@ define(function() {
     function RobotPart(store) {
 
         return store.defineResource({
-            name: 'RobotPart'
+            name: 'RobotPart',
+            methods: {
+                getImage: function(back,side){
+                    var path = 'robo_' + this.slot;
+
+                    if(this.slot == 'arms' || this.slot == 'legs'){
+                        if(side != 'left' && side != 'right'){
+                            return {
+                                left: this.getImageLeft(back),
+                                right: this.getImageRight(back)
+                            };
+                        }
+
+                        path = path.substring(0,path.length) + side;
+                    }
+
+                    if(back === true){
+                        path += '_back';
+                    }
+
+                    path += '_' + this.image;
+
+                    return path;
+                },
+                getImageLeft: function(back){
+                    return this.getImage(back,'left');
+                },
+                getImageRight: function(back){
+                    return this.getImage(back,'right');
+                }
+            }
         });
 
     };
