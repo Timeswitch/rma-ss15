@@ -12,7 +12,7 @@ define(function() {
                 getImage: function(back,side){
                     var path = 'robo_' + this.slot;
 
-                    if(this.slot == 'arms' || this.slot == 'legs'){
+                    if(this.slot == 'arms'){
                         if(side != 'left' && side != 'right'){
                             return {
                                 left: this.getImageLeft(back),
@@ -20,7 +20,7 @@ define(function() {
                             };
                         }
 
-                        path = path.substring(0,path.length) + '_' + side;
+                        path = 'arm_' + side;
                     }
 
                     if(back === true){
