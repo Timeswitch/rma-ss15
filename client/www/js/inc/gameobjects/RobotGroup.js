@@ -43,19 +43,28 @@ define(function(){
     };
 
     RobotGroup.prototype.render = function(){
-        if(this.back){
-            this.head.loadTexture('robo_head_back_'+this.config.head);
-            this.body.loadTexture('robo_body_back_'+this.config.body);
-            this.armLeft.loadTexture('robo_arm_left_back_'+this.config.arms);
-            this.armRight.loadTexture('robo_arm_right_back_'+this.config.arms);
-            this.legs.loadTexture('robo_legs_back_'+this.config.legs);
+        if(this.config.db){
+            this.head.loadTexture(this.config.head.getImage(this.back));
+            this.body.loadTexture(this.config.body.getImage(this.back));
+            this.armLeft.loadTexture(this.config.arms.getImageLeft(this.back));
+            this.armRight.loadTexture(this.config.arms.getImageRight(this.back));
+            this.legs.loadTexture(this.config.legs.getImage(this.back));
         }else{
-            this.head.loadTexture('robo_head_'+this.config.head);
-            this.body.loadTexture('robo_body_'+this.config.body);
-            this.armLeft.loadTexture('robo_arm_left_'+this.config.arms);
-            this.armRight.loadTexture('robo_arm_right_'+this.config.arms);
-            this.legs.loadTexture('robo_legs_'+this.config.legs);
+            if(this.back){
+                this.head.loadTexture('robo_head_back_'+this.config.head);
+                this.body.loadTexture('robo_body_back_'+this.config.body);
+                this.armLeft.loadTexture('robo_arm_left_back_'+this.config.arms);
+                this.armRight.loadTexture('robo_arm_right_back_'+this.config.arms);
+                this.legs.loadTexture('robo_legs_back_'+this.config.legs);
+            }else{
+                this.head.loadTexture('robo_head_'+this.config.head);
+                this.body.loadTexture('robo_body_'+this.config.body);
+                this.armLeft.loadTexture('robo_arm_left_'+this.config.arms);
+                this.armRight.loadTexture('robo_arm_right_'+this.config.arms);
+                this.legs.loadTexture('robo_legs_'+this.config.legs);
+            }
         }
+
     };
 
     RobotGroup.prototype.setConfig = function(){

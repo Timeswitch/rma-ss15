@@ -39,10 +39,11 @@ define(function() {
             methods:{
                 getConfig: function(){
                     var config = {
-                        head: this.head.image,
-                        body: this.body.image,
-                        arms: this.arms.image,
-                        legs: this.legs.image
+                        head: this.head,
+                        body: this.body,
+                        arms: this.arms,
+                        legs: this.legs,
+                        db: true
                     }
 
                     return config;
