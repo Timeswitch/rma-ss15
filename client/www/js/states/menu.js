@@ -44,11 +44,6 @@ define(function(){
         this.infoText = null;
 
         this.content = null;
-        this.contentPage = 0;
-        this.contentPageMin = -1;
-        this.contentPageMax = 1;
-        this.lastPointerX = 0;
-        this.pointerDown = false;
         this.contentTween = null;
     }
 
@@ -58,6 +53,13 @@ define(function(){
 
     Menu.prototype.init = function(){
         this.app = require('app');
+
+
+        this.contentPage = 0;
+        this.contentPageMin = -1;
+        this.contentPageMax = 1;
+        this.lastPointerX = 0;
+        this.pointerDown = false;
     };
 
     Menu.prototype.preload = function(){
