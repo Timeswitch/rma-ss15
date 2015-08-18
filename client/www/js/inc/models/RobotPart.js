@@ -10,7 +10,7 @@ define(function() {
             name: 'RobotPart',
             methods: {
                 getImage: function(back,side){
-                    var path = 'robo_' + this.slot;
+                    var path = 'robo_';
 
                     if(this.slot == 'arms'){
                         if(side != 'left' && side != 'right'){
@@ -20,7 +20,9 @@ define(function() {
                             };
                         }
 
-                        path = 'arm_' + side;
+                        path += 'arm_' + side;
+                    }else{
+                        path += this.slot;
                     }
 
                     if(back === true){
