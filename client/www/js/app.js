@@ -136,6 +136,97 @@ define([
             this.game.load.image('robo_head_back_4','assets/robotparts/head_back_4.png');
             this.game.load.image('robo_arm_left_back_4','assets/robotparts/arm_left_back_4.png');
             this.game.load.image('robo_arm_right_back_4','assets/robotparts/arm_right_back_4.png');
+
+            //Roboter 5
+            this.game.load.image('robo_body_5','assets/robotparts/body_5.png');
+            this.game.load.image('robo_legs_5','assets/robotparts/legs_5.png');
+            this.game.load.image('robo_head_5','assets/robotparts/head_5.png');
+            this.game.load.image('robo_arm_left_5','assets/robotparts/arm_left_5.png');
+            this.game.load.image('robo_arm_right_5','assets/robotparts/arm_right_5.png');
+
+            this.game.load.image('robo_body_back_5','assets/robotparts/body_back_5.png');
+            this.game.load.image('robo_legs_back_5','assets/robotparts/legs_back_5.png');
+            this.game.load.image('robo_head_back_5','assets/robotparts/head_back_5.png');
+            this.game.load.image('robo_arm_left_back_5','assets/robotparts/arm_left_back_5.png');
+            this.game.load.image('robo_arm_right_back_5','assets/robotparts/arm_right_back_5.png');
+
+            //Roboter 6
+            this.game.load.image('robo_body_6','assets/robotparts/body_6.png');
+            this.game.load.image('robo_legs_6','assets/robotparts/legs_6.png');
+            this.game.load.image('robo_head_6','assets/robotparts/head_6.png');
+            this.game.load.image('robo_arm_left_6','assets/robotparts/arm_left_6.png');
+            this.game.load.image('robo_arm_right_6','assets/robotparts/arm_right_6.png');
+
+            this.game.load.image('robo_body_back_6','assets/robotparts/body_back_6.png');
+            this.game.load.image('robo_legs_back_6','assets/robotparts/legs_back_6.png');
+            this.game.load.image('robo_head_back_6','assets/robotparts/head_back_6.png');
+            this.game.load.image('robo_arm_left_back_6','assets/robotparts/arm_left_back_6.png');
+            this.game.load.image('robo_arm_right_back_6','assets/robotparts/arm_right_back_6.png');
+
+            //Roboter 7
+            this.game.load.image('robo_body_7','assets/robotparts/body_7.png');
+            this.game.load.image('robo_legs_7','assets/robotparts/legs_7.png');
+            this.game.load.image('robo_head_7','assets/robotparts/head_7.png');
+            this.game.load.image('robo_arm_left_7','assets/robotparts/arm_left_7.png');
+            this.game.load.image('robo_arm_right_7','assets/robotparts/arm_right_7.png');
+
+            /*this.game.load.image('robo_body_back_7','assets/robotparts/body_back_7.png');
+            this.game.load.image('robo_legs_back_7','assets/robotparts/legs_back_7.png');
+            this.game.load.image('robo_head_back_7','assets/robotparts/head_back_7.png');
+            this.game.load.image('robo_arm_left_back_7','assets/robotparts/arm_left_back_7.png');
+            this.game.load.image('robo_arm_right_back_7','assets/robotparts/arm_right_back_7.png');*/
+
+            //Roboter 8
+            this.game.load.image('robo_body_8','assets/robotparts/body_8.png');
+            this.game.load.image('robo_legs_8','assets/robotparts/legs_8.png');
+            this.game.load.image('robo_head_8','assets/robotparts/head_8.png');
+            this.game.load.image('robo_arm_left_8','assets/robotparts/arm_left_8.png');
+            this.game.load.image('robo_arm_right_8','assets/robotparts/arm_right_8.png');
+
+            /*this.game.load.image('robo_body_back_8','assets/robotparts/body_back_8.png');
+            this.game.load.image('robo_legs_back_8','assets/robotparts/legs_back_8.png');
+            this.game.load.image('robo_head_back_8','assets/robotparts/head_back_8.png');
+            this.game.load.image('robo_arm_left_back_8','assets/robotparts/arm_left_back_8.png');
+            this.game.load.image('robo_arm_right_back_8','assets/robotparts/arm_right_back_8.png');*/
+
+            //Roboter 9
+            this.game.load.image('robo_body_9','assets/robotparts/body_9.png');
+            this.game.load.image('robo_legs_9','assets/robotparts/legs_9.png');
+            this.game.load.image('robo_head_9','assets/robotparts/head_9.png');
+            this.game.load.image('robo_arm_left_9','assets/robotparts/arm_left_9.png');
+            this.game.load.image('robo_arm_right_9','assets/robotparts/arm_right_9.png');
+
+            /*this.game.load.image('robo_body_back_9','assets/robotparts/body_back_9.png');
+            this.game.load.image('robo_legs_back_9','assets/robotparts/legs_back_9.png');
+            this.game.load.image('robo_head_back_9','assets/robotparts/head_back_9.png');
+            this.game.load.image('robo_arm_left_back_9','assets/robotparts/arm_left_back_9.png');
+            this.game.load.image('robo_arm_right_back_9','assets/robotparts/arm_right_back_9.png');*/
+
+            //Roboter 10
+            this.game.load.image('robo_body_10','assets/robotparts/body_10.png');
+            this.game.load.image('robo_legs_10','assets/robotparts/legs_10.png');
+            this.game.load.image('robo_head_10','assets/robotparts/head_10.png');
+            this.game.load.image('robo_arm_left_10','assets/robotparts/arm_left_10.png');
+            this.game.load.image('robo_arm_right_10','assets/robotparts/arm_right_10.png');
+
+            /*this.game.load.image('robo_body_back_10','assets/robotparts/body_back_10.png');
+            this.game.load.image('robo_legs_back_10','assets/robotparts/legs_back_10.png');
+            this.game.load.image('robo_head_back_10','assets/robotparts/head_back_10.png');
+            this.game.load.image('robo_arm_left_back_10','assets/robotparts/arm_left_back_10.png');
+            this.game.load.image('robo_arm_right_back_10','assets/robotparts/arm_right_back_10.png');*/
+
+            //Roboter 11
+            this.game.load.image('robo_body_11','assets/robotparts/body_11.png');
+            this.game.load.image('robo_legs_11','assets/robotparts/legs_11.png');
+            this.game.load.image('robo_head_11','assets/robotparts/head_11.png');
+            this.game.load.image('robo_arm_left_11','assets/robotparts/arm_left_11.png');
+            this.game.load.image('robo_arm_right_11','assets/robotparts/arm_right_11.png');
+
+            /*this.game.load.image('robo_body_back_11','assets/robotparts/body_back_11.png');
+            this.game.load.image('robo_legs_back_11','assets/robotparts/legs_back_11.png');
+            this.game.load.image('robo_head_back_11','assets/robotparts/head_back_11.png');
+            this.game.load.image('robo_arm_left_back_11','assets/robotparts/arm_left_back_11.png');
+            this.game.load.image('robo_arm_right_back_11','assets/robotparts/arm_right_back_11.png');*/
             
         };
 
