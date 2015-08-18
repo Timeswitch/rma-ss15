@@ -31,7 +31,7 @@ define(function() {
                         },
                         {
                             localField: 'legs',
-                            localKey: 'arms_id'
+                            localKey: 'legs_id'
                         }
                     ]
                 }
