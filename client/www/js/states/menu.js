@@ -201,11 +201,23 @@ define(function(){
     };
 
     Menu.prototype.onScanClick = function(){
+        var self = this;
         cordova.plugins.barcodeScanner.scan(function(result){
-            alert(result.format);
+            if(!result.cancelled){
+                var code = btoa(result.text) + ';;' + result.type;
+                self.app.connection.sendCode(code,self.onScanResult.bind(self));
+            }
         },function(error){
-            alert(fail);
+            alert('Ein Fehler ist aufgetreten.');
         });
+    };
+
+    Menu.prototype.onScanResult = function(data){
+        if(data.valid){
+            alert(this.app.store.get('RobotPart',data.item).name);
+        }else{
+            alert('Du hast diesen Code heute bereits gescant!');
+        }
     };
 
 
