@@ -204,7 +204,7 @@ define(function(){
         var self = this;
         cordova.plugins.barcodeScanner.scan(function(result){
             if(!result.cancelled){
-                var code = btoa(result.text) + ';;' + result.type;
+                var code = btoa(result.text) + ';;' + result.format;
                 self.app.connection.sendCode(code,self.onScanResult.bind(self));
             }
         },function(error){
