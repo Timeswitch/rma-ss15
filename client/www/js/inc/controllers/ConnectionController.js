@@ -13,7 +13,7 @@ define(['socket.io'],function(io){
         this.socket.on('sync',this.onConnect.bind(this));
 
         this.socket.on('loggedIn',this.onLoggedIn.bind(this));
-        this.socket.on('scanResult',this.onLoggedIn.bind(this));
+        this.socket.on('scanResult',this.onScanResult.bind(this));
     }
 
     ConnectionController.prototype.onConnect = function(data){
