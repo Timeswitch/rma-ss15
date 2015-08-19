@@ -38,6 +38,7 @@ module.exports.up = function(knex,Promise) {
         table.integer('user_id2').references('user.id');
 
     }).createTable('scans', function (table) {
+        table.increments('id').primary();
         table.integer('user_id').references('user.id');
         table.integer('code');
         table.timestamp('lastscan');

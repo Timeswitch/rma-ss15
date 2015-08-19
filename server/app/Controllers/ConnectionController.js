@@ -3,6 +3,7 @@
  */
 
 var RobotPart = require('../Models/RobotPart.js');
+var Scan = require('../Models/Scan.js');
 
 function ConnectionController(socket,app){
     this.socket = socket;
@@ -18,6 +19,7 @@ ConnectionController.prototype.init = function(){
     this.socket.on('disconnect',this.onDisconnect.bind(this));
     this.socket.on('register',this.onRegister.bind(this));
     this.socket.on('login',this.onLogin.bind(this));
+    this.socket.on('scan',this.onScan.bind(this));
 
     new RobotPart().fetchAll().then(function(items){
         self.socket.emit('sync',{
@@ -72,6 +74,44 @@ ConnectionController.prototype.onLoggedIn = function(){
     });
 
     console.log('Spieler ' + this.user.get('username') + ' hat sich angemeldet.');
+};
+
+ConnectionController.prototype.onScan = function(data){
+    var self = this;
+    var code = data.code;
+
+    this.user.scans().query({where: {code: data.code}}).fetchOne({require: true})
+        .then(function(scan){
+                var currentDate = (new Date().toISOString().substring(0,10));
+                if(scan.get('lastscan') == currentDate){
+                    self.socket.emit('scanResult',{valid: false});
+                }else{
+                    scan.save({lastscan: currentDate},{patch: true}).then(function(){
+                        self.getLoot().then(function(loot){
+                            self.socket.emit('scanResult',{valid: true, item: loot});
+                        });
+                    });
+                }
+        })
+        .catch(function(){
+            Scan.forge({user_id: self.user.id, code: code, lastscan: (new Date()).toISOString().substring(0,10)}).save()
+                .then(function(scan){
+                    self.getLoot().then(function(loot){
+                        self.socket.emit('scanResult',{valid: true, item: loot});
+                    });
+                });
+        });
+};
+
+ConnectionController.prototype.getLoot = function(){
+    return (new RobotPart()).fetchAll()
+        .then(function(items){
+            var arr = items.toJSON({shallow: true});
+
+            var loot = Math.floor(Math.random() * (items.length));
+
+            return arr[loot].id;
+        });
 };
 
 module.exports = ConnectionController;
