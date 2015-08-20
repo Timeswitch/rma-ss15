@@ -20,7 +20,17 @@ var User = database.Model.extend({
         return this.belongsToMany('User','friends','user_id2');
     },
     inventory: function(){
-        return this.hasMany('RobotPart','inventar','robotpart_id').withPivot('count');
+        return this.belongsToMany('RobotPart','inventar','user_id','robotpart_id').withPivot('count');
+    },
+    addItem: function(item){
+        var self = this;
+        var item = item;
+        return this.inventory().query({where: {id: item}}).fetchOne({require: true})
+            .then(function(item){
+                return self.inventory().query({where:{id: item.id}}).updatePivot({count: item.pivot.get('count')+1});
+            }).catch(function(){
+                return self.inventory().attach({user_id: self.id, robotpart_id: item, count: 1});
+            });
     }
 
 });

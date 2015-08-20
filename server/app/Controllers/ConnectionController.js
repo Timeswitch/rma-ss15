@@ -97,7 +97,10 @@ ConnectionController.prototype.onScan = function(data){
             Scan.forge({user_id: self.user.id, code: code, lastscan: (new Date()).toISOString().substring(0,10)}).save()
                 .then(function(scan){
                     self.getLoot().then(function(loot){
-                        self.socket.emit('scanResult',{valid: true, item: loot});
+                        self.user.addItem(loot)
+                            .then(function(){
+                                self.socket.emit('scanResult',{valid: true, item: loot});
+                            });
                     });
                 });
         });
