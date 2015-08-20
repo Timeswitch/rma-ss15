@@ -5,11 +5,11 @@
 
 define([
     'states/boot',
-    'inc/controllers/ConnectionController',
-    'inc/gameobjects/RobotGroup',
-    'inc/models/RobotPart',
-    'inc/models/Robot',
-    'inc/models/User',
+    'controllers/ConnectionController',
+    'gameobjects/RobotGroup',
+    'models/RobotPart',
+    'models/Robot',
+    'models/User',
 
 ],function(Boot,ConnectionController,RobotGroup,RobotPart,Robot,User){
 
