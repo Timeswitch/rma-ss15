@@ -14,6 +14,12 @@ define(function() {
                         localField: 'robot',
                         foreignKey: 'user_id'
                     }
+                },
+                hasMany: {
+                    Item: {
+                        localField: 'inventory',
+                        foreignKey: 'user_id'
+                    }
                 }
             }
         });
