@@ -31,6 +31,23 @@ var User = database.Model.extend({
             }).catch(function(){
                 return self.inventory().attach({user_id: self.id, robotpart_id: item, count: 1});
             });
+    },
+    removeItem: function(item) {
+        return this.inventory().query({where: {id: item}}).fetchOne({require: true})
+            .then(function(item){
+                if(item.pivot.get('count') < 1){
+                    return false;
+                }
+
+                return self.inventory().query({where:{id: item.id}}).updatePivot({count: item.pivot.get('count')-1})
+                    .then(function(){
+                        return true;
+                    });
+
+            }).catch(function(e){
+                return false;
+            })
+
     }
 
 });
