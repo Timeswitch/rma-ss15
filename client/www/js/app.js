@@ -10,8 +10,9 @@ define([
     'models/RobotPart',
     'models/Robot',
     'models/User',
+    "models/Item"
 
-],function(Boot,ConnectionController,RobotGroup,RobotPart,Robot,User){
+],function(Boot,ConnectionController,RobotGroup,RobotPart,Robot,User,Item){
 
         function App(){
             this.game = null;
@@ -26,7 +27,8 @@ define([
             this.models = {
                 RobotPart: RobotPart(this.store),
                 User: User(this.store),
-                Robot: Robot(this.store)
+                Robot: Robot(this.store),
+                Item: Item(this.store)
             };
         }
 

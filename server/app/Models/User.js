@@ -48,6 +48,19 @@ var User = database.Model.extend({
                 return false;
             })
 
+    },
+    getItemPivot: function() {
+        return this.inventory().fetch().then(function (items) {
+            var pivot = [];
+
+            for (var i = 0; i < items.length; i++) {
+                var itemPivot = items.at(i).pivot.toJSON();
+                itemPivot.id = itemPivot.user_id;
+                pivot.push(itemPivot);
+            }
+
+            return pivot;
+        });
     }
 
 });

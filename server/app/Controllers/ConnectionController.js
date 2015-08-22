@@ -68,12 +68,16 @@ ConnectionController.prototype.onLogin = function(data){
 };
 
 ConnectionController.prototype.onLoggedIn = function(){
-    this.socket.emit('loggedIn',{
-        user: this.user.toJSON({shallow: true}),
-        robot: this.user.related('robot').toJSON({shallow: true})
+    var self = this;
+    this.user.getItemPivot().then(function(items){
+        self.socket.emit('loggedIn',{
+            user: self.user.toJSON({shallow: true}),
+            robot: self.user.related('robot').toJSON({shallow: true}),
+            inventory: items
+        });
+        console.log('Spieler ' + self.user.get('username') + ' hat sich angemeldet.');
     });
 
-    console.log('Spieler ' + this.user.get('username') + ' hat sich angemeldet.');
 };
 
 ConnectionController.prototype.onScan = function(data){

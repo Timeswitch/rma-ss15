@@ -11,8 +11,8 @@ define(function() {
             relations: {
                 hasOne: {
                     RobotPart: {
-                        localField: 'robot',
-                        localKey: 'user_id'
+                        localField: 'robotpart',
+                        localKey: 'robot_id'
                     }
                 }
             }

@@ -31,6 +31,7 @@ define(['socket.io'],function(io){
     ConnectionController.prototype.onLoggedIn = function(data){
         this.app.injectData('User',data.user);
         this.app.injectData('Robot',data.robot);
+        this.app.injectData('Item',data.inventory);
 
         this.app.saveUser(data.user.id);
 
