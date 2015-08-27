@@ -262,6 +262,9 @@ define([
         };
 
         App.prototype.injectData = function(model,data){
+            if(model == 'Item'){
+                this.store.ejectAll(model);
+            }
             this.store.inject(model,data);
         };
 

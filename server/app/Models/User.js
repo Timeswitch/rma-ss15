@@ -55,7 +55,7 @@ var User = database.Model.extend({
 
             for (var i = 0; i < items.length; i++) {
                 var itemPivot = items.at(i).pivot.toJSON();
-                itemPivot.id = itemPivot.user_id;
+                itemPivot.id = itemPivot.robotpart_id;
                 pivot.push(itemPivot);
             }
 

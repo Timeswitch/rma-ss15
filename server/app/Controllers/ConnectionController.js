@@ -93,6 +93,7 @@ ConnectionController.prototype.onScan = function(data){
                     scan.save({lastscan: currentDate},{patch: true}).then(function(){
                         self.getLoot().then(function(loot){
                             self.socket.emit('scanResult',{valid: true, item: loot});
+                            self.sendUpdate();
                         });
                     });
                 }
@@ -104,6 +105,7 @@ ConnectionController.prototype.onScan = function(data){
                         self.user.addItem(loot)
                             .then(function(){
                                 self.socket.emit('scanResult',{valid: true, item: loot});
+                                self.sendUpdate();
                             });
                     });
                 });
@@ -119,6 +121,15 @@ ConnectionController.prototype.getLoot = function(){
 
             return arr[loot].id;
         });
+};
+
+ConnectionController.prototype.sendUpdate = function(){
+    var self = this;
+    this.user.getItemPivot().then(function(items){
+        self.socket.emit('update',{
+            inventory: items
+        })
+    });
 };
 
 module.exports = ConnectionController;

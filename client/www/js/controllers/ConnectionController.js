@@ -14,6 +14,7 @@ define(['socket.io'],function(io){
 
         this.socket.on('loggedIn',this.onLoggedIn.bind(this));
         this.socket.on('scanResult',this.onScanResult.bind(this));
+        this.socket.on('update',this.onUpdate.bind(this));
     }
 
     ConnectionController.prototype.onConnect = function(data){
@@ -43,6 +44,10 @@ define(['socket.io'],function(io){
             this.scanCallback(data);
             this.scanCallback = null;
         }
+    };
+
+    ConnectionController.prototype.onUpdate = function(data){
+        this.app.injectData('Item',data.inventory);
     };
 
     ConnectionController.prototype.register = function(){
