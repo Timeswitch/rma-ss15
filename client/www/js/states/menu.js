@@ -184,6 +184,14 @@ define(function(){
 
     Menu.prototype.render = function(){
         this.app.game.debug.text(''+this.contentPage, 10, 10);
+
+        var y = 20;
+        if(this.contentPage == -1){
+            for(var i=0; i<this.app.user.inventory.length; i++){
+                var item = this.app.user.inventory[i];
+                this.app.game.debug.text(item.count + 'x ' + item.robotpart.name, 10, (i+1)*y);
+            }
+        }
     };
 
     Menu.prototype.createOnClick = function(object,handler){
