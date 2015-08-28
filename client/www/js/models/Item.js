@@ -12,7 +12,7 @@ define(function() {
                 hasOne: {
                     RobotPart: {
                         localField: 'robotpart',
-                        localKey: 'robot_id'
+                        localKey: 'robotpart_id'
                     }
                 }
             }
