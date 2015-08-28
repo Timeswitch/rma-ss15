@@ -3,7 +3,9 @@
  */
 'use strict';
 
-define(function(){
+define([
+  'states/BaseState'
+],function(BaseState){
 
     function Menu(){
         this.app = null;
@@ -47,7 +49,7 @@ define(function(){
         this.contentTween = null;
     }
 
-    Menu.prototype = Object.create(Phaser.State.prototype);
+    Menu.prototype = Object.create(BaseState.prototype);
     Menu.prototype.constructor = Menu;
 
 
@@ -192,20 +194,6 @@ define(function(){
                 this.app.game.debug.text(item.count + 'x ' + item.robotpart.name, 10, (i+1)*y);
             }
         }
-    };
-
-    Menu.prototype.createOnClick = function(object,handler){
-        object.inputEnabled = true;
-        object.events.onInputDown.add(function(){
-            object.alpha = 0.2;
-            object.lastPos = this.input.activePointer.x;
-        },this);
-        object.events.onInputUp.add(function(){
-            object.alpha = 0.5;
-            if(Math.abs(this.input.activePointer.x-object.lastPos) <= 5){
-                handler.call(this);
-            }
-        },this);
     };
 
     Menu.prototype.onScanClick = function(){
