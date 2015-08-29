@@ -116,10 +116,20 @@ ConnectionController.prototype.getLoot = function(){
     return (new RobotPart()).fetchAll()
         .then(function(items){
             var arr = items.toJSON({shallow: true});
+            var lootArr = [];
 
-            var loot = Math.floor(Math.random() * (items.length));
+            var loot = Math.floor(Math.random() * 3);
 
-            return arr[loot].id;
+            //teilung der items nach seltenheit
+            for(var i = 0; i <= arr.length; i++){
+                if(arr[i].rarity <= loot){
+                    lootArr.push(arr[i]);
+                }
+            }
+
+            loot = Math.floor(Math.random() * lootArr.length);
+
+            return lootArr[loot].id;
         });
 };
 
