@@ -47,6 +47,9 @@ define([
 
         this.content = null;
         this.contentTween = null;
+
+        this.inventoryIcon = null;
+        this.friendsIcon = null;
     }
 
     Menu.prototype = Object.create(BaseState.prototype);
@@ -58,8 +61,8 @@ define([
 
 
         this.contentPage = 0;
-        this.contentPageMin = -1;
-        this.contentPageMax = 1;
+        this.contentPageMin = -2;
+        this.contentPageMax = 2;
         this.lastPointerX = 0;
         this.pointerDown = false;
     };
@@ -70,6 +73,9 @@ define([
         this.load.image('scan_icon', 'assets/mainmenu/scan.png');
         this.load.spritesheet('arrow_left', 'assets/mainmenu/left.png',32,120);
         this.load.spritesheet('arrow_right', 'assets/mainmenu/right.png',32,120);
+
+        this.load.image('inventory_icon', 'assets/mainmenu/inventory.png');
+        this.load.image('friends_icon', 'assets/mainmenu/friends.png');
 
     };
 
@@ -96,7 +102,7 @@ define([
 
         this.scanIcon = this.add.sprite(this.world.centerX,this.world.centerY,'scan_icon');
         this.app.scaleMax(this.scanIcon,this.world.width - 180,this.world.height - 260);
-        this.scanIcon.x += this.app.width;
+        this.scanIcon.x -= this.app.width * 2;
         this.scanIcon.anchor.set(0.5);
         this.scanIcon.tint = 0x419001;
         this.scanIcon.alpha = 0.5;
@@ -105,7 +111,29 @@ define([
             this.onScanClick();
         });
 
+        this.inventoryIcon = this.add.sprite(this.world.centerX, this.world.centerY, 'inventory_icon');
+        this.app.scaleMax(this.inventoryIcon, this.world.width - 180, this.world.height - 260);
+        this.inventoryIcon.x -= this.app.width;
+        this.inventoryIcon.anchor.set(0.5);
+        this.inventoryIcon.alpha = 0.5;
+
+        this.createOnClick(this.inventoryIcon, function(){
+            this.onInventoryClick();
+        });
+
+        this.friendsIcon = this.add.sprite(this.world.centerX, this.world.centerY, 'friends_icon');
+        this.app.scaleMax(this.friendsIcon, this.world.width - 180, this.world.height - 260);
+        this.friendsIcon.x += this.app.width * 2;
+        this.friendsIcon.anchor.set(0.5);
+        this.friendsIcon.alpha = 0.5;
+
+        this.createOnClick(this.friendsIcon, function(){
+            this.onFriendsClick();
+        });
+
         this.content.add(this.scanIcon);
+        this.content.add(this.inventoryIcon);
+        this.content.add(this.friendsIcon);
 
         this.infoText = this.add.text(this.world.centerX,this.app.height - 50,'Zusammenstellung',{font: "35px bitwise",fill: '#419001',align: 'center'});
         this.infoText.anchor.set(0.5);
@@ -168,6 +196,9 @@ define([
 
     Menu.prototype.bouncePage =function(){
         switch(this.contentPage){
+            case -2:
+                this.infoText.text = 'Scannen';
+                break;
             case -1:
                 this.infoText.text = 'Inventar';
                 break;
@@ -175,7 +206,10 @@ define([
                 this.infoText.text = 'Zusammenstellung';
                 break;
             case 1:
-                this.infoText.text = 'Scannen';
+                this.infoText.text = 'Kampf';
+                break;
+            case 2:
+                this.infoText.text = 'Freunde';
                 break;
         }
 
@@ -223,6 +257,14 @@ define([
                 alert('Der Code konnte nicht gelesen werden');
                 break;
         }
+    };
+
+    Menu.prototype.onInventoryClick = function(data){
+        alert('inventory');
+    };
+
+    Menu.prototype.onFriendsClick = function(data){
+        alert('friends');
     };
 
 
