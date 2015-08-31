@@ -2,10 +2,10 @@
 
 define([
 
-    'states/menu',
-    'states/scan',
-    'states/fight',
-    'states/inventory'
+    'Menu',
+    'Scan',
+    'Fight',
+    'Inventory'
 
 ], function(Menu, Scan, Fight, Inventory){
 

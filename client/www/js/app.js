@@ -5,7 +5,7 @@
 
 define([
     'config',
-    'states/boot',
+    'states/Boot',
     'controllers/ConnectionController',
     'gameobjects/RobotGroup',
     'models/RobotPart',
