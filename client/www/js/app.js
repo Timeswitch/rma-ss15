@@ -4,6 +4,7 @@
 'use strict';
 
 define([
+    'config',
     'states/boot',
     'controllers/ConnectionController',
     'gameobjects/RobotGroup',
@@ -12,9 +13,10 @@ define([
     'models/User',
     "models/Item"
 
-],function(Boot,ConnectionController,RobotGroup,RobotPart,Robot,User,Item){
+],function(config,Boot,ConnectionController,RobotGroup,RobotPart,Robot,User,Item){
 
         function App(){
+            this.config = config;
             this.game = null;
             this.connection = null;
             this.canvas = null;
@@ -56,7 +58,8 @@ define([
         };
 
         App.prototype.initConnection = function(){
-            this.connection = new ConnectionController(this,'http://localhost:2209');
+            var url = (this.config.ssl ? 'https://' : 'http://') + this.config.server + ':' + this.config.port;
+            this.connection = new ConnectionController(this,url);
         };
 
         App.prototype.saveUser = function(id){
