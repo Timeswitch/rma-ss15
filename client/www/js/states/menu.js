@@ -50,6 +50,7 @@ define([
 
         this.inventoryIcon = null;
         this.friendsIcon = null;
+        this.battleIcon = null;
     }
 
     Menu.prototype = Object.create(BaseState.prototype);
@@ -76,6 +77,7 @@ define([
 
         this.load.image('inventory_icon', 'assets/mainmenu/inventory.png');
         this.load.image('friends_icon', 'assets/mainmenu/friends.png');
+        this.load.image('battle_icon', 'assets/mainmenu/battle.png');
 
     };
 
@@ -131,9 +133,20 @@ define([
             this.onFriendsClick();
         });
 
+        this.battleIcon = this.add.sprite(this.world.centerX, this.world.centerY, 'battle_icon');
+        this.app.scaleMax(this.friendsIcon, this.world.width - 180, this.world.height - 260);
+        this.battleIcon.x += this.app.width;
+        this.battleIcon.anchor.set(0.5);
+        this.battleIcon.alpha = 0.5;
+
+        this.createOnClick(this.battleIcon, function(){
+            this.onBattleClick();
+        });
+
         this.content.add(this.scanIcon);
         this.content.add(this.inventoryIcon);
         this.content.add(this.friendsIcon);
+        this.content.add(this.battleIcon);
 
         this.infoText = this.add.text(this.world.centerX,this.app.height - 50,'Zusammenstellung',{font: "35px bitwise",fill: '#419001',align: 'center'});
         this.infoText.anchor.set(0.5);
@@ -265,6 +278,10 @@ define([
 
     Menu.prototype.onFriendsClick = function(data){
         alert('friends');
+    };
+
+    Menu.prototype.onBattleClick = function(data){
+        alert('battle');
     };
 
 
