@@ -2,7 +2,7 @@
  * Created by michael on 24/07/15.
  */
 
-var Promise = require('Bluebird');
+var Promise = require('bluebird');
 var RobotPart = require('../Models/RobotPart.js');
 var Scan = require('../Models/Scan.js');
 
