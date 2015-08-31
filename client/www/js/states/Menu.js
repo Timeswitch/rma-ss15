@@ -240,6 +240,11 @@ define([
                 var item = this.app.user.inventory[i];
                 this.app.game.debug.text(item.count + 'x ' + item.robotpart.name, 10, (i+1)*y);
             }
+        }else if(this.contentPage == 2){
+            for(var i=0; i<this.app.user.friends.length; i++){
+                var friend = this.app.user.friends[i];
+                this.app.game.debug.text(friend.username, 10, (i+1)*y);
+            }
         }
     };
 
