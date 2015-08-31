@@ -92,7 +92,11 @@ ConnectionController.prototype.onScan = function(data){
                 }else{
                     scan.save({lastscan: currentDate},{patch: true}).then(function(){
                         self.getLoot().then(function(loot){
-                            self.socket.emit('scanResult',{valid: true, item: loot});
+                            if(loot > 0){
+                                self.socket.emit('scanResult',{status: 'valid', item: loot});
+                            }else{
+                                self.socket.emit('scanResult',{status: 'empty', item: loot});
+                            }
                             self.sendUpdate();
                         });
                     });
@@ -104,7 +108,11 @@ ConnectionController.prototype.onScan = function(data){
                     self.getLoot().then(function(loot){
                         self.user.addItem(loot)
                             .then(function(){
-                                self.socket.emit('scanResult',{valid: true, item: loot});
+                                if(loot > 0){
+                                    self.socket.emit('scanResult',{status: 'valid', item: loot});
+                                }else{
+                                    self.socket.emit('scanResult',{status: 'empty', item: loot});
+                                }
                                 self.sendUpdate();
                             });
                     });
