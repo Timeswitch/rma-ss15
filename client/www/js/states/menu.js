@@ -204,7 +204,7 @@ define([
                 self.app.connection.sendCode(code,self.onScanResult.bind(self));
             }
         },function(error){
-            alert('Ein Fehler ist aufgetreten.');
+            alert('Du benötigst eine Kamera um Codes zu scannen.');
         });
     };
 
