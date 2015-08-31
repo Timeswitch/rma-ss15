@@ -209,10 +209,19 @@ define([
     };
 
     Menu.prototype.onScanResult = function(data){
-        if(data.valid){
-            alert(this.app.store.get('RobotPart',data.item).name);
-        }else{
-            alert('Du hast diesen Code heute bereits gescant!');
+        switch(data.status){
+            case 'valid':
+                alert(this.app.store.get('RobotPart',data.item).name);
+                break;
+            case 'used':
+                alert('Du hast diesen Code heute bereits gescant!');
+                break;
+            case 'empty':
+                alert('Dieser Code war leider leer.');
+                break;
+            default :
+                alert('Der Code konnte nicht gelesen werden');
+                break;
         }
     };
 
