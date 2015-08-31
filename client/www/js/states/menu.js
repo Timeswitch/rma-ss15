@@ -206,7 +206,7 @@ define([
                 this.infoText.text = 'Zusammenstellung';
                 break;
             case 1:
-                this.infoText.text = 'Kampf';
+                this.infoText.text = 'Battle';
                 break;
             case 2:
                 this.infoText.text = 'Freunde';
