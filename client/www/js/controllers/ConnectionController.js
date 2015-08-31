@@ -33,6 +33,7 @@ define(['socket.io'],function(io){
         this.app.injectData('User',data.user);
         this.app.injectData('Robot',data.robot);
         this.app.injectData('Item',data.inventory);
+        this.app.injectData('Friend',data.friends);
 
         this.app.saveUser(data.user.id);
 
@@ -48,6 +49,7 @@ define(['socket.io'],function(io){
 
     ConnectionController.prototype.onUpdate = function(data){
         this.app.injectData('Item',data.inventory);
+        this.app.injectData('Friend',data.friendlist);
     };
 
     ConnectionController.prototype.register = function(){

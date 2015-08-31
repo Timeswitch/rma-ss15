@@ -53,7 +53,7 @@ App.prototype.createUser = function(data){
 };
 
 App.prototype.getUser = function(username){
-    return (new User({username: username}).fetch({require: true, withRelated: ['robot']}));
+    return (new User({username: username}).fetch({require: true, withRelated: ['robot','friends']}));
 };
 
 module.exports = App;

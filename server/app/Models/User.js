@@ -17,7 +17,7 @@ var User = database.Model.extend({
         return this.hasMany('Scan');
     },
     friends: function(){
-        return this.belongsToMany('User','friends','user_id2');
+        return this.belongsToMany('User','friends','user_id','user_id2');
     },
     inventory: function(){
         return this.belongsToMany('RobotPart','inventar','user_id','robotpart_id').withPivot('count');
@@ -60,6 +60,23 @@ var User = database.Model.extend({
             }
 
             return pivot;
+        });
+    },
+    getFriends: function(){
+        var self = this;
+        return this.friends().fetch().then(function(users){
+            var friends = [];
+
+            for(var i = 0; i<users.length; i++){
+                var user = users.at(i);
+                friends.push({
+                    id: user.id,
+                    user_id: self.id,
+                    username: user.get('username')
+                });
+            }
+
+            return friends;
         });
     }
 

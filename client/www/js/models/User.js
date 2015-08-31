@@ -19,6 +19,10 @@ define(function() {
                     Item: {
                         localField: 'inventory',
                         foreignKey: 'user_id'
+                    },
+                    Friend: {
+                        localField: 'friends',
+                        foreignKey: 'user_id'
                     }
                 }
             }

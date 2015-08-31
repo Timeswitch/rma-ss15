@@ -11,9 +11,10 @@ define([
     'models/RobotPart',
     'models/Robot',
     'models/User',
-    "models/Item"
+    'models/Item',
+    'models/Friend'
 
-],function(config,Boot,ConnectionController,RobotGroup,RobotPart,Robot,User,Item){
+],function(config,Boot,ConnectionController,RobotGroup,RobotPart,Robot,User,Item,Friend){
 
         function App(){
             this.config = config;
@@ -30,7 +31,8 @@ define([
                 RobotPart: RobotPart(this.store),
                 User: User(this.store),
                 Robot: Robot(this.store),
-                Item: Item(this.store)
+                Item: Item(this.store),
+                Friend: Friend(this.store)
             };
         }
 
@@ -279,7 +281,7 @@ define([
         };
 
         App.prototype.injectData = function(model,data){
-            if(model == 'Item'){
+            if(model == 'Item' || model == 'Friend'){
                 this.store.ejectAll(model);
             }
             this.store.inject(model,data);

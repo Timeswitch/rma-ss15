@@ -2,6 +2,7 @@
  * Created by michael on 24/07/15.
  */
 
+var Promise = require('Bluebird');
 var RobotPart = require('../Models/RobotPart.js');
 var Scan = require('../Models/Scan.js');
 
@@ -69,11 +70,14 @@ ConnectionController.prototype.onLogin = function(data){
 
 ConnectionController.prototype.onLoggedIn = function(){
     var self = this;
-    this.user.getItemPivot().then(function(items){
+
+    Promise.all([this.user.getItemPivot(),this.user.getFriends()])
+    .then(function(data){
         self.socket.emit('loggedIn',{
             user: self.user.toJSON({shallow: true}),
             robot: self.user.related('robot').toJSON({shallow: true}),
-            inventory: items
+            inventory: data[0],
+            friends: data[1]
         });
         console.log('Spieler ' + self.user.get('username') + ' hat sich angemeldet.');
     });
@@ -153,9 +157,11 @@ ConnectionController.prototype.getLoot = function(){
 
 ConnectionController.prototype.sendUpdate = function(){
     var self = this;
-    this.user.getItemPivot().then(function(items){
+
+    Promise.all([this.user.getItemPivot(),this.user.getFriends()]).then(function(data){
         self.socket.emit('update',{
-            inventory: items
+            inventory: data[0],
+            friendlist: data[1]
         })
     });
 };
