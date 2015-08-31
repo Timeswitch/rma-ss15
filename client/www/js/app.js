@@ -257,6 +257,8 @@ define([
                 scale = Math.floor(scaleY);
             }
 
+            scale = Math.max(1,scale);
+
             object.scale.set(scale,scale);
         };
 
