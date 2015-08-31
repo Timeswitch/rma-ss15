@@ -5,9 +5,10 @@ define([
     'states/Menu',
     'states/Scan',
     'states/Fight',
-    'states/Inventory'
+    'states/Inventory',
+    'states/Friendlist'
 
-], function(Menu, Scan, Fight, Inventory){
+], function(Menu, Scan, Fight, Inventory, Friendlist){
 
     function Boot(){
         this.app = null;
@@ -50,6 +51,7 @@ define([
         this.app.game.state.add('Scan', Scan);
         this.app.game.state.add('Fight', Fight);
         this.app.game.state.add('Inventory', Inventory);
+        this.app.game.state.add('Friendlist', Friendlist);
 
 
         //this.app.game.state.start("Menu");

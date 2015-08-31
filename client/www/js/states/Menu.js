@@ -272,15 +272,15 @@ define([
         }
     };
 
-    Menu.prototype.onInventoryClick = function(data){
+    Menu.prototype.onInventoryClick = function(){
         alert('inventory');
     };
 
-    Menu.prototype.onFriendsClick = function(data){
-        alert('friends');
+    Menu.prototype.onFriendsClick = function(){
+        this.app.startState('Friendlist');
     };
 
-    Menu.prototype.onBattleClick = function(data){
+    Menu.prototype.onBattleClick = function(){
         alert('battle');
     };
 
