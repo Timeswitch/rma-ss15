@@ -121,7 +121,7 @@ ConnectionController.prototype.getLoot = function(){
             var loot = Math.floor(Math.random() * 3);
 
             //teilung der items nach seltenheit
-            for(var i = 0; i <= arr.length; i++){
+            for(var i = 0; i < arr.length; i++){
                 if(arr[i].rarity <= loot){
                     lootArr.push(arr[i]);
                 }

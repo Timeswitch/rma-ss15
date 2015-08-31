@@ -12,6 +12,7 @@ module.exports.up = function(knex,Promise) {
         table.integer('attack');
         table.integer('defense');
         table.string('effect');
+        table.integer('rarity');
 
     }).createTable('robot', function (table) {
         table.increments('id').primary();
