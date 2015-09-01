@@ -14,7 +14,7 @@ define([
 
             "precision mediump float;",
 
-            "uniform float     time;",
+            "uniform float     timeN;",
             "uniform vec2      resolution;",
 
             "void main( void ) {",
@@ -26,7 +26,7 @@ define([
             "c = pow(c, 0.2);",
             "c *= 0.2;",
 
-            "float band_pos = fract(time * 0.1) * 3.0 - 1.0;",
+            "float band_pos = fract(timeN * 0.1) * 3.0 - 1.0;",
             "c += clamp( (1.0 - abs(band_pos - pos) * 10.0), 0.0, 1.0) * 0.1;",
 
             "gl_FragColor = vec4( 0.0, c, 0.0, 1.0 );",
@@ -82,7 +82,7 @@ define([
     };
 
     Menu.prototype.create = function(){
-        this.filter = new Phaser.Filter(this.app.game, null, this.filterSrc);
+        this.filter = new Phaser.Filter(this.app.game, {timeN: { type: '1f', value: 0 }}, this.filterSrc);
         this.filter.setResolution(this.app.width, this.app.height);
 
         this.background = this.add.sprite();//0,0,'background');
@@ -167,6 +167,11 @@ define([
     };
 
     Menu.prototype.update = function(){
+        //Fix für FP16 Smartphones
+        this.filter.uniforms.timeN.value = this.app.game.time.totalElapsedSeconds();
+        if(this.filter.uniforms.timeN.value >= 1000){
+            this.filter.uniforms.timeN.value -= 1000;
+        }
         this.filter.update();
 
         if(this.input.activePointer.isDown){
