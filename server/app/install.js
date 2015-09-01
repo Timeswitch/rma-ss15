@@ -37,6 +37,7 @@ database.knex.migrate.latest().then(function(){
     newItem('Norton Head','head',9,10,0,10,0,2);
     newItem('Unknown 51 Head','head',10,5,0,4,0,1);
     newItem('Zyklo Head','head',11,8,0,3,0,0);
+    newItem('Batbot Head','head',12,2,0,5,0,1);
 
     //Bodies
     //newItem('Test Body','body',0,0,0,0,null);
@@ -52,6 +53,7 @@ database.knex.migrate.latest().then(function(){
     newItem('Norton Body','body',9,10,5,10,0,2);
     newItem('Unknown 51 Body','body',10,5,5,7,0,1);
     newItem('Zyklo Body','body',11,8,5,6,0,0);
+    newItem('Batbot Body','body',12,9,5,6,0,1);
 
     //Arms
     //newItem('Test Arms','arms',0,0,0,0,null);
@@ -67,6 +69,7 @@ database.knex.migrate.latest().then(function(){
     newItem('Norton Arms','arms',9,10,10,10,0,2);
     newItem('Unknown 51 Arms','arms',10,9,8,8,0,1);
     newItem('Zyklo Arms','arms',11,6,2,7,0,0);
+    newItem('Batbot Arms','arms',12,5,6,9,0,1);
 
     //Legs
     //newItem('Test Legs','legs',0,0,0,0,null);
@@ -82,6 +85,7 @@ database.knex.migrate.latest().then(function(){
     newItem('Norton Legs','legs',9,10,0,10,0,2);
     newItem('Unknown 51 Legs','legs',10,8,0,4,0,1);
     newItem('Zyklo Legs','legs',11,9,0,3,0,0);
+    newItem('Batbot Legs','legs',12,8,0,10,0,1);
 
     Promise.all(defaultItems).then(function(){
         process.exit();
