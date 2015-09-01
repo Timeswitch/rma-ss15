@@ -52,6 +52,8 @@ define(['socket.io'],function(io){
     ConnectionController.prototype.onUpdate = function(data){
         this.app.injectData('Item',data.inventory);
         this.app.injectData('Friend',data.friendlist);
+
+        this.app.game.state.getCurrentState().onDataUpdate();
     };
 
     ConnectionController.prototype.register = function(){
