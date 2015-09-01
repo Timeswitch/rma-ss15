@@ -21,6 +21,7 @@ ConnectionController.prototype.init = function(){
     this.socket.on('register',this.onRegister.bind(this));
     this.socket.on('login',this.onLogin.bind(this));
     this.socket.on('scan',this.onScan.bind(this));
+    this.socket.on('addFriend',this.onAddFriend.bind(this));
 
     new RobotPart().fetchAll().then(function(items){
         self.socket.emit('sync',{
@@ -122,6 +123,18 @@ ConnectionController.prototype.onScan = function(data){
                     });
                 });
         });
+};
+
+ConnectionController.prototype.onAddFriend = function(data){
+    var self = this;
+    this.user.addFriend(this.friendInput.value).then(function(code){
+        self.socket.emit('friendAdded',{
+            code: code
+        })
+    });
+    if(code == 'SUCCESS'){
+        this.sendUpdate();
+    }
 };
 
 ConnectionController.prototype.getLoot = function(){

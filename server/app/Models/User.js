@@ -78,6 +78,34 @@ var User = database.Model.extend({
 
             return friends;
         });
+    },
+    addFriend: function(user){
+        var self = this;
+        return this.friends().where({username: user}).fetchOne({require: true})
+            .then(function(user){
+                return 'EXISTS';
+            })
+            .catch(function(){
+                self.friends().attach(user).then(function(){
+                    return 'SUCCESS';
+                }).catch(function(){
+                    return 'NOT_FOUND';
+                });
+            });
+    },
+    removeFriend: function(user) {
+        var self = this;
+        return this.friends().query({where: {username: user}}).fetchOne({require: true})
+            .then(function(user){
+                return self.friends().detach(user.id)
+                    .then(function(){
+                        return true;
+                    });
+
+            }).catch(function(e){
+                return false;
+            })
+
     }
 
 });
