@@ -47,7 +47,9 @@ define([
     };
 
     Friendlist.prototype.onPlusClick = function(){
-
+        this.app.connection.addFriend(this.friendInput.value,function(data){
+            alert(data.code);
+        });
     };
 
     return new Friendlist();

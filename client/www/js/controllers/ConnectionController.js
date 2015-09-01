@@ -9,12 +9,14 @@ define(['socket.io'],function(io){
         this.socket = io(server);
         this.id = -1;
         this.scanCallback = null;
+        this.friendCallback = null;
 
         this.socket.on('sync',this.onConnect.bind(this));
 
         this.socket.on('loggedIn',this.onLoggedIn.bind(this));
         this.socket.on('scanResult',this.onScanResult.bind(this));
         this.socket.on('update',this.onUpdate.bind(this));
+        this.socket.on('friendAdded',this.onFriendAdded.bind(this));
     }
 
     ConnectionController.prototype.onConnect = function(data){
@@ -68,6 +70,21 @@ define(['socket.io'],function(io){
         this.scanCallback = callback;
         this.socket.emit('scan',{
             code: code
+        });
+    };
+
+    ConnectionController.prototype.onFriendAdded= function(data){
+        if(this.friendCallback){
+            this.friendCallback(data);
+            this.friendCallback = null;
+        }
+    };
+
+    ConnectionController.prototype.addFriend = function(user, callback){
+
+        this.friendCallback = callback;
+        this.socket.emit('addFriend', {
+            username: user
         });
     };
 

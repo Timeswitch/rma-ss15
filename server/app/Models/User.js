@@ -81,16 +81,22 @@ var User = database.Model.extend({
     },
     addFriend: function(user){
         var self = this;
-        return this.friends().where({username: user}).fetchOne({require: true})
+        var username = user;
+        return this.friends().query({where: {username: username}}).fetchOne({require: true})
             .then(function(user){
                 return 'EXISTS';
             })
             .catch(function(){
-                self.friends().attach(user).then(function(){
-                    return 'SUCCESS';
+                return (new User({username: username})).fetch({require:true}).then(function(user){
+                    return self.friends().attach(user.id).then(function(){
+                        return 'SUCCESS';
+                    }).catch(function(){
+                        return 'ERROR';
+                    });
                 }).catch(function(){
                     return 'NOT_FOUND';
                 });
+
             });
     },
     removeFriend: function(user) {

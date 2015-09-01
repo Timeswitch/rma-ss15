@@ -127,14 +127,16 @@ ConnectionController.prototype.onScan = function(data){
 
 ConnectionController.prototype.onAddFriend = function(data){
     var self = this;
-    this.user.addFriend(this.friendInput.value).then(function(code){
+    this.user.addFriend(data.username).then(function(code){
         self.socket.emit('friendAdded',{
             code: code
-        })
+        });
+
+        if(code == 'SUCCESS'){
+            this.sendUpdate();
+        }
     });
-    if(code == 'SUCCESS'){
-        this.sendUpdate();
-    }
+
 };
 
 ConnectionController.prototype.getLoot = function(){
