@@ -248,6 +248,19 @@ define([
         }
     };
 
+    Menu.prototype.shutdown = function(){
+        this.background.destroy();
+        this.logo.destroy();
+        this.arrowLeft.destroy();
+        this.arrowRight.destroy();
+        this.robot.destroy();
+        this.scanIcon.destroy();
+        this.infoText.destroy();
+        this.inventoryIcon.destroy();
+        this.friendsIcon.destroy();
+        this.battleIcon.destroy();
+    };
+
     Menu.prototype.onScanClick = function(){
         var self = this;
         cordova.plugins.barcodeScanner.scan(function(result){
