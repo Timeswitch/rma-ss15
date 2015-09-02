@@ -25,13 +25,13 @@ define([
             bottomRight: 'alertBR',
             bottom: 'alertB'
         },30,this.boxWidth-60,this.boxHeight-60);
-        this.messageRender = new Phaser.Text(game,0,0,'Lade...',{font: "24px bitwise",fill: '#ffffff',align: 'center'});
-        this.messageRender.x = (this.boxWidth/2);
-        this.messageRender.y = 35;
-        this.messageRender.anchor.set(0.5);
+        this.message = new Phaser.Text(game,0,0,'Lade...',{font: "24px bitwise",fill: '#ffffff',align: 'center'});
+        this.message.x = (this.boxWidth/2);
+        this.message.y = 35;
+        this.message.anchor.set(0.5);
 
         this.add(this.tileBox);
-        this.add(this.messageRender);
+        this.add(this.message);
 
         this.progress = this.create((this.boxWidth/2)-60,50,'progressbar');
         this.animation = this.progress.animations.add('load',[0,1,2,3,4,5,6,7,8,9,10,11,12]);
@@ -43,7 +43,7 @@ define([
         this.y = this.state.world.centerY - (this.boxHeight/2);
 
         this.tileBox.setAll('alpha',0.7);
-        this.messageRender.alpha = 0.8;
+        this.message.alpha = 0.8;
         this.progress.alpha = 0.7;
 
         this.state.disableInput();
