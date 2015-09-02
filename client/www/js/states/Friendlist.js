@@ -21,6 +21,9 @@ define([
         this.friendButton = null;
         this.titleContainer = null;
         this.background = null;
+        this.keyboardListener = this.onKeyboardClose.bind(this);
+
+        window.addEventListener('native.keyboardhide', this.keyboardListener);
     };
 
     Friendlist.prototype.preload = function(){
@@ -28,6 +31,7 @@ define([
     };
 
     Friendlist.prototype.create = function(){
+        var self = this;
 
         this.titleContainer = new TileBox(this.app.game,{
             topLeft: 'alertTL',
@@ -68,6 +72,12 @@ define([
         this.friendInput.style.color = '#ffffff';
         this.friendInput.style.backgroundColor = '#419001';
         this.friendInput.style.borderColor = '#1F4005';
+        this.friendInput.onkeyup = function(e){
+            var code = e.which || e.keyCode;
+            if(code == 13){
+                self.onPlusClick();
+            }
+        };
         document.body.appendChild(this.friendInput);
 
         this.friendButton = this.add.button(this.app.width - 60, this.app.height - 60, 'buttonPlus',this.onPlusClick,this,0,0,1,0);
@@ -75,6 +85,7 @@ define([
     };
 
     Friendlist.prototype.shutdown = function(){
+        window.removeEventListener('native.keyboardhide', this.keyboardListener);
         this.friendInput.parentNode.removeChild(this.friendInput);
         this.friendInput = null;
 
@@ -83,13 +94,22 @@ define([
     };
 
     Friendlist.prototype.onPlusClick = function(){
+        if(this.friendInput.value == ''){
+            return;
+        }
         var self = this;
+        cordova.plugins.Keyboard.close();
         this.showProgress();
         this.app.connection.addFriend(this.friendInput.value,function(data){
             self.stopProgress(function(){
                 alert(data.code);
             });
         });
+        this.friendInput.value = '';
+    };
+
+    Friendlist.prototype.onKeyboardClose = function(){
+        this.friendInput.blur();
     };
 
     return new Friendlist();
