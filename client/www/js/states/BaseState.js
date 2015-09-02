@@ -5,6 +5,8 @@ define([
     'gameobjects/ProgressDialog'
 ],function(ProgressDialog){
     function BaseState(){
+        Phaser.State.call(this);
+
         this.app = null;
         this.filterSrc = [
 
