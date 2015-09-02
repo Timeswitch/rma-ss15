@@ -32,12 +32,12 @@ define(['socket.io'],function(io){
     };
 
     ConnectionController.prototype.onLoggedIn = function(data){
+        this.app.saveUser(data.user.id);
+
         this.app.injectData('User',data.user);
         this.app.injectData('Robot',data.robot);
         this.app.injectData('Item',data.inventory);
         this.app.injectData('Friend',data.friends);
-
-        this.app.saveUser(data.user.id);
 
         this.app.startState('Menu');
     };
