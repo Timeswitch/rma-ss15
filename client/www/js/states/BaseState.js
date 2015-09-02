@@ -6,6 +6,28 @@ define([
 ],function(ProgressDialog){
     function BaseState(){
         this.app = null;
+        this.filterSrc = [
+
+            "precision mediump float;",
+
+            "uniform float     timeN;",
+            "uniform vec2      resolution;",
+
+            "void main( void ) {",
+
+            "vec2 normalPos = gl_FragCoord.xy / resolution.xy;",
+            "float pos = (gl_FragCoord.y / resolution.y);",
+
+            "float c = sin(pos * 400.0) * 0.4 + 0.4;",
+            "c = pow(c, 0.2);",
+            "c *= 0.2;",
+
+            "float band_pos = fract(timeN * 0.1) * 3.0 - 1.0;",
+            "c += clamp( (1.0 - abs(band_pos - pos) * 10.0), 0.0, 1.0) * 0.1;",
+
+            "gl_FragColor = vec4( 0.0, c, 0.0, 1.0 );",
+            "}"
+        ];
     }
 
     BaseState.prototype = Object.create(Phaser.State.prototype);
