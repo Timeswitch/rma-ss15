@@ -31,6 +31,10 @@
                         {
                             "xml": "<feature name=\"BarcodeScanner\"><param name=\"ios-package\" value=\"CDVBarcodeScanner\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Keyboard\"><param name=\"ios-package\" onload=\"true\" value=\"IonicKeyboard\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -103,6 +107,9 @@
             "PACKAGE_NAME": "de.timeswitch.rmass15"
         },
         "phonegap-plugin-barcodescanner": {
+            "PACKAGE_NAME": "de.timeswitch.rmass15"
+        },
+        "com.ionic.keyboard": {
             "PACKAGE_NAME": "de.timeswitch.rmass15"
         }
     },

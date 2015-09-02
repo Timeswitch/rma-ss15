@@ -36,7 +36,7 @@ define([
         this.app = require('app');
         console.log(this.app);
         this.app.canvas = document.getElementsByTagName('canvas')[0];
-        this.app.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
+        this.app.game.scale.scaleMode = Phaser.ScaleManager.NO_SCALE;
         this.app.game.scale.pageAlignVertically = true;
         this.app.game.scale.pageAlignHorizontally = true;
 

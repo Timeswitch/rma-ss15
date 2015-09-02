@@ -36,6 +36,9 @@
         },
         "phonegap-plugin-barcodescanner": {
             "PACKAGE_NAME": "de.timeswitch.rmass15"
+        },
+        "com.ionic.keyboard": {
+            "PACKAGE_NAME": "de.timeswitch.rmass15"
         }
     },
     "dependent_plugins": {}
