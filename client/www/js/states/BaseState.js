@@ -2,8 +2,9 @@
  * Created by michael on 28/08/15.
  */
 define([
-    'gameobjects/ProgressDialog'
-],function(ProgressDialog){
+    'gameobjects/ProgressDialog',
+    'gameobjects/InputDialog'
+],function(ProgressDialog,InputDialog){
     function BaseState(){
         Phaser.State.call(this);
 
@@ -38,6 +39,7 @@ define([
     BaseState.prototype.init = function(){
         this.app = require('app');
         this.pd = null;
+        this.ind = null;
         this.inputEnabled = true;
         this.inputBlockCount = 0;
     };
@@ -67,7 +69,7 @@ define([
     };
 
     BaseState.prototype.showProgress = function(){
-        if(this.pd == null){
+        if(this.pd == null && this.ind == null){
             this.pd = new ProgressDialog(this.app.game,this);
         }
     };
@@ -76,6 +78,19 @@ define([
         if(this.pd != null){
             this.pd.dismiss(callback);
             this.pd = null;
+        }
+    };
+
+    BaseState.prototype.showInput = function(message,handler){
+        if(this.ind == null && this.pd == null){
+            this.ind = new InputDialog(this.app.game,this,message,handler);
+        }
+    };
+
+    BaseState.prototype.closeInput = function(){
+        if(this.ind != null){
+            this.ind.close();
+            this.ind = null;
         }
     };
 
