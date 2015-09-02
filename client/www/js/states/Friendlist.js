@@ -8,17 +8,19 @@ define([
 ],function(BaseState,TileBox){
 
     function Friendlist(){
-        this.app = null;
+        BaseState.call(this);
     }
 
     Friendlist.prototype = Object.create(BaseState.prototype);
     Friendlist.prototype.constructor = Friendlist;
 
     Friendlist.prototype.init = function(){
-        this.app = require('app');
+        BaseState.prototype.init.call(this);
+
         this.friendInput = null;
         this.friendButton = null;
         this.titleContainer = null;
+        this.background = null;
     };
 
     Friendlist.prototype.preload = function(){
