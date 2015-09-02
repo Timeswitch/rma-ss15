@@ -280,21 +280,24 @@ define([
     };
 
     Menu.prototype.onScanResult = function(data){
-        this.stopProgress();
-        switch(data.status){
-            case 'valid':
-                alert(this.app.store.get('RobotPart',data.item).name);
-                break;
-            case 'used':
-                alert('Du hast diesen Code heute bereits gescant!');
-                break;
-            case 'empty':
-                alert('Dieser Code war leider leer.');
-                break;
-            default :
-                alert('Der Code konnte nicht gelesen werden');
-                break;
-        }
+        var self = this;
+        var data = data;
+        this.stopProgress(function(){
+            switch(data.status){
+                case 'valid':
+                    alert(self.app.store.get('RobotPart',data.item).name);
+                    break;
+                case 'used':
+                    alert('Du hast diesen Code heute bereits gescant!');
+                    break;
+                case 'empty':
+                    alert('Dieser Code war leider leer.');
+                    break;
+                default :
+                    alert('Der Code konnte nicht gelesen werden');
+                    break;
+            }
+        });
     };
 
     Menu.prototype.onInventoryClick = function(){

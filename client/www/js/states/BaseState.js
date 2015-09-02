@@ -48,9 +48,9 @@ define([
         }
     };
 
-    BaseState.prototype.stopProgress = function(){
+    BaseState.prototype.stopProgress = function(callback){
         if(this.pd != null){
-            this.pd.dismiss();
+            this.pd.dismiss(callback);
             this.pd = null;
         }
     };

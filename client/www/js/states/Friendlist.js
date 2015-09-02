@@ -78,8 +78,9 @@ define([
         var self = this;
         this.showProgress();
         this.app.connection.addFriend(this.friendInput.value,function(data){
-            self.stopProgress();
-            alert(data.code);
+            self.stopProgress(function(){
+                alert(data.code);
+            });
         });
     };
 
