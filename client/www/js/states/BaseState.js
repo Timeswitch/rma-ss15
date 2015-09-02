@@ -37,7 +37,7 @@ define(function(){
         object.clickHandlers.push(handler);
     };
 
-    BaseState,prototype.onDataUpdate = function(){
+    BaseState.prototype.onDataUpdate = function(){
 
     };
 
