@@ -79,6 +79,9 @@ define([
     Friendlist.prototype.shutdown = function(){
         this.friendInput.parentNode.removeChild(this.friendInput);
         this.friendInput = null;
+
+        this.friendButton.destroy();
+        this.titleContainer.destroy();
     };
 
     Friendlist.prototype.onPlusClick = function(){
