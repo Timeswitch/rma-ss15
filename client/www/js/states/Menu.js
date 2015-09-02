@@ -148,8 +148,8 @@ define([
     Menu.prototype.update = function(){
         //Fix für FP16 Smartphones
         this.filter.uniforms.timeN.value = this.app.game.time.totalElapsedSeconds();
-        if(this.filter.uniforms.timeN.value >= 1000){
-            this.filter.uniforms.timeN.value -= 1000;
+        if(this.filter.uniforms.timeN.value >= 50){
+            this.filter.uniforms.timeN.value -= 50;
         }
         this.filter.update();
 
