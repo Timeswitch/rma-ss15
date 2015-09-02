@@ -1,21 +1,20 @@
 'use strict';
 
 define([
-
+    'states/BaseState',
     'states/Menu',
     'states/Scan',
     'states/Fight',
     'states/Inventory',
     'states/Friendlist'
 
-], function(Menu, Scan, Fight, Inventory, Friendlist){
+], function(BaseState, Menu, Scan, Fight, Inventory, Friendlist){
 
     function Boot(){
-        this.app = null;
-
+        BaseState.call(this);
     }
 
-    Boot.prototype = Object.create(Phaser.State.prototype);
+    Boot.prototype = Object.create(BaseState.prototype);
     Boot.prototype.constructor = Boot;
 
     Boot.prototype.preload = function(){
@@ -33,7 +32,8 @@ define([
     };
 
     Boot.prototype.init = function(){
-        this.app = require('app');
+        BaseState.prototype.init.call(this);
+
         console.log(this.app);
         this.app.canvas = document.getElementsByTagName('canvas')[0];
         this.app.game.scale.scaleMode = Phaser.ScaleManager.NO_SCALE;
