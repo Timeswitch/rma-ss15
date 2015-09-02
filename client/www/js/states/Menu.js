@@ -58,7 +58,7 @@ define([
 
 
     Menu.prototype.init = function(){
-        this.app = require('app');
+        BaseState.prototype.init.call(this);
 
 
         this.contentPage = 0;
@@ -174,7 +174,7 @@ define([
         }
         this.filter.update();
 
-        if(this.input.activePointer.isDown){
+        if(this.input.activePointer.isDown && this.isInputEnabled()){
 
 
             if(!this.pointerDown){
@@ -192,7 +192,7 @@ define([
             this.lastPointerX = this.input.activePointer.x;
         }
 
-        if(this.input.activePointer.justReleased()){
+        if(this.input.activePointer.justReleased() || !this.isInputEnabled()){
             if(this.pointerDown){
                 this.pointerDown = false;
 
@@ -270,6 +270,7 @@ define([
         var self = this;
         cordova.plugins.barcodeScanner.scan(function(result){
             if(!result.cancelled){
+                self.showProgress();
                 var code = btoa(result.text) + ';;' + result.format;
                 self.app.connection.sendCode(code,self.onScanResult.bind(self));
             }
@@ -279,6 +280,7 @@ define([
     };
 
     Menu.prototype.onScanResult = function(data){
+        this.stopProgress();
         switch(data.status){
             case 'valid':
                 alert(this.app.store.get('RobotPart',data.item).name);

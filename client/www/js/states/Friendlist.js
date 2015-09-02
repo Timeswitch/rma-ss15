@@ -23,30 +23,20 @@ define([
 
     Friendlist.prototype.preload = function(){
         this.load.spritesheet('buttonPlus', 'assets/spritesheets/plus.png',60,60);
-
-        this.load.image('boxTL','assets/tiles/alert_tl.png');
-        this.load.image('boxT','assets/tiles/alert_t.png');
-        this.load.image('boxTR','assets/tiles/alert_tr.png');
-        this.load.image('boxL','assets/tiles/alert_l.png');
-        this.load.image('boxM','assets/tiles/alert_m.png');
-        this.load.image('boxR','assets/tiles/alert_r.png');
-        this.load.image('boxBL','assets/tiles/alert_bl.png');
-        this.load.image('boxB','assets/tiles/alert_b.png');
-        this.load.image('boxBR','assets/tiles/alert_br.png');
     };
 
     Friendlist.prototype.create = function(){
 
         this.titleContainer = new TileBox(this.app.game,{
-            topLeft: 'boxTL',
-            topRight: 'boxTR',
-            top: 'boxT',
-            left: 'boxL',
-            center: 'boxM',
-            right: 'boxR',
-            bottomLeft: 'boxBL',
-            bottomRight: 'boxBR',
-            bottom: 'boxB'
+            topLeft: 'alertTL',
+            topRight: 'alertTR',
+            top: 'alertT',
+            left: 'alertL',
+            center: 'alertM',
+            right: 'alertR',
+            bottomLeft: 'alertBL',
+            bottomRight: 'alertBR',
+            bottom: 'alertB'
         },30,this.app.width-60,0);
 
         this.titleContainer.x = 0;
@@ -85,7 +75,10 @@ define([
     };
 
     Friendlist.prototype.onPlusClick = function(){
+        var self = this;
+        this.showProgress();
         this.app.connection.addFriend(this.friendInput.value,function(data){
+            self.stopProgress();
             alert(data.code);
         });
     };

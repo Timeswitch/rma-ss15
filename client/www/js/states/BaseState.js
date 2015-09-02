@@ -1,7 +1,9 @@
 /**
  * Created by michael on 28/08/15.
  */
-define(function(){
+define([
+    'gameobjects/ProgressDialog'
+],function(ProgressDialog){
     function BaseState(){
         this.app = null;
     }
@@ -11,6 +13,9 @@ define(function(){
 
     BaseState.prototype.init = function(){
         this.app = require('app');
+        this.pd = null;
+        this.inputEnabled = true;
+        this.inputBlockCount = 0;
     };
 
     BaseState.prototype.createOnClick = function(object,handler){
@@ -37,8 +42,38 @@ define(function(){
         object.clickHandlers.push(handler);
     };
 
+    BaseState.prototype.showProgress = function(){
+        if(this.pd == null){
+            this.pd = new ProgressDialog(this.app.game,this);
+        }
+    };
+
+    BaseState.prototype.stopProgress = function(){
+        if(this.pd != null){
+            this.pd.dismiss();
+            this.pd = null;
+        }
+    };
+
     BaseState.prototype.onDataUpdate = function(){
 
+    };
+
+    BaseState.prototype.disableInput = function(){
+        this.inputEnabled = false;
+        this.inputBlockCount++;
+    };
+
+    BaseState.prototype.enableInput = function(){
+        this.inputBlockCount--;
+
+        if(this.inputBlockCount == 0){
+            this.inputEnabled = true;
+        }
+    };
+
+    BaseState.prototype.isInputEnabled = function(){
+        return this.inputEnabled;
     };
 
     return BaseState;

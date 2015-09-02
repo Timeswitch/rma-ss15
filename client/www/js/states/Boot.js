@@ -20,6 +20,16 @@ define([
 
     Boot.prototype.preload = function(){
         this.app.loadRoboParts();
+        this.load.image('alertTL','assets/tiles/alert_tl.png');
+        this.load.image('alertT','assets/tiles/alert_t.png');
+        this.load.image('alertTR','assets/tiles/alert_tr.png');
+        this.load.image('alertL','assets/tiles/alert_l.png');
+        this.load.image('alertM','assets/tiles/alert_m.png');
+        this.load.image('alertR','assets/tiles/alert_r.png');
+        this.load.image('alertBL','assets/tiles/alert_bl.png');
+        this.load.image('alertB','assets/tiles/alert_b.png');
+        this.load.image('alertBR','assets/tiles/alert_br.png');
+        this.load.spritesheet('progressbar','assets/spritesheets/progress__bar.png',120,40);
     };
 
     Boot.prototype.init = function(){
