@@ -49,6 +49,12 @@ define([
             e.alpha = 0.7;
         },this);
 
+        var menuButton = this.app.game.add.text(10,2,'<',{font: "50px vt323regular",fill: '#ffffff',align: 'center'});
+        this.titleContainer.add(menuButton);
+        this.createOnClick(menuButton,function(){
+            this.app.startState('Menu');
+        });
+
         this.friendInput = document.createElement('input');
         this.friendInput.type = 'text';
         this.friendInput.style.width = (this.app.width - 66) + 'px';
