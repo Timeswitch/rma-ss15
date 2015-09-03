@@ -99,9 +99,9 @@ var User = database.Model.extend({
 
             });
     },
-    removeFriend: function(user) {
+    removeFriend: function(id) {
         var self = this;
-        return this.friends().query({where: {username: user}}).fetchOne({require: true})
+        return this.friends().query({where: {id: id}}).fetchOne({require: true})
             .then(function(user){
                 return self.friends().detach(user.id)
                     .then(function(){

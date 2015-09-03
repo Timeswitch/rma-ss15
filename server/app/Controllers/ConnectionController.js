@@ -22,6 +22,7 @@ ConnectionController.prototype.init = function(){
     this.socket.on('login',this.onLogin.bind(this));
     this.socket.on('scan',this.onScan.bind(this));
     this.socket.on('addFriend',this.onAddFriend.bind(this));
+    this.socket.on('removeFriend',this.onRemoveFriend.bind(this));
 
     new RobotPart().fetchAll().then(function(items){
         self.socket.emit('sync',{
@@ -144,6 +145,15 @@ ConnectionController.prototype.onAddFriend = function(data){
         });
     });
 
+};
+
+ConnectionController.prototype.onRemoveFriend = function(data){
+    var self = this;
+    this.user.removeFriend(data.id).then(function(){
+        self.sendUpdate().then(function(){
+            self.socket.emit('friendRemoved');
+        });
+    });
 };
 
 ConnectionController.prototype.getLoot = function(){

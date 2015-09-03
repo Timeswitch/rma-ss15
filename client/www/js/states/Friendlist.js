@@ -139,7 +139,7 @@ define([
         this.list.removeAll(true);
         for(var i=0; i<this.app.user.friends.length;i++){
             var friend = this.app.user.friends[i];
-            var item = new FriendlistItem(this.app.game,this,friend);
+            var item = new FriendlistItem(this.app.game,this,friend,this.onDeleteClick.bind(this),this.onBattleClick.bind(this));
             item.y = (i*56);
             this.list.add(item);
         }
@@ -182,6 +182,20 @@ define([
                 }
             }
         }
+    };
+
+    Friendlist.prototype.onDeleteClick = function(id){
+        var self = this;
+        this.showProgress();
+        this.app.connection.removeFriend(id,function(){
+           self.stopProgress(function(){
+               self.initList();
+           });
+        });
+    };
+
+    Friendlist.prototype.onBattleClick = function(id){
+
     };
 
     return new Friendlist();

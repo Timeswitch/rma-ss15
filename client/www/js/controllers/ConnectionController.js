@@ -17,6 +17,7 @@ define(['socket.io'],function(io){
         this.socket.on('scanResult',this.onScanResult.bind(this));
         this.socket.on('update',this.onUpdate.bind(this));
         this.socket.on('friendAdded',this.onFriendAdded.bind(this));
+        this.socket.on('friendRemoved',this.onFriendRemoved.bind(this));
         this.socket.on('registerResult',this.onRegisterResult.bind(this));
         this.socket.on('loginFailed',this.onLoginFailed.bind(this));
     }
@@ -105,11 +106,24 @@ define(['socket.io'],function(io){
         }
     };
 
+    ConnectionController.prototype.onFriendRemoved = function(data){
+        if(this.friendCallback){
+            this.friendCallback();
+        }
+    };
+
     ConnectionController.prototype.addFriend = function(user, callback){
 
         this.friendCallback = callback;
         this.socket.emit('addFriend', {
             username: user
+        });
+    };
+
+    ConnectionController.prototype.removeFriend = function(id,callback){
+        this.friendCallback = callback;
+        this.socket.emit('removeFriend',{
+            id: id
         });
     };
 
