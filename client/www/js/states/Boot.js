@@ -46,6 +46,7 @@ define([
 
         Phaser.Canvas.setImageRenderingCrisp(this.app.game.canvas);
         PIXI.scaleModes.DEFAULT = PIXI.scaleModes.NEAREST;
+        document.body.style.height = this.app.height + 'px';
 
         console.log(this);
     };
