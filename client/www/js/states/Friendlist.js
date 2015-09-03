@@ -4,8 +4,9 @@
 
 define([
     'states/BaseState',
-    'gameobjects/TileBox'
-],function(BaseState,TileBox){
+    'gameobjects/TileBox',
+    'gameobjects/FriendlistItem'
+],function(BaseState,TileBox,FriendlistItem){
 
     function Friendlist(){
         BaseState.call(this);
@@ -41,6 +42,19 @@ define([
         this.background.width = this.app.width;
         this.background.height = this.app.height;
         this.background.filters = [this.filter];
+
+        this.list = this.add.group();
+        this.list.x = 0;
+        this.list.y = 0;
+
+        for(var i=0; i<this.app.user.friends.length;i++){
+            var friend = this.app.user.friends[i];
+            var item = new FriendlistItem(this.app.game,this,friend);
+            item.y = 60 + (i*56);
+            this.list.add(item);
+        }
+
+
 
         this.titleContainer = new TileBox(this.app.game,{
             topLeft: 'alertTL',
