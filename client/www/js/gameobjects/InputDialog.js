@@ -13,7 +13,7 @@ define([
         this.closed = false;
 
         this.message = new Phaser.Text(game,0,0,message,{font: "24px bitwise",fill: '#ffffff',align: 'center'});
-        this.boxWidth = (this.state.app.width/1.5);
+        this.boxWidth = (this.message.width+50);
         this.boxHeight = this.message.height + 100;
 
         this.message.x = (this.boxWidth/2);
@@ -46,11 +46,11 @@ define([
 
         this.userInput = document.createElement('input');
         this.userInput.type = 'text';
-        this.userInput.style.width = (this.state.app.width / 2) + 'px';
+        this.userInput.style.width = (this.boxWidth-60) + 'px';
         this.userInput.style.height = 40 + 'px';
         this.userInput.style.position = 'absolute';
-        this.userInput.style.top = (this.y + this.message.height + 20) + 'px';
-        this.userInput.style.left = ((this.state.app.width/2) - (this.state.app.width / 4)) + 'px';
+        this.userInput.style.top = (this.y + this.message.height + 30) + 'px';
+        this.userInput.style.left = ((this.state.app.width/2) - ((this.boxWidth-60)/2)) + 'px';
         this.userInput.style.fontSize = '24px';
         this.userInput.style.fontFamily = 'vt323regular';
         this.userInput.style.color = '#ffffff';
