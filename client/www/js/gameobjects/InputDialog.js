@@ -40,6 +40,9 @@ define([
         this.x = (this.state.app.width/2) - (this.boxWidth/2);
         this.y = (this.state.app.height/2) - (this.boxHeight/2);
 
+        this.tileBox.setAll('alpha',0.7);
+        this.message.alpha = 0.8;
+
         this.userInput = document.createElement('input');
         this.userInput.type = 'text';
         this.userInput.style.width = (this.state.app.width / 2) + 'px';
