@@ -31,6 +31,7 @@ define([
         this.load.image('alertBR','assets/tiles/alert_br.png');
         this.load.spritesheet('progressbar','assets/spritesheets/progress__bar.png',120,40);
         this.load.spritesheet('buttonOK','assets/spritesheets/OK.png',84,40);
+        this.load.spritesheet('buttonCancel','assets/spritesheets/nein.png',84,40);
     };
 
     Boot.prototype.init = function(){

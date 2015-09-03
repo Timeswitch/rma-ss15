@@ -70,9 +70,9 @@ define([
         object.clickHandlers.push(handler);
     };
 
-    BaseState.prototype.showDialog = function(title,text,callback) {
+    BaseState.prototype.showDialog = function(title,text,callbackOk,callbackCancel) {
         if (this.pd == null && this.ind == null && this.dg == null) {
-            this.dg = new Dialog(this.app.game,this,title,text,callback);
+            this.dg = new Dialog(this.app.game,this,title,text,callbackOk,callbackCancel);
         }
     };
 
