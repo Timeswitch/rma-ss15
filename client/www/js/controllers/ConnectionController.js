@@ -17,6 +17,8 @@ define(['socket.io'],function(io){
         this.socket.on('scanResult',this.onScanResult.bind(this));
         this.socket.on('update',this.onUpdate.bind(this));
         this.socket.on('friendAdded',this.onFriendAdded.bind(this));
+        this.socket.on('registerResult',this.onRegisterResult.bind(this));
+        this.socket.on('loginFailed',this.onLoginFailed.bind(this));
     }
 
     ConnectionController.prototype.onConnect = function(data){
@@ -57,7 +59,26 @@ define(['socket.io'],function(io){
     };
 
     ConnectionController.prototype.register = function(){
-        this.socket.emit('register');
+        var self = this;
+        this.app.game.state.getCurrentState().showInput('Geb deinen Namen ein:',function(value,dialog){
+            dialog.close();
+            self.socket.emit('register',{username: value});
+        });
+    };
+
+    ConnectionController.prototype.onRegisterResult = function(data){
+        if(!data.success){
+            alert('Der Benutzer ist bereits vorhanden!');
+            this.register();
+        }else{
+            this.app.injectData('User',data.user);
+            this.app.saveUser(data.user.id);
+            this.login();
+        }
+    };
+
+    ConnectionController.prototype.onLoginFailed = function(data){
+        this.login();
     };
 
     ConnectionController.prototype.login = function(){

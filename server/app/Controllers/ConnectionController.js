@@ -39,15 +39,24 @@ ConnectionController.prototype.onDisconnect = function(data){
 ConnectionController.prototype.onRegister = function(data){
     var self = this;
     this.user = this.app.createUser({
-        username: 'demouser_' + this.socket.id,
+        username: data.username,
         logintoken: this.socket.id
-    }).then(function(user){
-        self.user = user;
+    })
+        .then(function(user){
+            self.user = user;
 
-        console.log('Benutzer ' + self.user.get('username') + ' registriert!');
+            console.log('Benutzer ' + self.user.get('username') + ' registriert!');
 
-        self.onLoggedIn();
-    });
+            self.socket.emit('registerResult',{
+                success: true,
+                user: user.toJSON()
+            });
+        })
+        .catch(function(){
+            self.socket.emit('registerResult',{
+                success: false
+            });
+        });
 };
 
 ConnectionController.prototype.onLogin = function(data){
@@ -60,12 +69,12 @@ ConnectionController.prototype.onLogin = function(data){
                 self.onLoggedIn();
             });
         }else{
-            console.log('Ungültiger Loginversuch (Benutzer ungültiget Token "'+data.user.logintoken+'" != "'+user.get('logintoken')+'"), erzeuge neuen Benuzter...');
-            self.onRegister();
+            console.log('Ungültiger Loginversuch (Benutzer ungültiget Token "'+data.user.logintoken+'" != "'+user.get('logintoken')+'")');
+            self.socket.emit('loginFailed');
         }
     }).catch(function(){
         console.log('Ungültiger Loginversuch (Benutzer existiert nicht), erzeuge neuen Benuzter...');
-        self.onRegister();
+        self.onRegister({username: data.user.username});
     });
 };
 

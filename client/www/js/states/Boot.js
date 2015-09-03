@@ -6,9 +6,10 @@ define([
     'states/Scan',
     'states/Fight',
     'states/Inventory',
-    'states/Friendlist'
+    'states/Friendlist',
+    'states/Connect'
 
-], function(BaseState, Menu, Scan, Fight, Inventory, Friendlist){
+], function(BaseState, Menu, Scan, Fight, Inventory, Friendlist, Connect){
 
     function Boot(){
         BaseState.call(this);
@@ -58,6 +59,7 @@ define([
 
         text.anchor.set(0.5);
 
+        this.app.game.state.add('Connect', Connect);
         this.app.game.state.add('Menu', Menu);
         this.app.game.state.add('Scan', Scan);
         this.app.game.state.add('Fight', Fight);
@@ -65,8 +67,7 @@ define([
         this.app.game.state.add('Friendlist', Friendlist);
 
 
-        //this.app.game.state.start("Menu");
-        this.app.initConnection();
+        this.app.game.state.start('Connect');
     };
 
     return new Boot();

@@ -10,6 +10,7 @@ define([
         var self = this;
 
         this.state = state;
+        this.closed = false;
 
         this.message = new Phaser.Text(game,0,0,message,{font: "24px bitwise",fill: '#ffffff',align: 'center'});
         this.boxWidth = (this.state.app.width/1.5);
@@ -76,10 +77,15 @@ define([
     InputDialog.prototype.constructor = InputDialog;
 
     InputDialog.prototype.close = function(){
-        window.removeEventListener('native.keyboardhide', this.keyboardListener);
-        this.userInput.parentNode.removeChild(this.userInput);
-        this.destroy();
-        this.state.enableInput();
+        if(!this.closed){
+            window.removeEventListener('native.keyboardhide', this.keyboardListener);
+            this.userInput.parentNode.removeChild(this.userInput);
+            this.destroy();
+            this.state.enableInput();
+            this.closed = true;
+            this.state.closeInput();
+        }
+
     };
 
     InputDialog.prototype.onKeyboardClose = function(e){
