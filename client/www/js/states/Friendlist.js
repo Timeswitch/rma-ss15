@@ -45,16 +45,8 @@ define([
 
         this.list = this.add.group();
         this.list.x = 0;
-        this.list.y = 0;
-
-        for(var i=0; i<this.app.user.friends.length;i++){
-            var friend = this.app.user.friends[i];
-            var item = new FriendlistItem(this.app.game,this,friend);
-            item.y = 60 + (i*56);
-            this.list.add(item);
-        }
-
-
+        this.list.y = 60;
+        this.initList();
 
         this.titleContainer = new TileBox(this.app.game,{
             topLeft: 'alertTL',
@@ -127,6 +119,7 @@ define([
         this.app.connection.addFriend(this.friendInput.value,function(data){
             self.stopProgress(function(){
                 self.showDialog('Info',data.code);
+                self.initList();
             });
         });
         this.friendInput.value = '';
@@ -134,6 +127,20 @@ define([
 
     Friendlist.prototype.onKeyboardClose = function(){
         this.friendInput.blur();
+    };
+
+    Friendlist.prototype.initList = function(){
+        var y = this.list.y;
+        this.list.y = 0;
+        this.list.removeAll(true);
+        for(var i=0; i<this.app.user.friends.length;i++){
+            var friend = this.app.user.friends[i];
+            var item = new FriendlistItem(this.app.game,this,friend);
+            item.y = (i*56);
+            this.list.add(item);
+        }
+
+        this.list.y = y;
     };
 
     return new Friendlist();
