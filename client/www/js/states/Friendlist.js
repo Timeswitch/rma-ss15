@@ -26,6 +26,10 @@ define([
         this.background = null;
         this.filter = null;
 
+        this.pointerDown = false;
+        this.lastPointerY= 0;
+        this.listTween = null;
+
         window.addEventListener('native.keyboardhide', this.keyboardListener);
     };
 
@@ -141,6 +145,43 @@ define([
         }
 
         this.list.y = y;
+    };
+
+    Friendlist.prototype.update = function(){
+        if(this.isInputEnabled() && this.input.activePointer.isDown) {
+            if (!this.pointerDown) {
+                this.lastPointerY = this.input.activePointer.y;
+                this.pointerDown = true;
+                if(this.listTween != null){
+                    this.listTween.stop();
+                }
+            }
+
+            var move = this.input.activePointer.y - this.lastPointerY;
+
+            this.list.y += move;
+
+            this.lastPointerY = this.input.activePointer.y;
+
+        }
+
+        if(this.input.activePointer.justReleased() || !this.isInputEnabled()) {
+            if (this.pointerDown) {
+                this.pointerDown = false;
+
+                var isLongerThanView = (this.list.height > (this.app.height - 115));
+
+                if(this.list.y > 60 ||  !isLongerThanView && this.list.y < 60){
+                    this.listTween = this.add.tween(this.list).to({y: 60},150);
+                    this.listTween.start();
+                }
+
+                if(isLongerThanView && (this.list.y + this.list.height) < (this.app.height - 55)){
+                    this.listTween = this.add.tween(this.list).to({y: (this.app.height - 55 - this.list.length)},150);
+                    this.listTween.start();
+                }
+            }
+        }
     };
 
     return new Friendlist();
