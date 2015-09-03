@@ -24,7 +24,7 @@ module.exports.up = function(knex,Promise) {
 
     }).createTable('user', function (table) {
         table.increments('id').primary();
-        table.string('username');
+        table.string('username').unique();
         table.uuid('logintoken');
         table.integer('wins');
         table.integer('defeats');
