@@ -102,7 +102,7 @@ define([
         this.showProgress();
         this.app.connection.addFriend(this.friendInput.value,function(data){
             self.stopProgress(function(){
-                alert(data.code);
+                self.showDialog('Info',data.code);
             });
         });
         this.friendInput.value = '';

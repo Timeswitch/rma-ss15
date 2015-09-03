@@ -254,7 +254,7 @@ define([
                 self.app.connection.sendCode(code,self.onScanResult.bind(self));
             }
         },function(error){
-            alert('Du benötigst eine Kamera um Codes zu scannen.');
+            self.showDialog('Info','Du benötigst eine Kamera um Codes zu scannen.');
         });
     };
 
@@ -264,23 +264,23 @@ define([
         this.stopProgress(function(){
             switch(data.status){
                 case 'valid':
-                    alert(self.app.store.get('RobotPart',data.item).name);
+                    self.showDialog('Bauteil gefunden!',self.app.store.get('RobotPart',data.item).name);
                     break;
                 case 'used':
-                    alert('Du hast diesen Code heute bereits gescant!');
+                    self.showDialog('Info','Du hast diesen Code heute bereits gescant!');
                     break;
                 case 'empty':
-                    alert('Dieser Code war leider leer.');
+                    self.showDialog('Info','Dieser Code war leider leer.');
                     break;
                 default :
-                    alert('Der Code konnte nicht gelesen werden');
+                    self.showDialog('Info','Der Code konnte nicht gelesen werden');
                     break;
             }
         });
     };
 
     Menu.prototype.onInventoryClick = function(){
-        alert('inventory');
+        this.showDialog('Debug','inventory');
     };
 
     Menu.prototype.onFriendsClick = function(){
@@ -288,7 +288,7 @@ define([
     };
 
     Menu.prototype.onBattleClick = function(){
-        alert('battle');
+        this.showDialog('Debug','battle');
     };
 
 

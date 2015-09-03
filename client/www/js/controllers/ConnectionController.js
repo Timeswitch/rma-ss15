@@ -67,9 +67,11 @@ define(['socket.io'],function(io){
     };
 
     ConnectionController.prototype.onRegisterResult = function(data){
+        var self = this;
         if(!data.success){
-            alert('Der Benutzer ist bereits vorhanden!');
-            this.register();
+            this.app.game.state.getCurrentState().showDialog('Info','Der Benutzer ist bereits vorhanden!',function(){
+                self.register();
+            });
         }else{
             this.app.injectData('User',data.user);
             this.app.saveUser(data.user.id);
