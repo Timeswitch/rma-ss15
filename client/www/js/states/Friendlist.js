@@ -22,6 +22,8 @@ define([
         this.titleContainer = null;
         this.background = null;
         this.keyboardListener = this.onKeyboardClose.bind(this);
+        this.background = null;
+        this.filter = null;
 
         window.addEventListener('native.keyboardhide', this.keyboardListener);
     };
@@ -32,6 +34,13 @@ define([
 
     Friendlist.prototype.create = function(){
         var self = this;
+
+        this.filter = new Phaser.Filter(this.app.game, {timeN: { type: '1f', value: 0 }}, this.filterSrc);
+        this.filter.setResolution(this.app.width, this.app.height);
+        this.background = this.add.sprite(0,0);
+        this.background.width = this.app.width;
+        this.background.height = this.app.height;
+        this.background.filters = [this.filter];
 
         this.titleContainer = new TileBox(this.app.game,{
             topLeft: 'alertTL',
@@ -91,6 +100,7 @@ define([
 
         this.friendButton.destroy();
         this.titleContainer.destroy();
+        this.background.destroy();
     };
 
     Friendlist.prototype.onPlusClick = function(){
