@@ -137,13 +137,11 @@ ConnectionController.prototype.onScan = function(data){
 ConnectionController.prototype.onAddFriend = function(data){
     var self = this;
     this.user.addFriend(data.username).then(function(code){
-        self.socket.emit('friendAdded',{
-            code: code
+        self.sendUpdate().then(function(){
+            self.socket.emit('friendAdded',{
+                code: code
+            });
         });
-
-        if(code == 'SUCCESS'){
-            this.sendUpdate();
-        }
     });
 
 };
@@ -182,7 +180,7 @@ ConnectionController.prototype.getLoot = function(){
 ConnectionController.prototype.sendUpdate = function(){
     var self = this;
 
-    Promise.all([this.user.getItemPivot(),this.user.getFriends()]).then(function(data){
+    return Promise.all([this.user.getItemPivot(),this.user.getFriends()]).then(function(data){
         self.socket.emit('update',{
             inventory: data[0],
             friendlist: data[1]
