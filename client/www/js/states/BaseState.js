@@ -2,9 +2,10 @@
  * Created by michael on 28/08/15.
  */
 define([
+    'gameobjects/Dialog',
     'gameobjects/ProgressDialog',
     'gameobjects/InputDialog'
-],function(ProgressDialog,InputDialog){
+],function(Dialog,ProgressDialog,InputDialog){
     function BaseState(){
         Phaser.State.call(this);
 
@@ -40,6 +41,7 @@ define([
         this.app = require('app');
         this.pd = null;
         this.ind = null;
+        this.dg = null;
         this.inputEnabled = true;
         this.inputBlockCount = 0;
     };
@@ -68,8 +70,21 @@ define([
         object.clickHandlers.push(handler);
     };
 
+    BaseState.prototype.showDialog = function(title,text,callback) {
+        if (this.pd == null && this.ind == null && this.dg == null) {
+            this.dg = new Dialog(this.app.game,this,title,text,callback);
+        }
+    };
+
+    BaseState.prototype.closeDialog = function(){
+        if(this.dg != null){
+            this.dg.close();
+            this.dg = null;
+        }
+    };
+
     BaseState.prototype.showProgress = function(){
-        if(this.pd == null && this.ind == null){
+        if(this.pd == null && this.ind == null && this.dg == null){
             this.pd = new ProgressDialog(this.app.game,this);
         }
     };
@@ -82,7 +97,7 @@ define([
     };
 
     BaseState.prototype.showInput = function(message,handler){
-        if(this.ind == null && this.pd == null){
+        if(this.ind == null && this.pd == null && this.dg == null){
             this.ind = new InputDialog(this.app.game,this,message,handler);
         }
     };
@@ -104,7 +119,10 @@ define([
     };
 
     BaseState.prototype.enableInput = function(){
-        this.inputBlockCount--;
+        if(this.inputBlockCount > 0){
+
+            this.inputBlockCount--;
+        }
 
         if(this.inputBlockCount == 0){
             this.inputEnabled = true;
