@@ -25,6 +25,7 @@ define([
         this.background = null;
         this.filter = null;
         this.recyclingContainer = null;
+        this.recyclingButton = null;
         this.list = null;
 
         this.items = [];
@@ -42,6 +43,7 @@ define([
     };
 
     Inventory.prototype.preload = function(){
+        this.load.image('buttonRecycle','assets/spritesheets/recycle.png');
     };
 
     Inventory.prototype.create = function(){
@@ -74,6 +76,8 @@ define([
         this.recyclingContainer.add(recyclingBG);
         this.recyclingContainer.x = 0;
         this.recyclingContainer.y = 60;
+
+        this.recyclingButton = this.add.button(this.app.width - 82,63,'buttonRecycle',this.onRecycle,this,0,0,1,0);
 
         this.titleContainer = new TileBox(this.app.game,{
             topLeft: 'alertTL',
@@ -109,10 +113,9 @@ define([
         this.filter.destroy();
         this.titleContainer.destroy();
         this.recyclingContainer.destroy();
+        this.recyclingButton.destroy();
 
-        for(var i = 0; i < this.items.length; i++){
-            this.items[i].DSRevert();
-        }
+        this.resetItems();
     };
 
     Inventory.prototype.initItemList = function(){
@@ -136,6 +139,10 @@ define([
 
     };
 
+    Inventory.prototype.initRecycleList = function(){
+
+    };
+
     Inventory.prototype.update = function(){
         if(this.isInputEnabled() && this.input.activePointer.isDown) {
             if (!this.pointerDown) {
@@ -148,7 +155,7 @@ define([
                 }
             }
 
-            if(this.isHolding){
+            if(this.isInputEnabled() && this.isHolding){
                 this.dragItem.x = this.input.activePointer.x - (this.dragItem.width/2);
                 this.dragItem.y = this.input.activePointer.y - (this.dragItem.height/2);
             }else{
@@ -237,6 +244,31 @@ define([
         }
 
         this.initItemList();
+    };
+
+    Inventory.prototype.onRecycle = function(){
+        if(this.recyclingItems.length > 0 && this.isInputEnabled()){
+            this.showDialog('Achtung',"Möchtest du diese\nBauteile recyclen?",this.recycle.bind(this),this.resetRecycle.bind(this));
+        }
+    };
+
+    Inventory.prototype.recycle = function(){
+        this.showProgress();
+        this.stopProgress();
+    };
+
+    Inventory.prototype.resetRecycle = function(){
+        this.recyclingItems = [];
+        this.resetItems();
+
+        this.initItemList();
+        this.initRecycleList();
+    };
+
+    Inventory.prototype.resetItems = function(){
+        for(var i = 0; i < this.items.length; i++){
+            this.items[i].DSRevert();
+        }
     };
 
     return new Inventory();
