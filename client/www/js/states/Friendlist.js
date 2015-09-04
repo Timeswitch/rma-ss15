@@ -185,6 +185,9 @@ define([
     };
 
     Friendlist.prototype.onDeleteClick = function(id){
+        if(!this.isInputEnabled()){
+            return;
+        }
         var self = this;
         this.showProgress();
         this.app.connection.removeFriend(id,function(){
