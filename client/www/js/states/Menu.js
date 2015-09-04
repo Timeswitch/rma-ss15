@@ -280,7 +280,7 @@ define([
     };
 
     Menu.prototype.onInventoryClick = function(){
-        this.showDialog('Debug','inventory');
+        this.app.startState('Inventory');
     };
 
     Menu.prototype.onFriendsClick = function(){
