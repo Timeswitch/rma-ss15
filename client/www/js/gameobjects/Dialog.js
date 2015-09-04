@@ -49,15 +49,15 @@ define([
         this.title.y = 30;
 
         this.text.x = (this.boxWidth/2);
-        this.text.y = this.title.y + this.title.height;
+        this.text.y = this.title.y + this.title.height + 5;
 
         this.buttonOk.x = (this.boxWidth/2);
         this.buttonOk.y = this.text.y + this.text.height + 15;
 
         if(this.buttonCancel){
-            this.buttonOk.x -= this.buttonOk.width + 10;
-            this.buttonCancel.x = (this.boxWidth/2) + this.buttonCancel.width;
-            this.buttonOk.y = this.text.y + this.text.height + 15;
+            this.buttonOk.x -= (this.buttonOk.width/2) + 5;
+            this.buttonCancel.x = (this.boxWidth/2) + (this.buttonCancel.width/2) + 5;
+            this.buttonCancel.y = this.text.y + this.text.height + 15;
         }
 
         this.tileBox.setAll('alpha',0.7);
@@ -71,6 +71,7 @@ define([
         this.add(this.text);
         this.add(this.buttonOk);
         if(this.buttonCancel){
+            this.buttonCancel.alpha = 0.7;
             this.add(this.buttonCancel);
         }
 
