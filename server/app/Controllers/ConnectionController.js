@@ -108,11 +108,13 @@ ConnectionController.prototype.onScan = function(data){
                     scan.save({lastscan: currentDate},{patch: true}).then(function(){
                         self.getLoot().then(function(loot){
                             if(loot > 0){
-                                self.socket.emit('scanResult',{status: 'valid', item: loot});
+                                self.user.addItem(loot).then(function(){
+                                    self.socket.emit('scanResult',{status: 'valid', item: loot});
+                                    self.sendUpdate();
+                                });
                             }else{
                                 self.socket.emit('scanResult',{status: 'empty', item: loot});
                             }
-                            self.sendUpdate();
                         });
                     });
                 }
@@ -121,15 +123,14 @@ ConnectionController.prototype.onScan = function(data){
             Scan.forge({user_id: self.user.id, code: code, lastscan: (new Date()).toISOString().substring(0,10)}).save()
                 .then(function(scan){
                     self.getLoot().then(function(loot){
-                        self.user.addItem(loot)
-                            .then(function(){
-                                if(loot > 0){
-                                    self.socket.emit('scanResult',{status: 'valid', item: loot});
-                                }else{
-                                    self.socket.emit('scanResult',{status: 'empty', item: loot});
-                                }
+                        if(loot > 0){
+                            self.user.addItem(loot).then(function(){
                                 self.sendUpdate();
+                                self.socket.emit('scanResult',{status: 'valid', item: loot});
                             });
+                        }else{
+                            self.socket.emit('scanResult',{status: 'empty', item: loot});
+                        }
                     });
                 });
         });
