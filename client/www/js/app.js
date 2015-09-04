@@ -259,19 +259,21 @@ define([
             return robot;
         };
 
-        App.prototype.scaleMax = function(object,roomX, roomY){
+        App.prototype.scaleMax = function(object,roomX, roomY, float){
             var scaleX = roomX / object.width;
             var scaleY = roomY / object.height;
 
             var scale = 1;
 
             if(scaleX < scaleY){
-                scale = Math.floor(scaleX);
+                scale = scaleX;
             }else{
-                scale = Math.floor(scaleY);
+                scale = scaleY;
             }
 
-            scale = Math.max(1,scale);
+            if(!float){
+                scale = Math.max(1,Math.floor(scale));
+            }
 
             object.scale.set(scale,scale);
         };

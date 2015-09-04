@@ -3,10 +3,12 @@
  */
 define([
     'states/BaseState',
-    'gameobjects/TileBox'
-],function(BaseState,TileBox) {
+    'gameobjects/TileBox',
+    'gameobjects/InventorylistItem'
+],function(BaseState,TileBox,InventorylistItem) {
     'use strict';
 
+    var recyclingBGTex = null;
 
     function Inventory() {
         BaseState.call(this);
@@ -22,6 +24,11 @@ define([
         this.titleContainer = null;
         this.background = null;
         this.filter = null;
+        this.recyclingContainer = null;
+        this.list = null;
+
+        this.items = [];
+        this.recyclingItems = [];
 
 
     };
@@ -31,12 +38,34 @@ define([
 
     Inventory.prototype.create = function(){
 
+        if(!recyclingBGTex){
+            recyclingBGTex = this.add.bitmapData(this.app.width,84);
+            recyclingBGTex.fill(0,0,0);
+            recyclingBGTex.rect(1,1,this.app.width-1,98,'#2A5E00');
+        }
+
         this.filter = new Phaser.Filter(this.app.game, {timeN: { type: '1f', value: 0 }}, this.filterSrc);
         this.filter.setResolution(this.app.width, this.app.height);
         this.background = this.add.sprite(0,0);
         this.background.width = this.app.width;
         this.background.height = this.app.height;
         this.background.filters = [this.filter];
+
+        this.recyclingContainer = this.add.group();
+        var recyclingBG = this.add.sprite(0,0,recyclingBGTex);
+        recyclingBG.alpha = 0.8;
+
+        this.recyclingContainer.add(recyclingBG);
+        this.recyclingContainer.x = 0;
+        this.recyclingContainer.y = 60;
+
+        this.items = this.app.user.inventory;
+
+        this.list = this.add.group();
+        this.list.x = 0;
+        this.list.y = 144;
+
+        this.initItemList();
 
         this.titleContainer = new TileBox(this.app.game,{
             topLeft: 'alertTL',
@@ -65,6 +94,28 @@ define([
         this.createOnClick(menuButton,function(){
             this.app.startState('Menu');
         });
+    };
+
+    Inventory.prototype.destroy = function(){
+        this.background.destroy();
+        this.filter.destroy();
+        this.titleContainer.destroy();
+        this.recyclingContainer.destroy();
+    };
+
+    Inventory.prototype.initItemList = function(){
+        var y = this.list.y;
+        this.list.y = 0;
+        this.list.removeAll(true);
+        for(var i=0; i<this.items.length; i++){
+            var listItem = new InventorylistItem(this.app.game,this,this.items[i]);
+            listItem.x = 0;
+            listItem.y = i*listItem.height;
+            this.list.add(listItem);
+        }
+
+        this.list.y = y;
+
     };
 
     return new Inventory();
