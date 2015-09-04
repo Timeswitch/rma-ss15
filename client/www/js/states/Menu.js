@@ -30,6 +30,7 @@ define([
         this.inventoryIcon = null;
         this.friendsIcon = null;
         this.battleIcon = null;
+        this.seconds = 0;
     }
 
     Menu.prototype = Object.create(BaseState.prototype);
@@ -147,10 +148,13 @@ define([
 
     Menu.prototype.update = function(){
         //Fix für FP16 Smartphones
-        this.filter.uniforms.timeN.value = this.app.game.time.totalElapsedSeconds();
-        if(this.filter.uniforms.timeN.value >= 50){
-            this.filter.uniforms.timeN.value -= 50;
+        var timeN = this.app.game.time.totalElapsedSeconds() - this.seconds;
+        if( timeN > 98){
+            timeN = 0;
+            this.seconds = this.app.game.time.totalElapsedSeconds();
         }
+        this.filter.uniforms.timeN.value = timeN;
+
         this.filter.update();
 
         if(this.input.activePointer.isDown && this.isInputEnabled()){
