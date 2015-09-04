@@ -30,6 +30,9 @@ define([
         this.items = [];
         this.recyclingItems = [];
 
+        this.pointerDown = false;
+        this.lastPointerY= 0;
+        this.listTween = null;
 
     };
 
@@ -51,14 +54,6 @@ define([
         this.background.height = this.app.height;
         this.background.filters = [this.filter];
 
-        this.recyclingContainer = this.add.group();
-        var recyclingBG = this.add.sprite(0,0,recyclingBGTex);
-        recyclingBG.alpha = 0.8;
-
-        this.recyclingContainer.add(recyclingBG);
-        this.recyclingContainer.x = 0;
-        this.recyclingContainer.y = 60;
-
         this.items = this.app.user.inventory;
 
         this.list = this.add.group();
@@ -66,6 +61,14 @@ define([
         this.list.y = 144;
 
         this.initItemList();
+
+        this.recyclingContainer = this.add.group();
+        var recyclingBG = this.add.sprite(0,0,recyclingBGTex);
+        recyclingBG.alpha = 0.8;
+
+        this.recyclingContainer.add(recyclingBG);
+        this.recyclingContainer.x = 0;
+        this.recyclingContainer.y = 60;
 
         this.titleContainer = new TileBox(this.app.game,{
             topLeft: 'alertTL',
@@ -116,6 +119,43 @@ define([
 
         this.list.y = y;
 
+    };
+
+    Inventory.prototype.update = function(){
+        if(this.isInputEnabled() && this.input.activePointer.isDown) {
+            if (!this.pointerDown) {
+                this.lastPointerY = this.input.activePointer.y;
+                this.pointerDown = true;
+                if(this.listTween != null){
+                    this.listTween.stop();
+                }
+            }
+
+            var move = this.input.activePointer.y - this.lastPointerY;
+
+            this.list.y += move;
+
+            this.lastPointerY = this.input.activePointer.y;
+
+        }
+
+        if(this.input.activePointer.justReleased() || !this.isInputEnabled()) {
+            if (this.pointerDown) {
+                this.pointerDown = false;
+
+                var isLongerThanView = (this.list.height > (this.app.height - 144));
+
+                if(this.list.y > 144 ||  !isLongerThanView && this.list.y < 144){
+                    this.listTween = this.add.tween(this.list).to({y: 144},150);
+                    this.listTween.start();
+                }
+
+                if(isLongerThanView && (this.list.y + this.list.height) < (this.app.height)){
+                    this.listTween = this.add.tween(this.list).to({y: (this.app.height -  this.list.height)},150);
+                    this.listTween.start();
+                }
+            }
+        }
     };
 
     return new Inventory();
