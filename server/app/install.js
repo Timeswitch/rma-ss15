@@ -32,7 +32,7 @@ database.knex.migrate.latest().then(function(){
     newItem('Steele Man Kopf','head',4,5,0,5,0,2);
     newItem('Flexer Kopf','head',5,10,0,6,0,1);
     newItem('D7353 Kopf','head',6,3,0,8,0,0);
-    newItem('Chappy Kopf','head',7,1,0,0);
+    newItem('Chappy Kopf','head',7,1,0,2,0,0);
     newItem('Chum Bucket Kopf','head',8,1,0,5,0,0);
     newItem('Norton Kopf','head',9,10,0,10,0,2);
     newItem('Unknown 51 Kopf','head',10,5,0,4,0,1);
@@ -48,7 +48,7 @@ database.knex.migrate.latest().then(function(){
     newItem('Steele Man Torso','body',4,10,5,5,0,2);
     newItem('Flexer Torso','body',5,9,5,2,0,1);
     newItem('D7353 Torso','body',6,6,5,5,0,0);
-    newItem('Chappy Torso','body',7,1,5,0);
+    newItem('Chappy Torso','body',7,1,5,2,0,0);
     newItem('Chum Bucket Torso','body',8,8,5,7,0,0);
     newItem('Norton Torso','body',9,10,5,10,0,2);
     newItem('Unknown 51 Torso','body',10,5,5,7,0,1);
@@ -64,7 +64,7 @@ database.knex.migrate.latest().then(function(){
     newItem('Steele Man Arme','arms',4,5,10,5,0,2);
     newItem('Flexer Arme','arms',5,4,4,9,0,1);
     newItem('D7353 Arme','arms',6,7,1,4,0,0);
-    newItem('Chappy Arme','arms',7,1,3,0);
+    newItem('Chappy Arme','arms',7,1,3,2,0,0);
     newItem('Chum Bucket Arme','arms',8,9,6,2,0,0);
     newItem('Norton Arme','arms',9,10,10,10,0,2);
     newItem('Unknown 51 Arme','arms',10,9,8,8,0,1);
