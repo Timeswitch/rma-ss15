@@ -3,6 +3,8 @@
  */
 define(function(){
 
+    var boxTex = null;
+
     function FriendlistItem(game,state,friend,deleteHandler,battleHandler){
         Phaser.Group.call(this,game);
 
@@ -13,10 +15,13 @@ define(function(){
         this.boxWidth = this.state.app.width;;
         this.boxHeight = 56;
 
-        this.boxTex = game.make.bitmapData(this.boxWidth,this.boxHeight);
-        this.boxTex.fill(0,0,0);
-        this.boxTex.rect(1,1,this.boxWidth-1,this.boxHeight-1,'#419001');
-        this.box = new Phaser.Sprite(game,0,0,this.boxTex);
+        if(!boxTex){
+            boxTex = game.make.bitmapData(this.boxWidth,this.boxHeight);
+            boxTex.fill(0,0,0);
+            boxTex.rect(1,1,this.boxWidth-1,this.boxHeight-1,'#419001');
+        }
+
+        this.box = new Phaser.Sprite(game,0,0,boxTex);
 
         this.text = new Phaser.Text(game,5,(this.boxHeight/2)-12,this.friend.username,{font: "24px vt323regular",fill: '#ffffff',align: 'left'});
 
