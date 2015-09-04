@@ -177,7 +177,7 @@ define([
                 }
 
                 if(isLongerThanView && (this.list.y + this.list.height) < (this.app.height - 55)){
-                    this.listTween = this.add.tween(this.list).to({y: (this.app.height - 55 - this.list.length)},150);
+                    this.listTween = this.add.tween(this.list).to({y: (this.app.height - 55 - this.list.height)},150);
                     this.listTween.start();
                 }
             }
