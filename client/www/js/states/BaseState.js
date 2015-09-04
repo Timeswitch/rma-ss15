@@ -59,7 +59,7 @@ define([
             },this);
             object.events.onInputUp.add(function(){
                 object.alpha = 0.5;
-                if(Math.abs(this.input.activePointer.x-object.lastPos.x) <= 5 && Math.abs(this.input.activePointer.y-object.lastPos.y) <= 5){
+                if(Math.abs(this.input.activePointer.x-object.lastPos.x) <= 5 && Math.abs(this.input.activePointer.y-object.lastPos.y) <= 5 && this.isInputEnabled()){
                     for(var i=0; i<object.clickHandlers.length;i++){
                         object.clickHandlers[i].call(this);
                     }
