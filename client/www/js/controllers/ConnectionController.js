@@ -139,8 +139,7 @@ define(['socket.io'],function(io){
     ConnectionController.prototype.recycle = function(data, callback){
         this.recycleCallback = callback;
         this.socket.emit('recycle',{
-            item: data.id,
-            count: data.count
+            items: data
 
         });
     };
