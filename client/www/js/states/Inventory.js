@@ -47,7 +47,7 @@ define([
     };
 
     Inventory.prototype.preload = function(){
-        this.load.image('buttonRecycle','assets/spritesheets/recycle.png');
+        this.load.spritesheet('buttonRecycle','assets/spritesheets/recycle.png',80,80);
     };
 
     Inventory.prototype.create = function(){
@@ -244,7 +244,7 @@ define([
 
                 if(this.isHolding){
                     this.isHolding = false;
-                    this.recyclingContainer.tint = 0xffffff;
+                    this.recyclingBG.tint = 0xffffff;
 
                     if(this.input.activePointer.y > 144 && this.dragItem.removeItem){
                         this.removeRecycle(this.dragItem.item);
@@ -296,7 +296,7 @@ define([
                 this.dragItem.scale.set(2,2);
                 this.dragItem.x = this.input.activePointer.x;
                 this.dragItem.y = this.input.activePointer.y;
-                this.recyclingContainer.tint = 0xff0000;
+                this.recyclingBG.tint = 0xff0000;
             }else if(target.sprite.item){
                 var item = target.sprite.item;
                 this.dragItem = this.add.sprite(this.input.activePointer.x,this.input.activePointer.y,item.icon);
