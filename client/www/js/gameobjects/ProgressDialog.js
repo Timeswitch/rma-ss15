@@ -14,7 +14,7 @@ define([
         this.dismissCallback = null;
 
 
-        this.tileBox = new TileBox(game,this.boxWidth-60,this.boxHeight-60);
+        this.tileBox = new TileBox(game,this.boxWidth,this.boxHeight);
         this.message = new Phaser.Text(game,0,0,'Lade...',{font: "24px bitwise",fill: '#ffffff',align: 'center'});
         this.message.x = (this.boxWidth/2);
         this.message.y = 35;

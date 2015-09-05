@@ -31,7 +31,7 @@ define([
         this.boxWidth = Math.max(this.title.width,this.text.width,(this.state.app.width/2)) + 20;
         this.boxHeight = this.title.height + this.text.height + this.buttonOk.height + 40;
 
-        this.tileBox = new TileBox(game,this.boxWidth-60,this.boxHeight-60);
+        this.tileBox = new TileBox(game,this.boxWidth,this.boxHeight);
         this.tileBox.x = 0;
         this.tileBox.y = 0;
 

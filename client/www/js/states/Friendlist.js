@@ -52,7 +52,7 @@ define([
         this.list.y = 60;
         this.initList();
 
-        this.titleContainer = new TileBox(this.app.game,this.app.width-60,0);
+        this.titleContainer = new TileBox(this.app.game,this.app.width,60);
 
         this.titleContainer.x = 0;
         this.titleContainer.y = 0;

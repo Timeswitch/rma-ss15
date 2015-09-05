@@ -21,7 +21,7 @@ define([
         this.message.anchor.set(0.5);
 
 
-        this.tileBox = new TileBox(game,this.boxWidth-60,this.boxHeight-60);
+        this.tileBox = new TileBox(game,this.boxWidth,this.boxHeight);
         this.tileBox.x = 0;
         this.tileBox.y = 0;
 

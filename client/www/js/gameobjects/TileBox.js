@@ -4,15 +4,15 @@
 
 define(function(){
 
-    function TileBox(game,innerWidth,innerHeight){
+    function TileBox(game,width,height){
         Phaser.Group.call(this,game);
 
-        this.innerWidth = innerWidth;
-        this.innerHeight = innerHeight;
+        this.boxWidth = width || 4;
+        this.boxHeight = height || 4;
 
-        this.texture = game.add.bitmapData(60+innerWidth,60+innerHeight);
+        this.texture = game.add.bitmapData(this.boxWidth,this.boxHeight);
         this.texture.fill(26,58,0);
-        this.texture.rect(2,2,56+innerWidth,56+innerHeight,'#62DC00');
+        this.texture.rect(2,2,this.boxWidth-4,this.boxHeight-4,'#62DC00');
 
         this.create(0,0,this.texture);
 
