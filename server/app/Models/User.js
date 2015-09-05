@@ -38,17 +38,17 @@ var User = database.Model.extend({
                 return self.inventory().attach({user_id: self.id, robotpart_id: item, count: 1});
             });
     },
-    removeItem: function(item) {
+    removeItem: function(item, count) {
         var self = this;
         return this.inventory().query({where: {id: item}}).fetchOne({require: true})
             .then(function(item){
-                if(item.pivot.get('count') < 1){
+                if(item.pivot.get('count') < 1 || item.pivot.get('count') < count){
                     return self.inventory().detach(item.id).then(function(){
                         return false;
                     });
                 }
 
-                return self.inventory().updatePivot({count: item.pivot.get('count')-1},{
+                return self.inventory().updatePivot({count: item.pivot.get('count')-count},{
                     query: function(qb) {
                         qb.where({
                             robotpart_id: item.id,

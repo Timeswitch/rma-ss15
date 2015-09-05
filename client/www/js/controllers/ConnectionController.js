@@ -10,6 +10,7 @@ define(['socket.io'],function(io){
         this.id = -1;
         this.scanCallback = null;
         this.friendCallback = null;
+        this.inventoryCallback = null;
 
         this.socket.on('sync',this.onConnect.bind(this));
 
@@ -20,6 +21,7 @@ define(['socket.io'],function(io){
         this.socket.on('friendRemoved',this.onFriendRemoved.bind(this));
         this.socket.on('registerResult',this.onRegisterResult.bind(this));
         this.socket.on('loginFailed',this.onLoginFailed.bind(this));
+        this.socket.on('recycle', this.onRecycle.bind(this));
     }
 
     ConnectionController.prototype.onConnect = function(data){
@@ -127,6 +129,20 @@ define(['socket.io'],function(io){
         });
     };
 
+    ConnectionController.prototype.onRecycle = function(data){
+        if(this.inventoryCallback){
+            this.inventoryCallback(data);
+        }
+    };
+
+    ConnectionController.prototype.recycle = function(data, callback){
+        this.inventoryCallback = callback;
+        this.socket.emit('recycle',{
+            item: data.id,
+            count: data.count
+
+        });
+    };
 
     return ConnectionController;
 });
