@@ -23,6 +23,7 @@ ConnectionController.prototype.init = function(){
     this.socket.on('scan',this.onScan.bind(this));
     this.socket.on('addFriend',this.onAddFriend.bind(this));
     this.socket.on('removeFriend',this.onRemoveFriend.bind(this));
+    this.socket.on('recycle',this.onRecycle.bind(this));
 
     new RobotPart().fetchAll().then(function(items){
         self.socket.emit('sync',{
@@ -196,6 +197,50 @@ ConnectionController.prototype.sendUpdate = function(){
             inventory: data[0],
             friendlist: data[1]
         })
+    });
+};
+
+ConnectionController.prototype.onRecycle = function(data){
+    var self= this;
+    var prom = [];
+    for(var i = 0; i < data.length; i++){
+        prom.push(this.user.removeItem(data[i].id, data[i].count));
+    }
+    return Promise.all(prom).then(function(){
+        var erg = 0;
+        for(var i = 0; i < data.length; i++){
+            erg += data[i].count;
+        }
+        if(erg < 2){
+            if(Math.floor(Math.random() * 3) == 0){
+                return self.getLoot();
+            }else{
+                return 0;
+            }
+        }
+        else if(erg < 3){
+            if(Math.floor(Math.random() * 2) == 0){
+                return self.getLoot();
+            }else{
+                return 0;
+            }
+        }
+        else if(erg > 3){
+            return self.getLoot();
+        }
+    }).then(function(item){
+        //item aus db laden, add item aufrufen, dann socke emit mit success + item.toJSON() senden
+        new RobotPart().query({where: {id: item}}).fetchOne({requrie: true}).then(function(item){
+            self.socket.emit('recycleResult',{
+                success: true,
+                item: item.toJSON()
+            });
+        }).catch(function() {
+            //socket emit mit success false
+            self.socket.emit('recycleResult', {
+                success: false
+            });
+        });
     });
 };
 

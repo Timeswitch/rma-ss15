@@ -32,14 +32,14 @@ var User = database.Model.extend({
                 return self.inventory().attach({user_id: self.id, robotpart_id: item, count: 1});
             });
     },
-    removeItem: function(item) {
+    removeItem: function(item, count) {
         return this.inventory().query({where: {id: item}}).fetchOne({require: true})
             .then(function(item){
-                if(item.pivot.get('count') < 1){
+                if(item.pivot.get('count') < 1 || item.pivot.get('count') < count){
                     return false;
                 }
 
-                return self.inventory().query({where:{id: item.id}}).updatePivot({count: item.pivot.get('count')-1})
+                return self.inventory().query({where:{id: item.id}}).updatePivot({count: item.pivot.get('count') - count})
                     .then(function(){
                         return true;
                     });
@@ -113,7 +113,6 @@ var User = database.Model.extend({
             })
 
     }
-
 });
 
 module.exports = database.model('User',User);
