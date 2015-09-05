@@ -21,6 +21,11 @@ define(function(){
     TileBox.prototype = Object.create(Phaser.Group.prototype);
     TileBox.prototype.constructor = TileBox;
 
+    TileBox.prototype.destroy = function(){
+        Phaser.Group.destroy.call(this);
+        this.texture.destroy();
+    };
+
     return TileBox;
 
 });
