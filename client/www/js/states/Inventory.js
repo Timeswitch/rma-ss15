@@ -26,14 +26,18 @@ define([
         this.filter = null;
         this.recyclingContainer = null;
         this.recyclingButton = null;
+        this.recyclingBG = null;
         this.list = null;
 
         this.items = [];
         this.recyclingItems = [];
 
         this.pointerDown = false;
+        this.pointerDownY = 0;
         this.lastPointerY= 0;
+        this.lastPointerX= 0;
         this.listTween = null;
+        this.recycleTween = null;
 
         this.pointerDownPosition = {x:0, y:0};
         this.canHold = true;
@@ -69,11 +73,13 @@ define([
 
         this.initItemList();
 
-        this.recyclingContainer = this.add.group();
-        var recyclingBG = this.add.sprite(0,0,recyclingBGTex);
-        recyclingBG.alpha = 0.8;
+        this.recyclingBG = this.add.sprite(0,0,recyclingBGTex);
+        this.recyclingBG.x = 0;
+        this.recyclingBG.y = 60;
+        this.recyclingBG.alpha = 0.8;
 
-        this.recyclingContainer.add(recyclingBG);
+
+        this.recyclingContainer = this.add.group();
         this.recyclingContainer.x = 0;
         this.recyclingContainer.y = 60;
 
@@ -114,6 +120,7 @@ define([
         this.titleContainer.destroy();
         this.recyclingContainer.destroy();
         this.recyclingButton.destroy();
+        this.recyclingBG.destroy();
 
         this.resetItems();
     };
@@ -140,30 +147,78 @@ define([
     };
 
     Inventory.prototype.initRecycleList = function(){
+        var x = this.recyclingContainer.x;
+        this.recyclingContainer.x = 0;
+        this.recyclingContainer.y = 0;
 
+        this.recyclingContainer.removeAll(true);
+
+        for(var i = 0; i < this.recyclingItems.length; i++){
+            var recyclingItem = this.recyclingItems[i];
+
+            var icon = this.add.group();
+            var image = this.add.sprite(0,0,recyclingItem.icon);
+            icon.add(image);
+            if(recyclingItem.count > 1){
+                var counterText = this.add.text(0,0,recyclingItem.count,{font: "18px vt323regular",fill: '#ff0000',align: 'center'});
+                counterText.x = -(counterText.width/2);
+                counterText.y = -(counterText.height/2);
+                icon.add(counterText);
+            }
+
+            image.item = recyclingItem;
+            image.inputEnabled = true;
+            icon.y = 12 ;
+            icon.x = 10 + (i*70);
+
+            this.recyclingContainer.add(icon);
+        }
+
+        this.recyclingContainer.x = x;
+        this.recyclingContainer.y = 60;
     };
 
     Inventory.prototype.update = function(){
         if(this.isInputEnabled() && this.input.activePointer.isDown) {
             if (!this.pointerDown) {
                 this.lastPointerY = this.input.activePointer.y;
+                this.lastPointerX = this.input.activePointer.x;
+                this.pointerDownY = this.input.activePointer.y;
+                this.pointerDownX = this.input.activePointer.x;
                 this.pointerDownPosition.x = this.input.activePointer.x;
                 this.pointerDownPosition.y = this.input.activePointer.y;
                 this.pointerDown = true;
-                if(this.listTween != null){
-                    this.listTween.stop();
+
+                if(this.pointerDownY > 144){
+                    if(this.listTween != null){
+                        this.listTween.stop();
+                    }
+                }else if(this.pointerDownY > 60){
+                    if(this.recycleTween != null){
+                        this.recycleTween.stop();
+                    }
                 }
             }
 
-            if(this.isInputEnabled() && this.isHolding){
-                this.dragItem.x = this.input.activePointer.x - (this.dragItem.width/2);
-                this.dragItem.y = this.input.activePointer.y - (this.dragItem.height/2);
-            }else{
-                var move = this.input.activePointer.y - this.lastPointerY;
+            if(this.isInputEnabled()){
 
-                this.list.y += move;
+                if(this.isHolding){
+                    this.dragItem.x = this.input.activePointer.x - (this.dragItem.width/2);
+                    this.dragItem.y = this.input.activePointer.y - (this.dragItem.height/2);
+                }else if(this.pointerDownY > 144){
+                    var move = this.input.activePointer.y - this.lastPointerY;
 
-                this.lastPointerY = this.input.activePointer.y;
+                    this.list.y += move;
+
+                    this.lastPointerY = this.input.activePointer.y;
+
+                }else if(this.pointerDownY > 60){
+                    var move = this.input.activePointer.x - this.lastPointerX;
+
+                    this.recyclingContainer.x += move;
+                    this.lastPointerX = this.input.activePointer.x;
+
+                }
 
                 if(this.input.activePointer.duration >= 500 && this.canHold){
                     if(Math.abs(this.pointerDownPosition.x - this.input.activePointer.x) <= 5 && Math.abs(this.pointerDownPosition.y - this.input.activePointer.y) <= 5){
@@ -173,7 +228,6 @@ define([
                     }
 
                     this.input.activePointer.timeDown = this.app.game.time.time;
-                    this.input.activePointer.resetMovement();
                 }
             }
 
@@ -188,8 +242,10 @@ define([
                     this.isHolding = false;
                     this.recyclingContainer.tint = 0xffffff;
 
-                    if(this.input.activePointer.y < 144 && this.input.activePointer.y > 60){
-                        this.addRecycle(this.dragItem.item);
+                    if(this.input.activePointer.y > 144 && this.dragItem.removeItem){
+                        this.removeRecycle(this.dragItem.item);
+                    }else if(this.input.activePointer.y > 60 && this.input.activePointer.y < 144 && !this.dragItem.removeItem){
+                        this.addRecycle(this.dragItem.listItem.item,this.dragItem);
                     }
 
                     this.dragItem.destroy();
@@ -207,27 +263,49 @@ define([
                     this.listTween = this.add.tween(this.list).to({y: (this.app.height -  this.list.height)},150);
                     this.listTween.start();
                 }
+
+                var isWiderThanView = (this.recyclingContainer.width > (this.app.width - 95));
+
+                if(this.recyclingContainer.x > 0 || (!isWiderThanView && this.recyclingContainer.x < 0)){
+                    this.recycleTween = this.add.tween(this.recyclingContainer).to({x: 0},150);
+                    this.recycleTween.start();
+                }
+
+                if(isWiderThanView && (this.recyclingContainer.width + this.recyclingContainer.x) < (this.app.width - 95)){
+                    this.recycleTween = this.add.tween(this.recyclingContainer).to({x: (this.app.width - 95) - this.recyclingContainer.width},150);
+                    this.recycleTween.start();
+                }
             }
         }
     };
 
     Inventory.prototype.onHold = function(target){
-        if(target != null && target.sprite.parent.item){
+        if(target != null){
             this.isHolding = true;
             this.canHold = false;
 
-            var listItem = target.sprite.parent;
+            if(target.sprite.parent.item){
+                var listItem = target.sprite.parent;
 
-            this.dragItem = listItem.getIcon();
-            this.dragItem.item = listItem.item;
-            this.dragItem.scale.set(2,2);
-            this.dragItem.x = this.input.activePointer.x;
-            this.dragItem.y = this.input.activePointer.y;
-            this.recyclingContainer.tint = 0xffffbb;
+                this.dragItem = listItem.getIcon();
+                this.dragItem.listItem = listItem;
+                this.dragItem.scale.set(2,2);
+                this.dragItem.x = this.input.activePointer.x;
+                this.dragItem.y = this.input.activePointer.y;
+                this.recyclingContainer.tint = 0xff0000;
+            }else if(target.sprite.item){
+                var item = target.sprite.item;
+                this.dragItem = this.add.sprite(this.input.activePointer.x,this.input.activePointer.y,item.icon);
+                this.dragItem.scale.set(2,2);
+                this.dragItem.item = item;
+                this.dragItem.removeItem = true;
+            }
+
+
         }
     };
 
-    Inventory.prototype.addRecycle = function(item){
+    Inventory.prototype.addRecycle = function(item,icon){
         item.count--;
 
         var exists = false;
@@ -240,10 +318,24 @@ define([
         }
 
         if(!exists){
-            this.recyclingItems.push({item: item, count: 1});
+            icon.scale.set(1,1);
+            this.recyclingItems.push({item: item, count: 1,icon: icon.generateTexture()});
         }
 
         this.initItemList();
+        this.initRecycleList();
+    };
+
+    Inventory.prototype.removeRecycle = function(item){
+        item.count--;
+        if(item.count < 1){
+            this.recyclingItems.splice(this.recyclingItems.indexOf(item),1);
+        }
+
+        item.item.count++;
+
+        this.initItemList();
+        this.initRecycleList();
     };
 
     Inventory.prototype.onRecycle = function(){
