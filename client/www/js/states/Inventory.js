@@ -350,7 +350,36 @@ define([
 
     Inventory.prototype.recycle = function(){
         this.showProgress();
-        this.stopProgress();
+
+        var recycle = [];
+
+        for(var i = 0; i<this.recyclingItems.length;i++){
+            var recyclingItem = this.recyclingItems[i];
+            recycle.push({
+                item: recyclingItem.item.id,
+                count: recyclingItem.count
+            });
+        }
+
+        this.app.connection.recycle(recycle,this.onRecycleResult.bind(this));
+    };
+
+    Inventory.prototype.onRecycleResult = function(data){
+        var self = this;
+        this.stopProgress(function(){
+            self.resetRecycle();
+            self.resetItems();
+            self.initItemList();
+            self.initRecycleList();
+
+            if(data.success){
+                self.showDialog('Bauteil erhalten!',data.item.name,function(){
+
+                });
+            }else{
+                self.showDialog('Fehlschlag','Keine items erhalten.');
+            }
+        });
     };
 
     Inventory.prototype.resetRecycle = function(){
@@ -365,6 +394,8 @@ define([
         for(var i = 0; i < this.items.length; i++){
             this.items[i].DSRevert();
         }
+
+        this.items = this.app.store.getAll('Item');
     };
 
     return new Inventory();
