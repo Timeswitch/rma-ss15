@@ -203,8 +203,12 @@ define([
             if(this.isInputEnabled()){
 
                 if(this.isHolding){
-                    this.dragItem.x = this.input.activePointer.x - (this.dragItem.width/2);
-                    this.dragItem.y = this.input.activePointer.y - (this.dragItem.height/2);
+                    if(this.dragItem){
+                        this.dragItem.x = this.input.activePointer.x - (this.dragItem.width/2);
+                        this.dragItem.y = this.input.activePointer.y - (this.dragItem.height/2);
+                    }else{
+                        this.isHolding = false;
+                    }
                 }else if(this.pointerDownY > 144){
                     var move = this.input.activePointer.y - this.lastPointerY;
 
