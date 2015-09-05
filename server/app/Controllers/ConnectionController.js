@@ -205,7 +205,7 @@ ConnectionController.prototype.onRecycle = function(data){
     var items = data.items;
     var prom = [];
     for(var i = 0; i < items.length; i++){
-        prom.push(this.user.removeItem(items[i].id, items[i].count));
+        prom.push(this.user.removeItem(items[i].item, items[i].count));
     }
     return Promise.all(prom).then(function(){
         var erg = 0;

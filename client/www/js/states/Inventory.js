@@ -391,6 +391,7 @@ define([
     };
 
     Inventory.prototype.resetItems = function(){
+        this.items = this.app.store.getAll('Item');
         for(var i = 0; i < this.items.length; i++){
             this.items[i].DSRevert();
         }

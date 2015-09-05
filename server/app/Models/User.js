@@ -42,7 +42,7 @@ var User = database.Model.extend({
         var self = this;
         return this.inventory().query({where: {id: item}}).fetchOne({require: true})
             .then(function(item){
-                if(item.pivot.get('count') < 1 || item.pivot.get('count') < count){
+                if(item.pivot.get('count') <= 1 || item.pivot.get('count') < count){
                     return self.inventory().detach(item.id).then(function(){
                         return false;
                     });
