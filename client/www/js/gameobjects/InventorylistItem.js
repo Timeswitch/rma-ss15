@@ -9,6 +9,7 @@ define(function(){
     function InventorylistItem(game,state,item){
         Phaser.Group.call(this,game);
 
+        this.game = game;
         this.state = state;
         this.item = item;
 
@@ -28,6 +29,7 @@ define(function(){
         }
 
         this.box = this.state.add.sprite(0,0,boxTex);
+        this.box.inputEnabled = true;
 
         var countString = ((this.item.count < 10) ? ' ' + this.item.count : this.item.count) + 'x';
         this.countText = new Phaser.Text(game,5,5,countString,{font: "28px vt323regular",fill: '#ffffff',align: 'left'});
@@ -42,32 +44,8 @@ define(function(){
         var agilityString = 'BWG:' + (this.item.robotpart.agility || '-');
         this.agilityText = new Phaser.Text(game,15 + this.attackText.width + this.defenseText.width, 10 + this.countText.height, agilityString,{font: "26px vt323regular",fill: '#ffffff',align: 'left'});
 
-        var iconTex = this.item.robotpart.getImage();
-        this.iconContainer = new Phaser.Group(game);
-        this.iconContainer.x = 0;
-        this.iconContainer.y = 0;
+        this.iconContainer = this.getIcon();
 
-        var icon = null;
-
-        if(typeof(iconTex) === 'string'){
-            icon = new Phaser.Sprite(game,0,0,iconTex);
-        }else{
-            icon = new Phaser.Group(game);
-            var left = new Phaser.Sprite(game,0,0,iconTex.left);
-            var right = new Phaser.Sprite(game,left.width,0,iconTex.right);
-
-            icon.add(left);
-            icon.add(right);
-        }
-
-        this.state.app.scaleMax(icon,60,60,true);
-        icon.x = 32-(icon.width/2);
-        icon.y = 32-(icon.height/2);
-
-        var iconBox = new Phaser.Sprite(game,0,0,iconBoxTex);
-
-        this.iconContainer.add(iconBox);
-        this.iconContainer.add(icon);
         this.iconContainer.x = this.state.app.width - 69;
         this.iconContainer.y = (this.boxHeight/2) - 32;
 
@@ -85,6 +63,37 @@ define(function(){
 
     InventorylistItem.prototype = Object.create(Phaser.Group.prototype);
     InventorylistItem.prototype.constructor = InventorylistItem;
+
+    InventorylistItem.prototype.getIcon = function(){
+        var iconTex = this.item.robotpart.getImage();
+        var iconContainer = new Phaser.Group(this.game);
+        iconContainer.x = 0;
+        iconContainer.y = 0;
+
+        var icon = null;
+
+        if(typeof(iconTex) === 'string'){
+            icon = new Phaser.Sprite(this.game,0,0,iconTex);
+        }else{
+            icon = new Phaser.Group(this.game);
+            var left = new Phaser.Sprite(this.game,0,0,iconTex.left);
+            var right = new Phaser.Sprite(this.game,left.width,0,iconTex.right);
+
+            icon.add(left);
+            icon.add(right);
+        }
+
+        this.state.app.scaleMax(icon,60,60,true);
+        icon.x = 32-(icon.width/2);
+        icon.y = 32-(icon.height/2);
+
+        var iconBox = new Phaser.Sprite(this.game,0,0,iconBoxTex);
+
+        iconContainer.add(iconBox);
+        iconContainer.add(icon);
+
+        return iconContainer;
+    };
 
     return InventorylistItem;
 

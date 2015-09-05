@@ -25,6 +25,7 @@ define([
         this.background = null;
         this.filter = null;
         this.recyclingContainer = null;
+        this.recyclingButton = null;
         this.list = null;
 
         this.items = [];
@@ -34,9 +35,15 @@ define([
         this.lastPointerY= 0;
         this.listTween = null;
 
+        this.pointerDownPosition = {x:0, y:0};
+        this.canHold = true;
+        this.isHolding = false;
+        this.dragItem = null;
+
     };
 
     Inventory.prototype.preload = function(){
+        this.load.image('buttonRecycle','assets/spritesheets/recycle.png');
     };
 
     Inventory.prototype.create = function(){
@@ -70,6 +77,8 @@ define([
         this.recyclingContainer.x = 0;
         this.recyclingContainer.y = 60;
 
+        this.recyclingButton = this.add.button(this.app.width - 82,63,'buttonRecycle',this.onRecycle,this,0,0,1,0);
+
         this.titleContainer = new TileBox(this.app.game,{
             topLeft: 'alertTL',
             topRight: 'alertTR',
@@ -99,25 +108,38 @@ define([
         });
     };
 
-    Inventory.prototype.destroy = function(){
+    Inventory.prototype.shutdown = function(){
         this.background.destroy();
         this.filter.destroy();
         this.titleContainer.destroy();
         this.recyclingContainer.destroy();
+        this.recyclingButton.destroy();
+
+        this.resetItems();
     };
 
     Inventory.prototype.initItemList = function(){
         var y = this.list.y;
         this.list.y = 0;
         this.list.removeAll(true);
-        for(var i=0; i<this.items.length; i++){
-            var listItem = new InventorylistItem(this.app.game,this,this.items[i]);
-            listItem.x = 0;
-            listItem.y = i*listItem.height;
-            this.list.add(listItem);
+
+        for(var i= 0, c = 0; i<this.items.length; i++){
+            var item = this.items[i];
+
+            if(item.count > 0){
+                var listItem = new InventorylistItem(this.app.game,this,item);
+                listItem.x = 0;
+                listItem.y = c*listItem.height;
+                this.list.add(listItem);
+                c++; //he
+            }
         }
 
         this.list.y = y;
+
+    };
+
+    Inventory.prototype.initRecycleList = function(){
 
     };
 
@@ -125,23 +147,54 @@ define([
         if(this.isInputEnabled() && this.input.activePointer.isDown) {
             if (!this.pointerDown) {
                 this.lastPointerY = this.input.activePointer.y;
+                this.pointerDownPosition.x = this.input.activePointer.x;
+                this.pointerDownPosition.y = this.input.activePointer.y;
                 this.pointerDown = true;
                 if(this.listTween != null){
                     this.listTween.stop();
                 }
             }
 
-            var move = this.input.activePointer.y - this.lastPointerY;
+            if(this.isInputEnabled() && this.isHolding){
+                this.dragItem.x = this.input.activePointer.x - (this.dragItem.width/2);
+                this.dragItem.y = this.input.activePointer.y - (this.dragItem.height/2);
+            }else{
+                var move = this.input.activePointer.y - this.lastPointerY;
 
-            this.list.y += move;
+                this.list.y += move;
 
-            this.lastPointerY = this.input.activePointer.y;
+                this.lastPointerY = this.input.activePointer.y;
+
+                if(this.input.activePointer.duration >= 500 && this.canHold){
+                    if(Math.abs(this.pointerDownPosition.x - this.input.activePointer.x) <= 5 && Math.abs(this.pointerDownPosition.y - this.input.activePointer.y) <= 5){
+                        this.onHold(this.input.activePointer.targetObject);
+                    }else{
+                        this.canHold = false;
+                    }
+
+                    this.input.activePointer.timeDown = this.app.game.time.time;
+                    this.input.activePointer.resetMovement();
+                }
+            }
 
         }
 
         if(this.input.activePointer.justReleased() || !this.isInputEnabled()) {
             if (this.pointerDown) {
                 this.pointerDown = false;
+                this.canHold = true;
+
+                if(this.isHolding){
+                    this.isHolding = false;
+                    this.recyclingContainer.tint = 0xffffff;
+
+                    if(this.input.activePointer.y < 144 && this.input.activePointer.y > 60){
+                        this.addRecycle(this.dragItem.item);
+                    }
+
+                    this.dragItem.destroy();
+                    this.dragItem = null;
+                }
 
                 var isLongerThanView = (this.list.height > (this.app.height - 144));
 
@@ -155,6 +208,66 @@ define([
                     this.listTween.start();
                 }
             }
+        }
+    };
+
+    Inventory.prototype.onHold = function(target){
+        if(target != null && target.sprite.parent.item){
+            this.isHolding = true;
+            this.canHold = false;
+
+            var listItem = target.sprite.parent;
+
+            this.dragItem = listItem.getIcon();
+            this.dragItem.item = listItem.item;
+            this.dragItem.scale.set(2,2);
+            this.dragItem.x = this.input.activePointer.x;
+            this.dragItem.y = this.input.activePointer.y;
+            this.recyclingContainer.tint = 0xffffbb;
+        }
+    };
+
+    Inventory.prototype.addRecycle = function(item){
+        item.count--;
+
+        var exists = false;
+        for(var i = 0; i < this.recyclingItems.length; i++){
+            if(this.recyclingItems[i].item.id == item.id){
+                this.recyclingItems[i].count++;
+                exists = true;
+                break;
+            }
+        }
+
+        if(!exists){
+            this.recyclingItems.push({item: item, count: 1});
+        }
+
+        this.initItemList();
+    };
+
+    Inventory.prototype.onRecycle = function(){
+        if(this.recyclingItems.length > 0 && this.isInputEnabled()){
+            this.showDialog('Achtung',"Möchtest du diese\nBauteile recyclen?",this.recycle.bind(this),this.resetRecycle.bind(this));
+        }
+    };
+
+    Inventory.prototype.recycle = function(){
+        this.showProgress();
+        this.stopProgress();
+    };
+
+    Inventory.prototype.resetRecycle = function(){
+        this.recyclingItems = [];
+        this.resetItems();
+
+        this.initItemList();
+        this.initRecycleList();
+    };
+
+    Inventory.prototype.resetItems = function(){
+        for(var i = 0; i < this.items.length; i++){
+            this.items[i].DSRevert();
         }
     };
 
