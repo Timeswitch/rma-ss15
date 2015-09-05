@@ -4,28 +4,17 @@
 
 define(function(){
 
-    function TileBox(game,tiles,tilesSize,innerWidth,innerHeight){
-        this.tiles = tiles;
-        this.tileSize = tilesSize;
+    function TileBox(game,innerWidth,innerHeight){
+        Phaser.Group.call(this,game);
+
         this.innerWidth = innerWidth;
         this.innerHeight = innerHeight;
 
-        Phaser.Group.call(this,game);
+        this.texture = game.add.bitmapData(60+innerWidth,60+innerHeight);
+        this.texture.fill(26,58,0);
+        this.texture.rect(2,2,56+innerWidth,56+innerHeight,'#62DC00');
 
-        this.create(0,0,this.tiles.topLeft);
-        this.create(this.tileSize+this.innerWidth,0,this.tiles.topRight);
-        this.create(0,this.tileSize+this.innerHeight,this.tiles.bottomLeft);
-        this.create(this.tileSize+this.innerWidth,this.tileSize+this.innerHeight,this.tiles.bottomRight);
-
-        this.add(new Phaser.TileSprite(game,this.tileSize,0,this.innerWidth,this.tileSize,this.tiles.top));
-        this.add(new Phaser.TileSprite(game,this.tileSize,this.tileSize+this.innerHeight,this.innerWidth,this.tileSize,this.tiles.bottom));
-
-        if(this.innerHeight > 0){
-            this.add(new Phaser.TileSprite(game,0,this.tileSize,this.tileSize,this.innerHeight,this.tiles.left));
-            this.add(new Phaser.TileSprite(game,this.tileSize+this.innerWidth,this.tileSize,this.tileSize,this.innerHeight,this.tiles.right));
-            this.add(new Phaser.TileSprite(game,this.tileSize,this.tileSize,this.innerWidth,this.innerHeight,this.tiles.center));
-        }
-
+        this.create(0,0,this.texture);
 
     }
 

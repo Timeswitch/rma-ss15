@@ -38,7 +38,7 @@ define(function(){
         this.add(this.buttonFight);
         this.add(this.text);
 
-        this.alpha = 0.8;
+        this.alpha = 0.85;
 
     }
 

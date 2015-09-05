@@ -31,17 +31,7 @@ define([
         this.boxWidth = Math.max(this.title.width,this.text.width,(this.state.app.width/2)) + 20;
         this.boxHeight = this.title.height + this.text.height + this.buttonOk.height + 40;
 
-        this.tileBox = new TileBox(game,{
-            topLeft: 'alertTL',
-            topRight: 'alertTR',
-            top: 'alertT',
-            left: 'alertL',
-            center: 'alertM',
-            right: 'alertR',
-            bottomLeft: 'alertBL',
-            bottomRight: 'alertBR',
-            bottom: 'alertB'
-        },30,this.boxWidth-60,this.boxHeight-60);
+        this.tileBox = new TileBox(game,this.boxWidth-60,this.boxHeight-60);
         this.tileBox.x = 0;
         this.tileBox.y = 0;
 
@@ -60,10 +50,10 @@ define([
             this.buttonCancel.y = this.text.y + this.text.height + 15;
         }
 
-        this.tileBox.setAll('alpha',0.7);
-        this.buttonOk.alpha = 0.7;
-        this.title.alpha = 0.8;
-        this.text.alpha = 0.8;
+        this.tileBox.setAll('alpha',0.85);
+        this.buttonOk.alpha = 0.85;
+        this.title.alpha = 0.85;
+        this.text.alpha = 0.85;
 
 
         this.add(this.tileBox);
@@ -71,7 +61,7 @@ define([
         this.add(this.text);
         this.add(this.buttonOk);
         if(this.buttonCancel){
-            this.buttonCancel.alpha = 0.7;
+            this.buttonCancel.alpha = 0.85;
             this.add(this.buttonCancel);
         }
 

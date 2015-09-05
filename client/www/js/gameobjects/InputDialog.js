@@ -21,17 +21,7 @@ define([
         this.message.anchor.set(0.5);
 
 
-        this.tileBox = new TileBox(game,{
-            topLeft: 'alertTL',
-            topRight: 'alertTR',
-            top: 'alertT',
-            left: 'alertL',
-            center: 'alertM',
-            right: 'alertR',
-            bottomLeft: 'alertBL',
-            bottomRight: 'alertBR',
-            bottom: 'alertB'
-        },30,this.boxWidth-60,this.boxHeight-60);
+        this.tileBox = new TileBox(game,this.boxWidth-60,this.boxHeight-60);
         this.tileBox.x = 0;
         this.tileBox.y = 0;
 
@@ -41,8 +31,8 @@ define([
         this.x = (this.state.app.width/2) - (this.boxWidth/2);
         this.y = (this.state.app.height/2) - (this.boxHeight/2);
 
-        this.tileBox.setAll('alpha',0.7);
-        this.message.alpha = 0.8;
+        this.tileBox.setAll('alpha',0.85);
+        this.message.alpha = 0.85;
 
         this.userInput = document.createElement('input');
         this.userInput.type = 'text';
