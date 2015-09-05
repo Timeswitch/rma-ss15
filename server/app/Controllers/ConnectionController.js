@@ -230,14 +230,22 @@ ConnectionController.prototype.onRecycle = function(data){
         }
     }).then(function(item){
         new RobotPart({id: item}).fetch({require: true}).then(function(item){
-            self.socket.emit('recycleResult',{
-                success: true,
-                item: item.toJSON()
+            self.user.addItem(item.id).then(function(){
+                self.sendUpdate().then(function(){
+                    self.socket.emit('recycleResult',{
+                        success: true,
+                        item: item.toJSON()
+                    });
+                });
             });
+
         }).catch(function() {
-            self.socket.emit('recycleResult', {
-                success: false
+            self.sendUpdate().then(function(){
+                self.socket.emit('recycleResult', {
+                    success: false
+                });
             });
+
         });
     });
 };
