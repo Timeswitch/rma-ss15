@@ -77,6 +77,10 @@ define(function(){
         this.render();
     };
 
+    RobotGroup.prototype.toSprite = function(){
+        return new Phaser.Sprite(this.game,0,0,this.generateTexture());
+    };
+
     return RobotGroup;
 
 });

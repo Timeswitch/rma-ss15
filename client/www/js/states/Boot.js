@@ -6,9 +6,10 @@ define([
     'states/Fight',
     'states/Inventory',
     'states/Friendlist',
-    'states/Connect'
+    'states/Connect',
+    'states/RoboConfig'
 
-], function(BaseState, Menu, Fight, Inventory, Friendlist, Connect){
+], function(BaseState, Menu, Fight, Inventory, Friendlist, Connect,RoboConfig){
 
     function Boot(){
         BaseState.call(this);
@@ -67,6 +68,7 @@ define([
         this.app.game.state.add('Fight', Fight);
         this.app.game.state.add('Inventory', Inventory);
         this.app.game.state.add('Friendlist', Friendlist);
+        this.app.game.state.add('RoboConfig', RoboConfig);
 
 
         this.app.game.state.start('Connect');

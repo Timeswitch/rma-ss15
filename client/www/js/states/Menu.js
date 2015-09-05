@@ -72,7 +72,9 @@ define([
 
         this.content = this.game.add.group();
 
-        this.robot = this.app.makeRobot('player');
+        var rob = this.app.makeRobot('player');
+        this.robot = rob.toSprite();
+        rob.destroy();
 
 
         this.app.scaleMax(this.robot,this.world.width - 112,this.world.height - 260);
@@ -121,6 +123,10 @@ define([
 
         this.createOnClick(this.battleIcon, function(){
             this.onBattleClick();
+        });
+
+        this.createOnClick(this.robot,function(){
+            this.onConfigClick();
         });
 
         this.content.add(this.scanIcon);
@@ -293,6 +299,10 @@ define([
 
     Menu.prototype.onBattleClick = function(){
         this.showDialog('Debug','battle');
+    };
+
+    Menu.prototype.onConfigClick = function(){
+        this.app.startState('RoboConfig');
     };
 
 

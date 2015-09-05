@@ -52,6 +52,6 @@ define([
         this.progress.destroy();
     };
 
-    return Connect;
+    return new Connect();
 
 });
