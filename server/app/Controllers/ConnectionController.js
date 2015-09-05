@@ -204,13 +204,13 @@ ConnectionController.prototype.onRecycle = function(data){
     var self= this;
     var items = data.items;
     var prom = [];
-    for(var i = 0; i < items.length; i++){
-        prom.push(this.user.removeItem(items[i].id, items[i].count));
+    for(var i = 0; i < data.length; i++){
+        prom.push(this.user.removeItem(data[i].id, data[i].count));
     }
     return Promise.all(prom).then(function(){
         var erg = 0;
         for(var i = 0; i < data.length; i++){
-            erg += items[i].count;
+            erg += data[i].count;
         }
         if(erg < 2){
             if(Math.floor(Math.random() * 3) == 0){
