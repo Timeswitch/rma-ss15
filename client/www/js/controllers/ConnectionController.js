@@ -11,6 +11,7 @@ define(['socket.io'],function(io){
         this.scanCallback = null;
         this.friendCallback = null;
         this.inventoryCallback = null;
+        this.recycleCallback = null;
 
         this.socket.on('sync',this.onConnect.bind(this));
 
@@ -21,7 +22,7 @@ define(['socket.io'],function(io){
         this.socket.on('friendRemoved',this.onFriendRemoved.bind(this));
         this.socket.on('registerResult',this.onRegisterResult.bind(this));
         this.socket.on('loginFailed',this.onLoginFailed.bind(this));
-        this.socket.on('recycle', this.onRecycle.bind(this));
+        this.socket.on('recycleResult', this.onRecycleResult.bind(this));
     }
 
     ConnectionController.prototype.onConnect = function(data){
@@ -129,14 +130,14 @@ define(['socket.io'],function(io){
         });
     };
 
-    ConnectionController.prototype.onRecycle = function(data){
-        if(this.inventoryCallback){
-            this.inventoryCallback(data);
+    ConnectionController.prototype.onRecycleResult = function(data){
+        if(this.recycleCallback){
+            this.recycleCallback(data);
         }
     };
 
     ConnectionController.prototype.recycle = function(data, callback){
-        this.inventoryCallback = callback;
+        this.recycleCallback = callback;
         this.socket.emit('recycle',{
             item: data.id,
             count: data.count
