@@ -229,14 +229,12 @@ ConnectionController.prototype.onRecycle = function(data){
             return self.getLoot();
         }
     }).then(function(item){
-        //item aus db laden, add item aufrufen, dann socke emit mit success + item.toJSON() senden
-        new RobotPart().query({where: {id: item}}).fetchOne({requrie: true}).then(function(item){
+        new RobotPart({id: item}).fetch({require: true}).then(function(item){
             self.socket.emit('recycleResult',{
                 success: true,
                 item: item.toJSON()
             });
         }).catch(function() {
-            //socket emit mit success false
             self.socket.emit('recycleResult', {
                 success: false
             });
