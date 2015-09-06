@@ -7,6 +7,7 @@ var database = require('../Database.js');
 var Robot = require('./Robot.js');
 var RobotPart = require('./RobotPart.js');
 var Scan = require('./Scan.js');
+var Promise = require('bluebird');
 
 var User = database.Model.extend({
     tableName: 'user',
