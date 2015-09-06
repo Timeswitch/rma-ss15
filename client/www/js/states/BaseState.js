@@ -113,6 +113,10 @@ define([
 
     };
 
+    BaseState.prototype.onBack = function(){
+
+    };
+
     BaseState.prototype.disableInput = function(){
         this.inputEnabled = false;
         this.inputBlockCount++;

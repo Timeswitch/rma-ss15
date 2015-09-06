@@ -66,9 +66,7 @@ define([
 
         var menuButton = this.app.game.add.text(10,2,'<',{font: "50px vt323regular",fill: '#ffffff',align: 'center'});
         this.titleContainer.add(menuButton);
-        this.createOnClick(menuButton,function(){
-            this.app.startState('Menu');
-        });
+        this.createOnClick(menuButton,this.onBack);
 
         this.friendInput = document.createElement('input');
         this.friendInput.type = 'text';
@@ -189,6 +187,10 @@ define([
 
     Friendlist.prototype.onBattleClick = function(id){
 
+    };
+
+    Friendlist.prototype.onBack = function(){
+        this.app.startState('Menu');
     };
 
     return new Friendlist();

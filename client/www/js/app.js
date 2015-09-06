@@ -34,6 +34,8 @@ define([
                 Item: Item(this.store),
                 Friend: Friend(this.store)
             };
+
+            document.addEventListener("backbutton", this.onBack.bind(this), false);
         }
 
 
@@ -287,6 +289,12 @@ define([
                 this.store.ejectAll(model);
             }
             this.store.inject(model,data);
+        };
+
+        App.prototype.onBack = function(){
+            if(this.game && this.game.state.getCurrentState().onBack){
+                this.game.state.getCurrentState().onBack();
+            }
         };
 
         return new App();

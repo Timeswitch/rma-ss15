@@ -119,9 +119,7 @@ define([
 
         var menuButton = this.app.game.add.text(10,2,'<',{font: "50px vt323regular",fill: '#ffffff',align: 'center'});
         this.titleContainer.add(menuButton);
-        this.createOnClick(menuButton,function(){
-            this.app.startState('Menu');
-        });
+        this.createOnClick(menuButton,this.onBack);
 
     };
 
@@ -237,6 +235,10 @@ define([
 
         this.list.y = y;
 
+    };
+
+    RoboConfig.prototype.onBack = function(){
+        this.app.startState('Menu');
     };
 
     return new RoboConfig();
