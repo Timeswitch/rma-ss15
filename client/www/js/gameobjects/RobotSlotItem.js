@@ -6,13 +6,14 @@ define(function(){
     var boxTex = null;
     var iconBoxTex = null;
 
-    function RobotSlotItem(game,state,item,width){
+    function RobotSlotItem(game,state,item,slotType,width){
         Phaser.Group.call(this,game);
 
-        this.item = item;
+        this.item = null;
         this.state = state;
         this.boxWidth = width;
         this.boxHeight = 40;
+        this.slotType = slotType;
 
         if(!boxTex){
             boxTex = this.state.add.bitmapData(this.boxWidth,this.boxHeight);
@@ -28,18 +29,12 @@ define(function(){
 
         this.box = this.state.add.sprite(0,0,boxTex);
         this.box.inputEnabled = true;
-
-        this.iconBox = this.getIcon();
-
-        this.iconBox.y = (this.boxHeight/2) - (this.iconBox.height/2);
-        this.iconBox.x = this.iconBox.y;
-
-        this.infoText = this.state.add.text(this.iconBox.x + 35,(this.boxHeight/2) - 5,'',{font: "20px vt323regular",fill: '#ffffff',align: 'left'});
-        this.initText();
-
         this.add(this.box);
-        this.add(this.iconBox);
-        this.add(this.infoText);
+
+        this.iconBox = null;
+        this.infoText = null;
+
+        this.setItem(item);
     }
 
     RobotSlotItem.prototype = Object.create(Phaser.Group.prototype);
@@ -47,20 +42,42 @@ define(function(){
 
     RobotSlotItem.prototype.setItem = function(item){
         this.item = item;
-        var icon = this.getIcon();
 
-        icon.x = this.iconBox.x;
-        icon.y = this.iconBox.y;
+        if(this.iconBox){
+            this.iconBox.destroy();
+        }
 
-        this.iconBox.destroy();
-        this.iconBox = icon;
-        this.add(this.iconBox);
+        if(item){
+            var icon = this.getIcon();
+            this.iconBox = icon;
+
+            this.iconBox.y = this.y + ((this.boxHeight/2) - (this.iconBox.height/2));
+            this.iconBox.x = this.x + this.iconBox.y;
+
+            this.add(this.iconBox);
+        }else{
+            this.iconBox = null;
+        }
+
 
         this.initText();
     };
 
     RobotSlotItem.prototype.initText = function(){
-        this.infoText.setText('A:' + this.item.attack + ' V:' + this.item.defense + ' B:' + this.item.agility);
+        if(this.infoText){
+            this.infoText.destroy();
+        }
+
+        this.infoText = this.state.add.text((this.iconBox ? (this.iconBox.x + 35) : this.x),this.y + ((this.boxHeight/2) - 10),'',{font: "20px vt323regular",fill: '#ffffff',align: 'left'});
+
+        if(this.item){
+            this.infoText.setText('A:' + this.item.attack + ' V:' + this.item.defense + ' B:' + this.item.agility);
+        }else{
+            this.infoText.setText(this.slotType);
+            this.infoText.x = (this.boxWidth/2) - (this.infoText.width/2);
+        }
+
+        this.add(this.infoText);
     };
 
     RobotSlotItem.prototype.getIcon = function(){

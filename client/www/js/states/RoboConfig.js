@@ -40,6 +40,7 @@ define([
         this.slotBody = null;
         this.slotArms = null;
         this.slotLegs = null;
+        this.slotShield = null;
         this.statStyle = {font: "24px vt323regular",fill: '#ffffff',align: 'left'};
 
         this.inventoryArea = null;
@@ -116,9 +117,10 @@ define([
         this.configSlots.add(this.slotBody);
         this.configSlots.add(this.slotArms);
         this.configSlots.add(this.slotLegs);
+        this.configSlots.add(this.slotShield);
 
         this.configSlots.x = (this.app.width/2)+4;
-        this.configSlots.y = 0;
+        this.configSlots.y = 2;
 
         this.configArea.add(this.configSlots);
 
@@ -290,7 +292,7 @@ define([
         var robot = this.app.user.robot;
 
         if(!this.slotHead){
-            this.slotHead = new RobotSlotItem(this.app.game,this,robot.head,this.slotWidth);
+            this.slotHead = new RobotSlotItem(this.app.game,this,robot.head,'Kopf',this.slotWidth);
             this.slotHead.x = 0;
             this.slotHead.y = 0;
         }else{
@@ -298,7 +300,7 @@ define([
         }
 
         if(!this.slotBody){
-            this.slotBody = new RobotSlotItem(this.app.game,this,robot.body,this.slotWidth);
+            this.slotBody = new RobotSlotItem(this.app.game,this,robot.body,'Torso',this.slotWidth);
             this.slotBody.x = 0;
             this.slotBody.y = this.slotHead.y + this.slotHeight;
         }else{
@@ -306,7 +308,7 @@ define([
         }
 
         if(!this.slotArms){
-            this.slotArms = new RobotSlotItem(this.app.game,this,robot.arms,this.slotWidth);
+            this.slotArms = new RobotSlotItem(this.app.game,this,robot.arms,'Arme',this.slotWidth);
             this.slotArms.x = 0;
             this.slotArms.y = this.slotBody.y + this.slotHeight;
         }else{
@@ -314,11 +316,19 @@ define([
         }
 
         if(!this.slotLegs){
-            this.slotLegs = new RobotSlotItem(this.app.game,this,robot.legs,this.slotWidth);
+            this.slotLegs = new RobotSlotItem(this.app.game,this,robot.legs,'Beine',this.slotWidth);
             this.slotLegs.x = 0;
             this.slotLegs.y = this.slotArms.y + this.slotHeight;
         }else{
             this.slotLegs.setItem(robot.legs);
+        }
+
+        if(!this.slotShield){
+            this.slotShield = new RobotSlotItem(this.app.game,this,null,'Schild',this.slotWidth);
+            this.slotShield.x = 0;
+            this.slotShield.y = this.slotLegs.y + this.slotHeight;
+        }else{
+            this.slotShield.setItem(null);
         }
     };
 
