@@ -333,7 +333,17 @@ define([
     };
 
     RoboConfig.prototype.addToConfig = function(item){
+        var robot = this.app.user.robot;
 
+        if(robot[item.slot]){
+            //this.app.user.addItem(item.id);
+        }
+
+        robot[item.slot+'_id'] = item.id;
+
+        this.updateRobot();
+        this.initSlots();
+        this.initItemList();
     };
 
     RoboConfig.prototype.removeFromConfig = function(item){
@@ -359,7 +369,7 @@ define([
                 var listItem = target.sprite.parent;
 
                 this.dragItem = listItem.getIcon();
-                this.dragItem.item = listItem.item;
+                this.dragItem.item = listItem.item.robotpart || listItem.item;
                 this.app.scaleMax(this.dragItem,60,60);
                 this.dragItem.x = this.input.activePointer.x;
                 this.dragItem.y = this.input.activePointer.y;
