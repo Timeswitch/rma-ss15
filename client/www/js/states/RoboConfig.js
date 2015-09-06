@@ -113,7 +113,7 @@ define([
 
         this.configArea.y = this.configAreaY;
 
-        this.items = this.app.user.inventory;
+        this.initItems();
 
         this.list = this.add.group();
         this.list.x = 0;
@@ -189,6 +189,32 @@ define([
         this.attackText.setText(stats.attack || '-');
         this.defenseText.setText(stats.defense || '-');
         this.agilityText.setText(stats.agility || '-');
+    };
+
+    RoboConfig.prototype.initItems = function(){
+        for(var i=0;i<this.items.length;i++){
+            this.items[i].DSRevert();
+        }
+
+        this.items = this.app.user.inventory;
+
+        var prioList = ['head','body','arms','legs'];
+        this.items.sort(function(a,b){
+
+            var prioA = prioList.indexOf(a.robotpart.slot);
+            var prioB = prioList.indexOf(b.robotpart.slot);
+
+            var prio = (prioA < prioB);
+
+            if(prio){
+                return -1;
+            }else if(prioA == prioB){
+                return a.robotpart.name.localeCompare(b.robotpart.name);
+            }
+
+            return 1;
+
+        });
     };
 
     RoboConfig.prototype.initItemList = function(){
