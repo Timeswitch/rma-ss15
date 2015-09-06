@@ -158,7 +158,7 @@ var User = database.Model.extend({
                 prom.push(self.removeItem(config.head_id));
             }
 
-            if(obot.get('body_id') != config.body_id){
+            if(robot.get('body_id') != config.body_id){
                 prom.push(self.removeItem(config.body_id));
             }
 
