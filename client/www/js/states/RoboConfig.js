@@ -337,6 +337,10 @@ define([
     };
 
     RoboConfig.prototype.removeFromConfig = function(item){
+        if(item.slot == 'body'){
+            this.showDialog('Hinweis','Es muss immer ein Torso\nvorhanden sein!');
+            return;
+        }
         //this.app.user.addItem(item.id);
         this.app.user.robot[item.slot+'_id'] = null;
 
@@ -363,8 +367,8 @@ define([
                 if(listItem.hasOwnProperty('slotType')){
                     this.dragItem.removeItem = true;
                 }
-
             }
+
         }
     };
 
