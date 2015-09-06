@@ -201,7 +201,7 @@ define([
                     if(this.input.activePointer.y > this.inventoryAreaY && this.dragItem.removeItem){
                         this.removeFromConfig(this.dragItem.item);
                     }else if(this.input.activePointer.y > 60 && this.input.activePointer.y < this.inventoryAreaY && !this.dragItem.removeItem){
-                        this.addToConfig(this.dragItem.listItem.item,this.dragItem);
+                        this.addToConfig(this.dragItem.item);
                     }
 
                     this.dragItem.destroy();
@@ -337,22 +337,33 @@ define([
     };
 
     RoboConfig.prototype.removeFromConfig = function(item){
+        //this.app.user.addItem(item.id);
+        this.app.user.robot[item.slot+'_id'] = null;
 
+        this.updateRobot();
+        this.initSlots();
+        this.initItemList();
     };
 
     RoboConfig.prototype.onHold = function(target){
         if(target != null) {
-            this.isHolding = true;
-            this.canHold = false;
 
             if(target.sprite.parent.item) {
+                this.isHolding = true;
+                this.canHold = false;
+
                 var listItem = target.sprite.parent;
 
                 this.dragItem = listItem.getIcon();
-                this.dragItem.listItem = listItem;
+                this.dragItem.item = listItem.item;
                 this.app.scaleMax(this.dragItem,60,60);
                 this.dragItem.x = this.input.activePointer.x;
                 this.dragItem.y = this.input.activePointer.y;
+
+                if(listItem.hasOwnProperty('slotType')){
+                    this.dragItem.removeItem = true;
+                }
+
             }
         }
     };

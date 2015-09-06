@@ -44,11 +44,17 @@ define(function(){
 
     RobotGroup.prototype.render = function(){
         if(this.config.db){
-            this.head.loadTexture(this.config.head.getImage(this.back));
-            this.body.loadTexture(this.config.body.getImage(this.back));
-            this.armLeft.loadTexture(this.config.arms.getImageLeft(this.back));
-            this.armRight.loadTexture(this.config.arms.getImageRight(this.back));
-            this.legs.loadTexture(this.config.legs.getImage(this.back));
+
+            for(var k in this.config){
+                if(k != 'db' && this.config[k]){
+                    if(k == 'arms'){
+                        this.armLeft.loadTexture(this.config.arms.getImageLeft(this.back));
+                        this.armRight.loadTexture(this.config.arms.getImageRight(this.back));
+                    }else{
+                        this[k].loadTexture(this.config[k].getImage(this.back));
+                    }
+                }
+            }
         }else{
             if(this.back){
                 this.head.loadTexture('robo_head_back_'+this.config.head);

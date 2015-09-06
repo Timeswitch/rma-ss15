@@ -41,7 +41,7 @@ define(function(){
     RobotSlotItem.prototype.constructor = RobotSlotItem;
 
     RobotSlotItem.prototype.setItem = function(item){
-        this.item = item;
+        this.item = item || null;
 
         if(this.iconBox){
             this.iconBox.destroy();
@@ -51,8 +51,8 @@ define(function(){
             var icon = this.getIcon();
             this.iconBox = icon;
 
-            this.iconBox.y = this.y + ((this.boxHeight/2) - (this.iconBox.height/2));
-            this.iconBox.x = this.x + this.iconBox.y;
+            this.iconBox.y = ((this.boxHeight/2) - (this.iconBox.height/2));
+            this.iconBox.x = this.iconBox.y;
 
             this.add(this.iconBox);
         }else{
@@ -68,13 +68,13 @@ define(function(){
             this.infoText.destroy();
         }
 
-        this.infoText = this.state.add.text((this.iconBox ? (this.iconBox.x + 35) : this.x),this.y + ((this.boxHeight/2) - 10),'',{font: "20px vt323regular",fill: '#ffffff',align: 'left'});
+        this.infoText = this.state.add.text((this.iconBox ? (this.iconBox.x + 35) : 0),((this.boxHeight/2) - 10),'',{font: "20px vt323regular",fill: '#ffffff',align: 'left'});
 
         if(this.item){
             this.infoText.setText('A:' + this.item.attack + ' V:' + this.item.defense + ' B:' + this.item.agility);
         }else{
             this.infoText.setText(this.slotType);
-            this.infoText.x = (this.boxWidth/2) - (this.infoText.width/2);
+            this.infoText.x = ((this.boxWidth/2) - (this.infoText.width/2));
         }
 
         this.add(this.infoText);

@@ -50,9 +50,9 @@ define(function() {
                 },
                 getStats: function(){
                     return {
-                        attack: (this.head.attack + this.body.attack + this.arms.attack + this.legs.attack),
-                        defense: (this.head.defense + this.body.defense + this.arms.defense + this.legs.defense),
-                        agility: (this.head.agility + this.body.agility + this.arms.agility + this.legs.agility),
+                        attack: ((this.head ? this.head.attack : 0) + (this.body ? this.body.attack : 0) + (this.arms ? this.arms.attack : 0) + (this.legs ? this.legs.attack : 0)),
+                        defense: ((this.head ? this.head.defense : 0) + (this.body ? this.body.defense : 0) + (this.arms ? this.arms.defense : 0) + (this.legs ? this.legs.defense : 0)),
+                        agility: ((this.head ? this.head.agility : 0) + (this.body ? this.body.agility : 0) + (this.arms ? this.arms.agility : 0) + (this.legs ? this.legs.agility : 0)),
                     };
                 }
             }
