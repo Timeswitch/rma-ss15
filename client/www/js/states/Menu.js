@@ -46,6 +46,7 @@ define([
         this.contentPageMax = 2;
         this.lastPointerX = 0;
         this.pointerDown = false;
+        this.robot = null;
     };
 
     Menu.prototype.preload = function(){
@@ -72,17 +73,7 @@ define([
 
         this.content = this.game.add.group();
 
-        var rob = this.app.makeRobot('player');
-        this.robot = rob.toSprite();
-        rob.destroy();
-
-
-        this.app.scaleMax(this.robot,this.world.width - 112,this.world.height - 260);
-        this.robot.x = this.world.centerX - (this.robot.width/2);
-        this.robot.y = this.world.centerY - (this.robot.height/2);
-        //this.robot.setAll('tint', 0x76dc51);
-        this.robot.alpha = 0.5;
-        this.content.add(this.robot);
+        this.initRobot();
 
         this.scanIcon = this.add.sprite(this.world.centerX,this.world.centerY,'scan_icon');
         this.app.scaleMax(this.scanIcon,this.world.width - 180,this.world.height - 260);
@@ -125,10 +116,6 @@ define([
             this.onBattleClick();
         });
 
-        this.createOnClick(this.robot,function(){
-            this.onConfigClick();
-        });
-
         this.content.add(this.scanIcon);
         this.content.add(this.inventoryIcon);
         this.content.add(this.friendsIcon);
@@ -150,6 +137,30 @@ define([
         this.arrowRight = this.add.button(this.world.width - 32, this.world.centerY, 'arrow_right');
         this.arrowRight.anchor.set(0.5);
 
+    };
+
+    Menu.prototype.initRobot = function(){
+        var rob = this.app.makeRobot('player');
+        var newRobot = rob.toSprite();
+        this.app.scaleMax(newRobot,this.world.width - 112,this.world.height - 260);
+
+        if(this.robot){
+            this.content.remove(this.robot);
+            newRobot.x = this.robot.x;
+            newRobot.y = this.robot.y;
+        }else{
+            newRobot.x = this.world.centerX - (newRobot.width/2);
+            newRobot.y = this.world.centerY - (newRobot.height/2);
+        }
+
+        this.robot = newRobot;
+        this.robot.alpha = 0.5;
+
+        this.content.add(this.robot);
+
+        this.createOnClick(this.robot,this.onConfigClick);
+
+        rob.destroy();
     };
 
     Menu.prototype.update = function(){
@@ -288,6 +299,9 @@ define([
         this.app.startState('RoboConfig');
     };
 
+    Menu.prototype.onDataUpdate = function(){
+        this.initRobot();
+    };
 
 
     return new Menu();

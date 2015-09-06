@@ -177,7 +177,7 @@ var User = database.Model.extend({
 
                 return Promise.all(prom).then(function(results){
                     for(var i=0; i< changes.length;i++){
-                        if(results[i]){
+                        if(results[i] || (!results[i] && !config[changes[i]])){
                             robot.set(changes[i],config[changes[i]]);
                         }
                     }

@@ -25,6 +25,9 @@ ConnectionController.prototype.init = function(){
     this.socket.on('removeFriend',this.onRemoveFriend.bind(this));
     this.socket.on('recycle',this.onRecycle.bind(this));
     this.socket.on('saveRobot',this.onSaveRobot.bind(this));
+    this.socket.on('updateReceived',this.onUpdateReceived.bind(this));
+
+    this.updateCallback = null;
 
     new RobotPart().fetchAll().then(function(items){
         self.socket.emit('sync',{
@@ -111,8 +114,9 @@ ConnectionController.prototype.onScan = function(data){
                         self.getLoot().then(function(loot){
                             if(loot > 0){
                                 self.user.addItem(loot).then(function(){
-                                    self.socket.emit('scanResult',{status: 'valid', item: loot});
-                                    self.sendUpdate();
+                                    self.sendUpdate().then(function(){
+                                        self.socket.emit('scanResult',{status: 'valid', item: loot});
+                                    });
                                 });
                             }else{
                                 self.socket.emit('scanResult',{status: 'empty', item: loot});
@@ -127,8 +131,9 @@ ConnectionController.prototype.onScan = function(data){
                     self.getLoot().then(function(loot){
                         if(loot > 0){
                             self.user.addItem(loot).then(function(){
-                                self.sendUpdate();
-                                self.socket.emit('scanResult',{status: 'valid', item: loot});
+                                self.sendUpdate().then(function(){
+                                    self.socket.emit('scanResult',{status: 'valid', item: loot});
+                                });
                             });
                         }else{
                             self.socket.emit('scanResult',{status: 'empty', item: loot});
@@ -192,14 +197,23 @@ ConnectionController.prototype.getLoot = function(){
 
 ConnectionController.prototype.sendUpdate = function(){
     var self = this;
-
-    return Promise.all([this.user.getItemPivot(),this.user.getFriends()]).then(function(data){
-        self.socket.emit('update',{
-            inventory: data[0],
-            friendlist: data[1],
-            robot: self.user.related('robot').toJSON({shallow: true})
-        })
+    return new Promise(function(resolve){
+        self.updateCallback = resolve;
+        Promise.all([self.user.getItemPivot(),self.user.getFriends(),self.user.robot().fetch()]).then(function(data){
+            self.socket.emit('update',{
+                inventory: data[0],
+                friendlist: data[1],
+                robot: data[2]
+            })
+        });
     });
+};
+
+ConnectionController.prototype.onUpdateReceived = function(){
+    if(this.updateCallback){
+        this.updateCallback();
+        this.updateCallback = null;
+    }
 };
 
 ConnectionController.prototype.onRecycle = function(data){

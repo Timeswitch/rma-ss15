@@ -12,7 +12,7 @@ define(['socket.io'],function(io){
         this.friendCallback = null;
         this.inventoryCallback = null;
         this.recycleCallback = null;
-        this.robotSavedCallback = null;
+        this.saveRobotCallback = null;
 
         this.socket.on('sync',this.onConnect.bind(this));
 
@@ -63,6 +63,7 @@ define(['socket.io'],function(io){
         this.app.injectData('Robot',data.robot);
 
         this.app.game.state.getCurrentState().onDataUpdate();
+        this.socket.emit('updateReceived');
     };
 
     ConnectionController.prototype.register = function(){
