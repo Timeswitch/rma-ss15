@@ -130,68 +130,67 @@ var User = database.Model.extend({
     },
     saveRobot: function(config){
         var self = this;
-        var robot = this.robot();
-        var prom = [];
-
-        
-        if(robot.get('head_id') && robot.get('head_id') != config.head_id){
-            prom.push(this.addItem(robot.get('head_id')));
-        }
-        
-        if(robot.get('body_id') && robot.get('body_id') != config.body_id){
-            prom.push(this.addItem(robot.get('body_id')));
-        }
-
-        if(robot.get('arms_id') && robot.get('arms_id') != config.arms_id){
-            prom.push(this.addItem(robot.get('arms_id')));
-        }
-
-        if(robot.get('legs_id') && robot.get('legs_id') != config.legs_id){
-            prom.push(this.addItem(robot.get('legs_id')));
-        }
-
-        return Promise.all(prom).then(function(){
+        return this.robot().fetch({require: true}).then(function(robot){
 
             var prom = [];
 
-            if(robot.get('head_id') != config.head_id){
-                prom.push(self.removeItem(config.head_id));
+            if(robot.get('head_id') && robot.get('head_id') != config.head_id){
+                prom.push(self.addItem(robot.get('head_id')));
             }
 
-            if(robot.get('body_id') != config.body_id){
-                prom.push(self.removeItem(config.body_id));
+            if(robot.get('body_id') && robot.get('body_id') != config.body_id){
+                prom.push(self.addItem(robot.get('body_id')));
             }
 
-            if(robot.get('arms_id') != config.arms_id){
-                prom.push(self.removeItem(config.arms_id));
+            if(robot.get('arms_id') && robot.get('arms_id') != config.arms_id){
+                prom.push(self.addItem(robot.get('arms_id')));
             }
 
-            if(robot.get('legs_id') != config.legs_id){
-                prom.push(self.removeItem(config.legs_id));
+            if(robot.get('legs_id') && robot.get('legs_id') != config.legs_id){
+                prom.push(self.addItem(robot.get('legs_id')));
             }
 
-            return Promise.all(prom).then(function(results){
-                if(results[0]){
-                    robot.set('head_id',config.head_id);
+            return Promise.all(prom).then(function(){
+
+                var prom = [];
+                var changes = [];
+
+                if(robot.get('head_id') != config.head_id){
+                    prom.push(self.removeItem(config.head_id));
+                    changes.push('head_id');
                 }
 
-                if(results[1]){
-                    robot.set('body_id',config.body_id);
+                if(robot.get('body_id') != config.body_id){
+                    prom.push(self.removeItem(config.body_id));
+                    changes.push('body_id');
                 }
 
-                if(results[2]){
-                    robot.set('arms_id',config.arms_id);
+                if(robot.get('arms_id') != config.arms_id){
+                    prom.push(self.removeItem(config.arms_id));
+                    changes.push('arms_id');
                 }
 
-                if(results[3]){
-                    robot.set('legs_id',config.legs_id);
+                if(robot.get('legs_id') != config.legs_id){
+                    prom.push(self.removeItem(config.legs_id));
+                    changes.push('legs_id');
                 }
 
-                return robot.save();
+                return Promise.all(prom).then(function(results){
+                    for(var i=0; i< changes.length;i++){
+                        if(results[i]){
+                            robot.set(changes[i],config[changes[i]]);
+                        }
+                    }
+
+                    return robot.save();
+                });
+
+
             });
-
-
         });
+
+        
+
     }
 
 });
