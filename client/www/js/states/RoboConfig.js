@@ -396,9 +396,9 @@ define([
     };
 
     RoboConfig.prototype.onBack = function(){
-        if(this.app.robot.DSHasChanges()){
+        if(this.app.user.robot.DSHasChanges()){
             this.showProgress();
-            this.app.saveRobot();
+            this.app.saveRobot(this.onSave.bind(this));
         }else{
             this.app.startState('Menu');
         }

@@ -149,7 +149,7 @@ define(['socket.io'],function(io){
 
     ConnectionController.prototype.saveRobot = function(callback){
         this.saveRobotCallback = callback;
-        this.emit('saveRobot',{
+        this.socket.emit('saveRobot',{
             config: this.app.user.robot
         });
     };
