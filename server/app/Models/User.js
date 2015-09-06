@@ -155,19 +155,19 @@ var User = database.Model.extend({
             var prom = [];
 
             if(robot.get('head_id') != config.head_id){
-                prom.push(this.removeItem(config.head_id));
+                prom.push(self.removeItem(config.head_id));
             }
 
             if(obot.get('body_id') != config.body_id){
-                prom.push(this.removeItem(config.body_id));
+                prom.push(self.removeItem(config.body_id));
             }
 
             if(robot.get('arms_id') != config.arms_id){
-                prom.push(this.removeItem(config.arms_id));
+                prom.push(self.removeItem(config.arms_id));
             }
 
             if(robot.get('legs_id') != config.legs_id){
-                prom.push(this.removeItem(config.legs_id));
+                prom.push(self.removeItem(config.legs_id));
             }
 
             return Promise.all(prom).then(function(results){
