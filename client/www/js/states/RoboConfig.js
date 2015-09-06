@@ -61,23 +61,15 @@ define([
         this.background.height = this.app.height;
         this.background.filters = [this.filter];
 
-        this.titleContainer = new TileBox(this.app.game,this.app.width,60);
+        this.initItems();
 
-        this.titleContainer.x = 0;
-        this.titleContainer.y = 0;
+        this.list = this.add.group();
+        this.list.x = 0;
+        this.list.y = 0;
 
-        var titleText = this.app.game.add.text(this.world.centerX,30,'Zusammenstellung',{font: "35px bitwise",fill: '#ffffff',align: 'center'});
-        titleText.anchor.set(0.5);
-        this.titleContainer.add(titleText);
-        this.titleContainer.forEach(function(e){
-            e.alpha = 0.7;
-        },this);
+        this.initItemList();
 
-        var menuButton = this.app.game.add.text(10,2,'<',{font: "50px vt323regular",fill: '#ffffff',align: 'center'});
-        this.titleContainer.add(menuButton);
-        this.createOnClick(menuButton,function(){
-            this.app.startState('Menu');
-        });
+        this.list.y = this.inventoryAreaY;
 
         this.configArea = this.add.group();
         this.configArea.x = 0;
@@ -113,15 +105,24 @@ define([
 
         this.configArea.y = this.configAreaY;
 
-        this.initItems();
+        this.titleContainer = new TileBox(this.app.game,this.app.width,60);
 
-        this.list = this.add.group();
-        this.list.x = 0;
-        this.list.y = 0;
+        this.titleContainer.x = 0;
+        this.titleContainer.y = 0;
 
-        this.initItemList();
+        var titleText = this.app.game.add.text(this.world.centerX,30,'Zusammenstellung',{font: "35px bitwise",fill: '#ffffff',align: 'center'});
+        titleText.anchor.set(0.5);
+        this.titleContainer.add(titleText);
+        this.titleContainer.forEach(function(e){
+            e.alpha = 0.7;
+        },this);
 
-        this.list.y = this.inventoryAreaY;
+        var menuButton = this.app.game.add.text(10,2,'<',{font: "50px vt323regular",fill: '#ffffff',align: 'center'});
+        this.titleContainer.add(menuButton);
+        this.createOnClick(menuButton,function(){
+            this.app.startState('Menu');
+        });
+
     };
 
     RoboConfig.prototype.update = function(){
