@@ -252,14 +252,15 @@ ConnectionController.prototype.onRecycle = function(data){
         });
     });
 
-    ConnectionController.prototype.onSaveRobot = function(data){
-        var self = this;
-        return this.user.saveRobot(data.robot).then(function(){
-            return self.sendUpdate().then(function(){
-                self.emit('robotSaved');
-            });
+};
+
+ConnectionController.prototype.onSaveRobot = function(data){
+    var self = this;
+    return this.user.saveRobot(data.robot).then(function(){
+        return self.sendUpdate().then(function(){
+            self.emit('robotSaved');
         });
-    };
+    });
 };
 
 module.exports = ConnectionController;
