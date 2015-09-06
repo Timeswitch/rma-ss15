@@ -5,8 +5,9 @@ define([
     'states/BaseState',
     'gameobjects/TileBox',
     'gameobjects/RobotGroup',
-    'gameobjects/InventorylistItem'
-],function(BaseState,TileBox,RobotGroup,InventorylistItem){
+    'gameobjects/InventorylistItem',
+    'gameobjects/RobotSlotItem'
+],function(BaseState,TileBox,RobotGroup,InventorylistItem,RobotSlotItem){
 
     function RoboConfig(){
         BaseState.call(this);
@@ -21,7 +22,7 @@ define([
         BaseState.prototype.init.call(this);
 
         this.slotHeight = 40;
-        this.slotWidth = (this.app.width/2)-8;
+        this.slotWidth = (this.app.width/2)-4;
         this.configAreaY = 60;
         this.inventoryAreaY = 64 + (5*this.slotHeight);
 
@@ -105,8 +106,23 @@ define([
 
         this.updateRobot();
 
-        this.configArea.y = this.configAreaY;
+        this.configSlots = this.add.group();
+        this.configSlots.x = 0;
+        this.configSlots.y = 0;
 
+        this.initSlots();
+
+        this.configSlots.add(this.slotHead);
+        this.configSlots.add(this.slotBody);
+        this.configSlots.add(this.slotArms);
+        this.configSlots.add(this.slotLegs);
+
+        this.configSlots.x = (this.app.width/2)+4;
+        this.configSlots.y = 0;
+
+        this.configArea.add(this.configSlots);
+
+        this.configArea.y = this.configAreaY;
         this.titleContainer = new TileBox(this.app.game,this.app.width,60);
 
         this.titleContainer.x = 0;
@@ -270,6 +286,42 @@ define([
 
     };
 
+    RoboConfig.prototype.initSlots = function(){
+        var robot = this.app.user.robot;
+
+        if(!this.slotHead){
+            this.slotHead = new RobotSlotItem(this.app.game,this,robot.head,this.slotWidth);
+            this.slotHead.x = 0;
+            this.slotHead.y = 0;
+        }else{
+            this.slotHead.setItem(robot.head);
+        }
+
+        if(!this.slotBody){
+            this.slotBody = new RobotSlotItem(this.app.game,this,robot.body,this.slotWidth);
+            this.slotBody.x = 0;
+            this.slotBody.y = this.slotHead.y + this.slotHeight;
+        }else{
+            this.slotBody.setItem(robot.body);
+        }
+
+        if(!this.slotArms){
+            this.slotArms = new RobotSlotItem(this.app.game,this,robot.arms,this.slotWidth);
+            this.slotArms.x = 0;
+            this.slotArms.y = this.slotBody.y + this.slotHeight;
+        }else{
+            this.slotArms.setItem(robot.arms);
+        }
+
+        if(!this.slotLegs){
+            this.slotLegs = new RobotSlotItem(this.app.game,this,robot.legs,this.slotWidth);
+            this.slotLegs.x = 0;
+            this.slotLegs.y = this.slotArms.y + this.slotHeight;
+        }else{
+            this.slotLegs.setItem(robot.legs);
+        }
+    };
+
     RoboConfig.prototype.addToConfig = function(item){
 
     };
@@ -288,7 +340,7 @@ define([
 
                 this.dragItem = listItem.getIcon();
                 this.dragItem.listItem = listItem;
-                this.dragItem.scale.set(2, 2);
+                this.app.scaleMax(this.dragItem,60,60);
                 this.dragItem.x = this.input.activePointer.x;
                 this.dragItem.y = this.input.activePointer.y;
             }
