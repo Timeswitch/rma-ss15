@@ -34,8 +34,12 @@ define(function(){
         this.iconBox.y = (this.boxHeight/2) - (this.iconBox.height/2);
         this.iconBox.x = this.iconBox.y;
 
+        this.infoText = this.state.add.text(this.iconBox.x + 35,(this.boxHeight/2) - 5,'',{font: "20px vt323regular",fill: '#ffffff',align: 'left'});
+        this.initText();
+
         this.add(this.box);
         this.add(this.iconBox);
+        this.add(this.infoText);
     }
 
     RobotSlotItem.prototype = Object.create(Phaser.Group.prototype);
@@ -51,6 +55,12 @@ define(function(){
         this.iconBox.destroy();
         this.iconBox = icon;
         this.add(this.iconBox);
+
+        this.initText();
+    };
+
+    RobotSlotItem.prototype.initText = function(){
+        this.infoText.setText('A:' + this.item.attack + ' V:' + this.item.defense + ' B:' + this.item.agility);
     };
 
     RobotSlotItem.prototype.getIcon = function(){
