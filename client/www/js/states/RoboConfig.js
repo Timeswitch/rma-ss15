@@ -241,9 +241,11 @@ define([
         this.agilityText.setText(stats.agility || '-');
     };
 
-    RoboConfig.prototype.initItems = function(){
-        for(var i=0;i<this.items.length;i++){
-            this.items[i].DSRevert();
+    RoboConfig.prototype.initItems = function(noRevert){
+        if(!noRevert){
+            for(var i=0;i<this.items.length;i++){
+                this.items[i].DSRevert();
+            }
         }
 
         this.items = this.app.user.inventory;
@@ -336,11 +338,13 @@ define([
         var robot = this.app.user.robot;
 
         if(robot[item.slot]){
-            //this.app.user.addItem(item.id);
+            this.app.addItem(robot[item.slot].id);
         }
 
         robot[item.slot+'_id'] = item.id;
+        this.app.removeItem(item.id);
 
+        this.initItems(true);
         this.updateRobot();
         this.initSlots();
         this.initItemList();
@@ -351,9 +355,10 @@ define([
             this.showDialog('Hinweis','Es muss immer ein Torso\nvorhanden sein!');
             return;
         }
-        //this.app.user.addItem(item.id);
+        this.app.addItem(item.id);
         this.app.user.robot[item.slot+'_id'] = null;
 
+        this.initItems(true);
         this.updateRobot();
         this.initSlots();
         this.initItemList();

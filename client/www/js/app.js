@@ -291,6 +291,35 @@ define([
             this.store.inject(model,data);
         };
 
+        App.prototype.addItem = function(item){
+            var items = this.user.inventory;
+
+            for(var i = 0; i<items.length; i++){
+                if(items[i].id == item){
+                    items[i].count++;
+                    return;
+                }
+            }
+
+            this.store.inject('Item',{
+                id: item,
+                robotpart_id: item,
+                user_id: this.user.id,
+                count: 1
+            });
+        };
+
+        App.prototype.removeItem = function(item){
+            var items = this.user.inventory;
+
+            for(var i = 0; i<items.length; i++){
+                if(items[i].id == item){
+                    items[i].count--;
+                    return;
+                }
+            }
+        };
+
         App.prototype.onBack = function(){
             if(this.game && this.game.state.getCurrentState().onBack){
                 this.game.state.getCurrentState().onBack();
