@@ -4,8 +4,9 @@
 define([
     'states/BaseState',
     'gameobjects/TileBox',
-    'gameobjects/RobotGroup'
-],function(BaseState,TileBox){
+    'gameobjects/RobotGroup',
+    'gameobjects/InventorylistItem'
+],function(BaseState,TileBox,RobotGroup,InventorylistItem){
 
     function RoboConfig(){
         BaseState.call(this);
@@ -34,9 +35,22 @@ define([
         this.attackText = null;
         this.defenseText = null;
         this.agilityText = null;
+        this.slotHead = null;
+        this.slotBody = null;
+        this.slotArms = null;
+        this.slotLegs = null;
         this.statStyle = {font: "24px vt323regular",fill: '#ffffff',align: 'left'};
 
         this.inventoryArea = null;
+        this.list = null;
+
+        this.items = [];
+
+        this.pointerDown = false;
+        this.lastPointerY = 0;
+        this.pointerDownPosition = {y: 0};
+        this.listTween = null;
+
     };
 
     RoboConfig.prototype.create = function(){
@@ -99,6 +113,64 @@ define([
 
         this.configArea.y = this.configAreaY;
 
+        this.items = this.app.user.inventory;
+
+        this.list = this.add.group();
+        this.list.x = 0;
+        this.list.y = 0;
+
+        this.initItemList();
+
+        this.list.y = this.inventoryAreaY;
+    };
+
+    RoboConfig.prototype.update = function(){
+        if(this.isInputEnabled() && this.input.activePointer.isDown) {
+            if (!this.pointerDown) {
+                this.lastPointerY = this.input.activePointer.y;
+                this.pointerDownPosition.y = this.input.activePointer.y;
+                this.pointerDown = true;
+
+                if(this.pointerDownPosition.y > this.inventoryAreaY){
+                    if(this.listTween != null){
+                        this.listTween.stop();
+                    }
+                }
+            }
+
+            if(this.isInputEnabled()){
+
+
+                if(this.pointerDownPosition.y > this.inventoryAreaY){
+                    var move = this.input.activePointer.y - this.lastPointerY;
+
+                    this.list.y += move;
+
+                    this.lastPointerY = this.input.activePointer.y;
+
+                }
+
+            }
+
+        }
+
+        if(this.input.activePointer.justReleased() || !this.isInputEnabled()) {
+            if (this.pointerDown) {
+                this.pointerDown = false;
+
+                var isLongerThanView = (this.list.height > (this.app.height - this.inventoryAreaY));
+
+                if(this.list.y > 144 ||  !isLongerThanView && this.list.y < this.inventoryAreaY){
+                    this.listTween = this.add.tween(this.list).to({y: this.inventoryAreaY},150);
+                    this.listTween.start();
+                }
+
+                if(isLongerThanView && (this.list.y + this.list.height) < (this.app.height)){
+                    this.listTween = this.add.tween(this.list).to({y: (this.app.height -  this.list.height)},150);
+                    this.listTween.start();
+                }
+            }
+        }
     };
 
     RoboConfig.prototype.updateRobot = function(){
@@ -117,6 +189,27 @@ define([
         this.attackText.setText(stats.attack || '-');
         this.defenseText.setText(stats.defense || '-');
         this.agilityText.setText(stats.agility || '-');
+    };
+
+    RoboConfig.prototype.initItemList = function(){
+        var y = this.list.y;
+        this.list.y = 0;
+        this.list.removeAll(true);
+
+        for(var i= 0, c = 0; i<this.items.length; i++){
+            var item = this.items[i];
+
+            if(item.count > 0){
+                var listItem = new InventorylistItem(this.app.game,this,item);
+                listItem.x = 0;
+                listItem.y = c*listItem.height;
+                this.list.add(listItem);
+                c++;
+            }
+        }
+
+        this.list.y = y;
+
     };
 
     return new RoboConfig();
