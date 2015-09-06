@@ -20,6 +20,7 @@ define([
         BaseState.prototype.init.call(this);
 
         this.slotHeight = 40;
+        this.slotWidth = (this.app.width/2)-8;
         this.configAreaY = 60;
         this.inventoryAreaY = 64 + (5*this.slotHeight);
 
@@ -33,7 +34,7 @@ define([
         this.attackText = null;
         this.defenseText = null;
         this.agilityText = null;
-        this.statStyle = {font: "26px vt323regular",fill: '#ffffff',align: 'left'};
+        this.statStyle = {font: "24px vt323regular",fill: '#ffffff',align: 'left'};
 
         this.inventoryArea = null;
     };
@@ -72,19 +73,19 @@ define([
             var height = this.inventoryAreaY - this.configAreaY;
             configBG = this.add.bitmapData(this.app.width,height);
             configBG.fill(0,0,0);
-            configBG.rect(2,2,(this.app.width/2)-4,height-4,'#2A5E00');
-            configBG.rect(this.app.width/2,2,this.app.width-4,height-4,'#2A5E00');
+            configBG.rect(2,2,(this.app.width/2),height-4,'#2A5E00');
+            configBG.rect((this.app.width/2)+4,2,this.app.width-4,height-4,'#2A5E00');
         }
 
         this.configArea.create(0,0,configBG);
 
-        var attack = this.add.text(this.app.width/4, this.configAreaY+20, 'ANGR: ',this.statStyle);
+        var attack = this.add.text(this.app.width/4, 10, 'ANGR: ',this.statStyle);
         var defense = this.add.text(this.app.width/4, attack.y + 36, 'VRT : ',this.statStyle);
         var agility = this.add.text(this.app.width/4, defense.y + 36, 'BWGL: ',this.statStyle);
 
-        this.attackText = this.add.text((this.app.width/4) + attack.width, this.configAreaY+20, '-',this.statStyle);
-        this.defenseText = this.add.text((this.app.width/4) + attack.width, attack.y + 36, '-',this.statStyle);
-        this.agilityText = this.add.text((this.app.width/4) + attack.width, defense.y + 36, '-',this.statStyle);
+        this.attackText = this.add.text((this.app.width/4) + attack.width, attack.y, '-',this.statStyle);
+        this.defenseText = this.add.text((this.app.width/4) + attack.width, attack.y + 34, '-',this.statStyle);
+        this.agilityText = this.add.text((this.app.width/4) + attack.width, defense.y + 34, '-',this.statStyle);
 
         this.configArea.add(attack);
         this.configArea.add(defense);
@@ -109,7 +110,7 @@ define([
         this.configRobot = this.app.makeRobot('player');
         this.app.scaleMax(this.configRobot,this.app.width/4,height);
         this.configRobot.y = this.configAreaY + ((height/2) - (this.configRobot.height/2));
-        this.configRobot.x = 8;
+        this.configRobot.x = 4;
         
         var stats = this.app.user.robot.getStats();
         
