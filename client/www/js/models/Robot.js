@@ -47,6 +47,13 @@ define(function() {
                     }
 
                     return config;
+                },
+                getStats: function(){
+                    return {
+                        attack: (this.head.attack + this.body.attack + this.arms.attack + this.legs.attack),
+                        defense: (this.head.defense + this.body.defense + this.arms.defense + this.legs.defense),
+                        agility: (this.head.agility + this.body.agility + this.arms.agility + this.legs.agility),
+                    };
                 }
             }
         });
