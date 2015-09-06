@@ -47,6 +47,8 @@ define([
         this.items = [];
 
         this.pointerDown = false;
+        this.isHolding = false;
+        this.canHold = true;
         this.lastPointerY = 0;
         this.pointerDownPosition = {y: 0};
         this.listTween = null;
@@ -127,6 +129,7 @@ define([
         if(this.isInputEnabled() && this.input.activePointer.isDown) {
             if (!this.pointerDown) {
                 this.lastPointerY = this.input.activePointer.y;
+                this.pointerDownPosition.x = this.input.activePointer.x;
                 this.pointerDownPosition.y = this.input.activePointer.y;
                 this.pointerDown = true;
 
@@ -139,14 +142,30 @@ define([
 
             if(this.isInputEnabled()){
 
-
-                if(this.pointerDownPosition.y > this.inventoryAreaY){
+                if(this.isHolding) {
+                    if (this.dragItem) {
+                        this.dragItem.x = this.input.activePointer.x - (this.dragItem.width / 2);
+                        this.dragItem.y = this.input.activePointer.y - (this.dragItem.height / 2);
+                    } else {
+                        this.isHolding = false;
+                    }
+                }else if(this.pointerDownPosition.y > this.inventoryAreaY){
                     var move = this.input.activePointer.y - this.lastPointerY;
 
                     this.list.y += move;
 
                     this.lastPointerY = this.input.activePointer.y;
 
+                }
+
+                if(this.input.activePointer.duration >= 500 && this.canHold){
+                    if(Math.abs(this.pointerDownPosition.x - this.input.activePointer.x) <= 5 && Math.abs(this.pointerDownPosition.y - this.input.activePointer.y) <= 5){
+                        this.onHold(this.input.activePointer.targetObject);
+                    }else{
+                        this.canHold = false;
+                    }
+
+                    this.input.activePointer.timeDown = this.app.game.time.time;
                 }
 
             }
@@ -156,6 +175,20 @@ define([
         if(this.input.activePointer.justReleased() || !this.isInputEnabled()) {
             if (this.pointerDown) {
                 this.pointerDown = false;
+                this.canHold = true;
+
+                if(this.isHolding){
+                    this.isHolding = false;
+
+                    if(this.input.activePointer.y > this.inventoryAreaY && this.dragItem.removeItem){
+                        this.removeFromConfig(this.dragItem.item);
+                    }else if(this.input.activePointer.y > 60 && this.input.activePointer.y < this.inventoryAreaY && !this.dragItem.removeItem){
+                        this.addToConfig(this.dragItem.listItem.item,this.dragItem);
+                    }
+
+                    this.dragItem.destroy();
+                    this.dragItem = null;
+                }
 
                 var isLongerThanView = (this.list.height > (this.app.height - this.inventoryAreaY));
 
@@ -235,6 +268,31 @@ define([
 
         this.list.y = y;
 
+    };
+
+    RoboConfig.prototype.addToConfig = function(item){
+
+    };
+
+    RoboConfig.prototype.removeFromConfig = function(item){
+
+    };
+
+    RoboConfig.prototype.onHold = function(target){
+        if(target != null) {
+            this.isHolding = true;
+            this.canHold = false;
+
+            if(target.sprite.parent.item) {
+                var listItem = target.sprite.parent;
+
+                this.dragItem = listItem.getIcon();
+                this.dragItem.listItem = listItem;
+                this.dragItem.scale.set(2, 2);
+                this.dragItem.x = this.input.activePointer.x;
+                this.dragItem.y = this.input.activePointer.y;
+            }
+        }
     };
 
     RoboConfig.prototype.onBack = function(){
