@@ -24,6 +24,7 @@ ConnectionController.prototype.init = function(){
     this.socket.on('addFriend',this.onAddFriend.bind(this));
     this.socket.on('removeFriend',this.onRemoveFriend.bind(this));
     this.socket.on('recycle',this.onRecycle.bind(this));
+    this.socket.on('saveRobot',this.onSaveRobot.bind(this));
 
     new RobotPart().fetchAll().then(function(items){
         self.socket.emit('sync',{
@@ -195,7 +196,8 @@ ConnectionController.prototype.sendUpdate = function(){
     return Promise.all([this.user.getItemPivot(),this.user.getFriends()]).then(function(data){
         self.socket.emit('update',{
             inventory: data[0],
-            friendlist: data[1]
+            friendlist: data[1],
+            robot: self.user.related('robot').toJSON({shallow: true})
         })
     });
 };
@@ -249,6 +251,15 @@ ConnectionController.prototype.onRecycle = function(data){
 
         });
     });
+
+    ConnectionController.prototype.onSaveRobot = function(data){
+        var self = this;
+        return this.user.saveRobot(data.robot).then(function(){
+            return self.sendUpdate().then(function(){
+                self.emit('robotSaved');
+            });
+        });
+    };
 };
 
 module.exports = ConnectionController;

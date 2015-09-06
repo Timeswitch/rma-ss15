@@ -387,8 +387,21 @@ define([
         }
     };
 
+    RoboConfig.prototype.onSave = function(){
+        var self = this;
+
+        this.stopProgress(function(){
+            self.app.startState('Menu');
+        });
+    };
+
     RoboConfig.prototype.onBack = function(){
-        this.app.startState('Menu');
+        if(this.app.robot.DSHasChanges()){
+            this.showProgress();
+            this.app.saveRobot();
+        }else{
+            this.app.startState('Menu');
+        }
     };
 
     return new RoboConfig();

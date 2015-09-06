@@ -44,7 +44,7 @@ var User = database.Model.extend({
             .then(function(item){
                 if(item.pivot.get('count') <= 1 || item.pivot.get('count') < count){
                     return self.inventory().detach(item.id).then(function(){
-                        return false;
+                        return true;
                     });
                 }
 
@@ -126,6 +126,71 @@ var User = database.Model.extend({
                 return false;
             })
 
+    },
+    saveRobot: function(config){
+        var self = this;
+        var robot = this.robot();
+        var prom = [];
+
+        
+        if(robot.get('head_id') && robot.get('head_id') != config.head_id){
+            prom.push(this.addItem(robot.get('head_id')));
+        }
+        
+        if(robot.get('body_id') && robot.get('body_id') != config.body_id){
+            prom.push(this.addItem(robot.get('body_id')));
+        }
+
+        if(robot.get('arms_id') && robot.get('arms_id') != config.arms_id){
+            prom.push(this.addItem(robot.get('arms_id')));
+        }
+
+        if(robot.get('legs_id') && robot.get('legs_id') != config.legs_id){
+            prom.push(this.addItem(robot.get('legs_id')));
+        }
+
+        return Promise.all(prom).then(function(){
+
+            var prom = [];
+
+            if(robot.get('head_id') != config.head_id){
+                prom.push(this.removeItem(config.head_id));
+            }
+
+            if(obot.get('body_id') != config.body_id){
+                prom.push(this.removeItem(config.body_id));
+            }
+
+            if(robot.get('arms_id') != config.arms_id){
+                prom.push(this.removeItem(config.arms_id));
+            }
+
+            if(robot.get('legs_id') != config.legs_id){
+                prom.push(this.removeItem(config.legs_id));
+            }
+
+            return Promise.all(prom).then(function(results){
+                if(results[0]){
+                    robot.set('head_id',config.head_id);
+                }
+
+                if(results[1]){
+                    robot.set('body_id',config.body_id);
+                }
+
+                if(results[2]){
+                    robot.set('arms_id',config.arms_id);
+                }
+
+                if(results[3]){
+                    robot.set('legs_id',config.legs_id);
+                }
+
+                return robot.save();
+            });
+
+
+        });
     }
 
 });

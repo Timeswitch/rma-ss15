@@ -79,6 +79,10 @@ define([
             }
         };
 
+        App.prototype.saveRobot = function(callback){
+            this.connection.saveRobot(callback);
+        };
+
         App.prototype.loadRoboParts = function(){
             
             //Roboter 0
@@ -285,7 +289,7 @@ define([
         };
 
         App.prototype.injectData = function(model,data){
-            if(model == 'Item' || model == 'Friend'){
+            if(model == 'Item' || model == 'Friend' || model == 'Robot'){
                 this.store.ejectAll(model);
             }
             this.store.inject(model,data);

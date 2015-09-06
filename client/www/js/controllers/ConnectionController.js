@@ -12,6 +12,7 @@ define(['socket.io'],function(io){
         this.friendCallback = null;
         this.inventoryCallback = null;
         this.recycleCallback = null;
+        this.robotSavedCallback = null;
 
         this.socket.on('sync',this.onConnect.bind(this));
 
@@ -23,6 +24,7 @@ define(['socket.io'],function(io){
         this.socket.on('registerResult',this.onRegisterResult.bind(this));
         this.socket.on('loginFailed',this.onLoginFailed.bind(this));
         this.socket.on('recycleResult', this.onRecycleResult.bind(this));
+        this.socket.on('robotSaved', this.onRobotSaved.bind(this));
     }
 
     ConnectionController.prototype.onConnect = function(data){
@@ -58,6 +60,7 @@ define(['socket.io'],function(io){
     ConnectionController.prototype.onUpdate = function(data){
         this.app.injectData('Item',data.inventory);
         this.app.injectData('Friend',data.friendlist);
+        this.app.injectData('Robot',data.robot);
 
         this.app.game.state.getCurrentState().onDataUpdate();
     };
@@ -142,6 +145,20 @@ define(['socket.io'],function(io){
             items: data
 
         });
+    };
+
+    ConnectionController.prototype.saveRobot = function(callback){
+        this.saveRobotCallback = callback;
+        this.emit('saveRobot',{
+            config: this.app.user.robot
+        });
+    };
+
+    ConnectionController.prototype.onRobotSaved = function(data){
+        if(this.saveRobotCallback){
+            this.saveRobotCallback(data);
+            this.saveRobotCallback = null;
+        }
     };
 
     return ConnectionController;
