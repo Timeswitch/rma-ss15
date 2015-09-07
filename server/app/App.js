@@ -68,9 +68,7 @@ App.prototype.mapUser = function(username,connection){
 
 App.prototype.unmapUser = function(username){
     var user = this.getUserConnection(username);
-    if(user.fight){
-        user.fight.stop();
-    }
+    this.stopFight(user);
     delete this.userMap[username];
 };
 
@@ -87,6 +85,15 @@ App.prototype.startFight = function(player1,player2){
     this.fights.push(fight);
 
     fight.start();
+};
+
+App.prototype.stopFight = function(userconnection){
+    if(userconnection.fight){
+        var fight = userconnection.fight;
+        fight.stop();
+
+        this.fights.splice(fight,1);
+    }
 };
 
 module.exports = App;

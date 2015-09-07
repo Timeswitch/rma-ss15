@@ -337,6 +337,9 @@ ConnectionController.prototype.onFightRequestResult = function(data){
 
 ConnectionController.prototype.stopFight = function(){
     var self = this;
+
+    this.fight = null;
+
     return new Promise(function(resolve){
         if(!self.socket.connected){
             resolve();
