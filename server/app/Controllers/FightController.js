@@ -19,8 +19,8 @@ FightController.prototype.start = function(){
 
 FightController.prototype.stop = function(){
     return Promise.all([
-        this.deInitPlayer(player1),
-        this.deInitPlayer(player2)
+        this.deInitPlayer(this.player1),
+        this.deInitPlayer(this.player2)
     ]);
 };
 
