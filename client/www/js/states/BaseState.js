@@ -45,6 +45,8 @@ define([
         this.dg = null;
         this.inputEnabled = true;
         this.inputBlockCount = 0;
+
+        this.seconds = 0;
     };
 
     BaseState.prototype.createOnClick = function(object,handler){
@@ -138,6 +140,16 @@ define([
 
     BaseState.prototype.isInputEnabled = function(){
         return this.inputEnabled;
+    };
+
+    BaseState.prototype.updateFP16Filter = function(filter){
+        var timeN = this.app.game.time.totalElapsedSeconds() - this.seconds;
+        if( timeN > 50){
+            timeN = 0;
+            this.seconds = this.app.game.time.totalElapsedSeconds();
+        }
+        filter.uniforms.timeN.value = timeN;
+
     };
 
     return BaseState;
