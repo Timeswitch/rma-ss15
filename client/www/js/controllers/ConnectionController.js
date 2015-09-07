@@ -226,7 +226,8 @@ define(['socket.io'],function(io){
     };
 
     ConnectionController.prototype.onStopFight = function(data){
-
+        this.app.stopFight();
+        this.socket.emit('fightStopped');
     };
 
     return ConnectionController;
