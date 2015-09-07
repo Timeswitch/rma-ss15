@@ -77,10 +77,7 @@ ConnectionController.prototype.onLogin = function(data){
     this.app.getUser(data.user.username).then(function(user){
         if(user.get('logintoken') == data.user.logintoken){
             self.user = user;
-            self.user.set('logintoken',self.socket.id);
-            self.user.save().then(function(){
-                self.onLoggedIn();
-            });
+            self.onLoggedIn();
         }else{
             console.log('Ungültiger Loginversuch (Benutzer ungültiget Token "'+data.user.logintoken+'" != "'+user.get('logintoken')+'")');
             self.socket.emit('loginFailed');
@@ -94,7 +91,8 @@ ConnectionController.prototype.onLogin = function(data){
 ConnectionController.prototype.onLoggedIn = function(){
     var self = this;
 
-    Promise.all([this.user.getItemPivot(),this.user.getFriends()])
+    this.user.set('logintoken',self.socket.id);
+    Promise.all([this.user.getItemPivot(),this.user.getFriends(),this.user.save()])
     .then(function(data){
         self.socket.emit('loggedIn',{
             user: self.user.toJSON({shallow: true}),
