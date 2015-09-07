@@ -61,6 +61,8 @@ define(['socket.io'],function(io){
         this.app.injectData('Item',data.inventory);
         this.app.injectData('Friend',data.friends);
 
+        this.socket.emit('ready');
+
         this.app.startState('Menu');
     };
 

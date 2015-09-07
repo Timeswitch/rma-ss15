@@ -35,6 +35,7 @@ ConnectionController.prototype.init = function(){
     this.socket.on('requestFight',this.onRequestFight.bind(this));
     this.socket.on('fightRequestResult',this.onFightRequestResult.bind(this));
     this.socket.on('fightStopped',this.onFightStopped.bind(this));
+    this.socket.on('ready',this.onReady.bind(this));
 
     new RobotPart().fetchAll().then(function(items){
         self.socket.emit('sync',{
@@ -92,7 +93,7 @@ ConnectionController.prototype.onLoggedIn = function(){
     var self = this;
 
     this.user.set('logintoken',self.socket.id);
-    Promise.all([this.user.getItemPivot(),this.user.getFriends(),this.user.save()])
+    Promise.all([this.user.getItemPivot(),this.user.getFriends()])
     .then(function(data){
         self.socket.emit('loggedIn',{
             user: self.user.toJSON({shallow: true}),
@@ -104,6 +105,10 @@ ConnectionController.prototype.onLoggedIn = function(){
         self.app.mapUser(self.user.get('username'),self);
     });
 
+};
+
+ConnectionController.prototype.ready = function(){
+    this.user.save()
 };
 
 ConnectionController.prototype.onScan = function(data){
