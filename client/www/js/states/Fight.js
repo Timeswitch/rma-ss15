@@ -23,6 +23,11 @@ define([
 
         this.playerRobot = null;
         this.enemyRobot = null;
+
+        this.buttonAttacck = null;
+        this.buttonDefend = null;
+        this.buttonItem = null;
+        this.buttonAbort = null;
     };
 
     Fight.prototype.create = function(){
