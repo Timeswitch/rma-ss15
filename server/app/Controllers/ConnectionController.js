@@ -107,7 +107,7 @@ ConnectionController.prototype.onLoggedIn = function(){
 
 };
 
-ConnectionController.prototype.ready = function(){
+ConnectionController.prototype.onReady = function(){
     this.user.save()
 };
 
