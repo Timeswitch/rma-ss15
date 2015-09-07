@@ -15,6 +15,7 @@ define(['socket.io'],function(io){
         this.saveRobotCallback = null;
 
         this.socket.on('sync',this.onConnect.bind(this));
+        this.socket.on('disconnect',this.onDisconnect.bind(this));
 
         this.socket.on('loggedIn',this.onLoggedIn.bind(this));
         this.socket.on('scanResult',this.onScanResult.bind(this));
@@ -31,6 +32,11 @@ define(['socket.io'],function(io){
     }
 
     ConnectionController.prototype.onConnect = function(data){
+
+        if(this.id !== -1){
+            window.location.reload();
+        }
+
         this.id = data.id;
 
         this.app.injectData('RobotPart',data.items);
@@ -41,6 +47,11 @@ define(['socket.io'],function(io){
             this.login();
         }
     };
+
+    ConnectionController.prototype.onDisconnect = function(){
+        this.app.startState('NoConnection');
+    };
+
 
     ConnectionController.prototype.onLoggedIn = function(data){
         this.app.injectData('User',data.user);
