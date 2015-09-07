@@ -32,7 +32,7 @@ define([
 
             "texcoord.y -= t*0.2;",
 
-            "float zz = 1.0/(1.0-uv.y*1.7);",
+            "float zz = 1.0/(2.0-uv.y*1.65);",
             "texcoord.y -= zz * sign(zz);",
 
             "vec2 maa = texcoord.xy * vec2(zz, 1.0) - vec2(zz, 0.0) ;",
@@ -83,7 +83,7 @@ define([
         this.background = this.add.sprite(0,0,'circuitBoard');
 
         this.enemyRobot = new RobotGroup(this.app.game,this.enemyRobotConfig);
-        this.app.scaleMax(this.enemyRobot,this.app.width/2.6,this.app.height,true);
+        this.app.scaleMax(this.enemyRobot,this.app.width/3,this.app.height,true);
 
         this.playerRobot = new RobotGroup(this.app.game,this.playerRobotConfig,true);
         this.app.scaleMax(this.playerRobot,this.app.width/1.3,this.app.height,true);
@@ -119,7 +119,7 @@ define([
         };
 
         this.filter = new Phaser.Filter(this.app.game, customUniforms, this.filterSrc);
-        this.filter.setResolution(this.background.height, this.background.width);
+        this.filter.setResolution(this.background.width,this.background.height);
 
         this.background.filters = [this.filter];
 
