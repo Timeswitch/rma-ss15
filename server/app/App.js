@@ -67,6 +67,10 @@ App.prototype.mapUser = function(username,connection){
 };
 
 App.prototype.unmapUser = function(username){
+    var user = this.getUser(username);
+    if(user.fight){
+        user.fight.stop();
+    }
     delete this.userMap[username];
 };
 

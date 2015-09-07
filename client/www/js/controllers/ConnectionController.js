@@ -27,6 +27,7 @@ define(['socket.io'],function(io){
         this.socket.on('robotSaved', this.onRobotSaved.bind(this));
         this.socket.on('requestFight',this.onRequestFight.bind(this));
         this.socket.on('requestFightResult',this.onRequestFightResult.bind(this));
+        this.socket.on('stopFight',this.onStopFight.bind(this));
     }
 
     ConnectionController.prototype.onConnect = function(data){
@@ -222,6 +223,10 @@ define(['socket.io'],function(io){
                 });
             });
         }
+    };
+
+    ConnectionController.prototype.onStopFight = function(data){
+
     };
 
     return ConnectionController;

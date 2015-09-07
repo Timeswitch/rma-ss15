@@ -14,6 +14,10 @@ function ConnectionController(socket,app){
     this.user = null;
     this.fight = null;
 
+    this.updateCallback = null;
+    this.requestFightCallback = null;
+    this.stopFightCallback = null;
+
     this.init();
 }
 
@@ -30,9 +34,7 @@ ConnectionController.prototype.init = function(){
     this.socket.on('updateReceived',this.onUpdateReceived.bind(this));
     this.socket.on('requestFight',this.onRequestFight.bind(this));
     this.socket.on('fightRequestResult',this.onFightRequestResult.bind(this));
-
-    this.updateCallback = null;
-    this.requestFightCallback = null;
+    this.socket.on('fightStopped',this.onFightStopped.bind(this));
 
     new RobotPart().fetchAll().then(function(items){
         self.socket.emit('sync',{
@@ -330,6 +332,25 @@ ConnectionController.prototype.onFightRequestResult = function(data){
     if(this.requestFightCallback){
         this.requestFightCallback(data);
         this.requestFightCallback = null;
+    }
+};
+
+ConnectionController.prototype.stopFight = function(){
+    var self = this;
+    return new Promise(function(resolve){
+        if(!self.socket.connected){
+            resolve();
+            return;
+        }
+        self.stopFightCallback = resolve;
+        self.socket.emit('stopFight');
+    });
+};
+
+ConnectionController.prototype.onFightStopped = function(data){
+    if(this.stopFightCallback){
+        this.stopFightCallback(data);
+        this.stopFightCallback = null;
     }
 };
 

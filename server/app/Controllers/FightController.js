@@ -17,6 +17,17 @@ FightController.prototype.start = function(){
     ]);
 };
 
+FightController.prototype.stop = function(){
+    return Promise.all([
+        this.deInitPlayer(player1),
+        this.deInitPlayer(player2)
+    ]);
+};
+
+FightController.prototype.deInitPlayer = function(player){
+    return player.stopFight();
+};
+
 FightController.prototype.initPlayer = function(player,enemy) {
     player.fight = this;
 

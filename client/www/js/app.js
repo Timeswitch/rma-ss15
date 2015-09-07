@@ -24,6 +24,7 @@ define([
             this.width = window.innerWidth;// * window.devicePixelRatio;
             this.height = window.innerHeight;// * window.devicePixelRatio;
             this.busy = false;
+            this.isFighting = false;
 
             this.store = new JSData.DS();
             this.user = null;
@@ -331,6 +332,14 @@ define([
 
         App.prototype.startFight = function(info){
             this.game.state.start('Fight',true,false,info);
+            this.isFighting = true;
+        };
+
+        App.prototype.stopFight = function(data){
+            if(this.isFighting){
+                this.isFighting = false;
+                this.startState('Menu');
+            }
         };
 
         App.prototype.requestFight = function(id){
