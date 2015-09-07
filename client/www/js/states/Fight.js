@@ -1,7 +1,8 @@
 define([
     'states/BaseState',
-    'gameobjects/RobotGroup'
-],function(BaseState,RobotGroup) {
+    'gameobjects/RobotGroup',
+    'gameobjects/LifeMeter'
+],function(BaseState,RobotGroup,LifeMeter) {
     'use strict';
 
     function Fight() {
@@ -52,9 +53,11 @@ define([
         this.filter = null;
 
         this.enemyName = data.username;
+        this.enemyLife = null;
         this.enemyRobotConfig = this.app.store.inject('Robot',data.robot).getConfig();
 
         this.playerName = this.app.user.username;
+        this.playerLife = null;
         this.playerRobotConfig = this.app.user.robot.getConfig();
 
         this.background = null;
@@ -127,6 +130,17 @@ define([
         this.playerRobot.y = this.buttonGroup.y - (this.playerRobot.height/2);
 
         this.enemyRobot.x = this.app.width - this.enemyRobot.width;
+
+        var lifeWidth = (this.app.width - this.enemyRobot.width - 10);
+        var lifeHeight = lifeWidth/3;
+
+        this.enemyLife = new LifeMeter(this.app.game,lifeWidth,lifeHeight,this.enemyName);
+        this.enemyLife.x = 0;
+        this.enemyLife.y = 0;
+
+        this.playerLife = new LifeMeter(this.app.game,lifeWidth,lifeHeight,this.playerName);
+        this.playerLife.x = this.app.width - this.playerLife.width;
+        this.playerLife.y = this.buttonGroup.y - this.playerLife.height;
 
     };
 
