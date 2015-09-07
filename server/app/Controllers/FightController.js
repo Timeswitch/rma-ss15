@@ -20,7 +20,7 @@ FightController.prototype.start = function(){
 FightController.prototype.initPlayer = function(player,enemy) {
     player.fight = this;
 
-    return enemu.user.robot().fetch({require: true}).then(function(robot){
+    return enemy.user.robot().fetch({require: true}).then(function(robot){
         return player.socket.emit('requestFightResult',{
             status: 'ACCEPT',
             username: enemy.user.get('username'),
