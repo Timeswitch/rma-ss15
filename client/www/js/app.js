@@ -23,6 +23,7 @@ define([
             this.canvas = null;
             this.width = window.innerWidth;// * window.devicePixelRatio;
             this.height = window.innerHeight;// * window.devicePixelRatio;
+            this.busy = false;
 
             this.store = new JSData.DS();
             this.user = null;
@@ -322,6 +323,18 @@ define([
                     return;
                 }
             }
+        };
+
+        App.prototype.getState = function(){
+            return this.game.state.getCurrentState();
+        };
+
+        App.prototype.startFight = function(info){
+            this.startState('Fight');
+        };
+
+        App.prototype.requestFight = function(id){
+            this.connection.requestFight(id);
         };
 
         App.prototype.onBack = function(){

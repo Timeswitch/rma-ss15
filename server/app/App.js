@@ -14,6 +14,7 @@ function App(io,server,database,config){
     this.config = config;
 
     this.connections = [];
+    this.userMap = {};
 
     this.init();
 }
@@ -33,6 +34,7 @@ App.prototype.onConnect = function(socket){
 };
 
 App.prototype.onDisconnect = function(connection){
+    this.unmapUser(connection.user.get('username'));
     this.connections.splice(this.connections.indexOf(connection),1);
     console.log('Spieler hat die Verbindung unterbrochen.');
 };
@@ -54,6 +56,26 @@ App.prototype.createUser = function(data){
 
 App.prototype.getUser = function(username){
     return (new User({username: username}).fetch({require: true, withRelated: ['robot','friends']}));
+};
+
+App.prototype.mapUser = function(username,connection){
+    this.userMap[username] = connection;
+};
+
+App.prototype.unmapUser = function(username){
+    delete this.userMap[username];
+};
+
+App.prototype.isOnline = function(username) {
+    return this.userMap.hasOwnProperty(username);
+};
+
+App.prototype.getUserConnection = function(username){
+    return this.userMap[username];
+};
+
+App.prototype.startFight = function(player1,player2){
+
 };
 
 module.exports = App;

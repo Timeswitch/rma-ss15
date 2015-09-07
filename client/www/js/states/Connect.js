@@ -15,6 +15,8 @@ define([
     Connect.prototype.init = function() {
         BaseState.prototype.init.call(this);
 
+        this.busy = true;
+
         this.progress = null;
         this.text = null;
     };

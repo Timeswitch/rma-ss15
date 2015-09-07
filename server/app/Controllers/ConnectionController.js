@@ -5,6 +5,7 @@
 var Promise = require('bluebird');
 var RobotPart = require('../Models/RobotPart.js');
 var Scan = require('../Models/Scan.js');
+var User = require('../Models/User.js');
 
 function ConnectionController(socket,app){
     this.socket = socket;
@@ -26,8 +27,11 @@ ConnectionController.prototype.init = function(){
     this.socket.on('recycle',this.onRecycle.bind(this));
     this.socket.on('saveRobot',this.onSaveRobot.bind(this));
     this.socket.on('updateReceived',this.onUpdateReceived.bind(this));
+    this.socket.on('requestFight',this.onRequestFight.bind(this));
+    this.socket.on('fightRequestResult',this.onFightRequestResult.bind(this));
 
     this.updateCallback = null;
+    this.requestFightCallback = null;
 
     new RobotPart().fetchAll().then(function(items){
         self.socket.emit('sync',{
@@ -96,6 +100,7 @@ ConnectionController.prototype.onLoggedIn = function(){
             friends: data[1]
         });
         console.log('Spieler ' + self.user.get('username') + ' hat sich angemeldet.');
+        self.app.mapUser(self.user.get('username'),self);
     });
 
 };
@@ -275,6 +280,56 @@ ConnectionController.prototype.onSaveRobot = function(data){
             self.socket.emit('robotSaved');
         });
     });
+};
+
+ConnectionController.prototype.onRequestFight = function(data){
+    var self = this;
+    return new User({id: data.user}).fetch({require: true}).then(function(user){
+        if(!self.app.isOnline(user.get('username'))){
+            self.socket.emit('requestFightResult',{
+                status: 'OFFLINE'
+            })
+        }else{
+            var connection = self.app.getUserConnection(user.get('username'));
+
+            connection.requestFight(self).then(function(data){
+
+                if(data.status == 'ACCEPT'){
+                    self.app.startFight(self,connection);
+                }else{
+                    self.socket.emit('requestFightResult',{
+                        status: data.status,
+                        username: user.get('username')
+                    });
+                }
+
+
+            });
+        }
+    }).catch(function(){
+        self.socket.emit('requestFightResult',{
+            status: 'NOT_FOUND'
+        });
+    });
+};
+
+ConnectionController.prototype.requestFight = function(connection){
+    var self = this;
+    return new Promise(function(resolve){
+        self.requestFightCallback = resolve;
+
+        self.socket.emit('requestFight',{
+            username: connection.user.get('username')
+        })
+
+    });
+};
+
+ConnectionController.prototype.onFightRequestResult = function(data){
+    if(this.requestFightCallback){
+        this.requestFightCallback(data);
+        this.requestFightCallback = null;
+    }
 };
 
 module.exports = ConnectionController;

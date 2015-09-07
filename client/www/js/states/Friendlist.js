@@ -186,7 +186,7 @@ define([
     };
 
     Friendlist.prototype.onBattleClick = function(id){
-
+        this.app.requestFight(id);
     };
 
     Friendlist.prototype.onBack = function(){

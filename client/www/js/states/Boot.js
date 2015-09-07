@@ -13,6 +13,7 @@ define([
 
     function Boot(){
         BaseState.call(this);
+        this.busy = true;
     }
 
     Boot.prototype = Object.create(BaseState.prototype);

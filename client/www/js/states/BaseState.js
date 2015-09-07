@@ -10,6 +10,7 @@ define([
         Phaser.State.call(this);
 
         this.app = null;
+        this.busy = false;
         this.filterSrc = [
 
             "precision mediump float;",
@@ -119,6 +120,7 @@ define([
 
     BaseState.prototype.disableInput = function(){
         this.inputEnabled = false;
+        this.busy = true;
         this.inputBlockCount++;
     };
 
@@ -130,6 +132,7 @@ define([
 
         if(this.inputBlockCount == 0){
             this.inputEnabled = true;
+            this.busy = false;
         }
     };
 

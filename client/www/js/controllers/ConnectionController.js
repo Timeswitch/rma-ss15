@@ -25,6 +25,8 @@ define(['socket.io'],function(io){
         this.socket.on('loginFailed',this.onLoginFailed.bind(this));
         this.socket.on('recycleResult', this.onRecycleResult.bind(this));
         this.socket.on('robotSaved', this.onRobotSaved.bind(this));
+        this.socket.on('requestFight',this.onRequestFight.bind(this));
+        this.socket.on('requestFightResult',this.onRequestFightResult.bind(this));
     }
 
     ConnectionController.prototype.onConnect = function(data){
@@ -160,6 +162,75 @@ define(['socket.io'],function(io){
             this.saveRobotCallback(data);
             this.saveRobotCallback = null;
         }
+    };
+
+    ConnectionController.prototype.requestFight = function(id){
+        var state = this.app.getState();
+        state.busy = true;
+
+        state.showProgress();
+
+        this.socket.emit('requestFight',{
+            user: id
+        });
+
+    };
+
+    ConnectionController.prototype.onRequestFightResult = function(data){
+        var self = this;
+        var state = this.app.getState();
+
+        state.stopProgress(function(){
+            switch(data.status){
+                case 'ACCEPT':
+                    this.app.startFight(data);
+                    break;
+                case 'BUSY':
+                    state.showDialog('Hinweis',data.username + ' ist beschäftigt');
+                    break;
+                case 'DECLINE':
+                    state.showDialog('Hinweis',data.username + ' hat abgelehnt.');
+                    break;
+                case 'OFFLINE':
+                    state.showDialog('Der Spieler ist Offline');
+                    break;
+                default:
+                    state.showDialog('Der Spieler wurde nicht gefunden');
+            }
+        });
+
+    };
+
+    ConnectionController.prototype.onRequestFight = function(data){
+        var self = this;
+        var state = this.app.getState();
+
+        if(state.busy){
+            this.socket.emit('fightRequestResult',{
+                status: 'BUSY'
+            });
+        }else{
+            state.showDialog('Kampf',data.username + ' fordert dich heraus!',function(){
+                state.showProgress();
+                self.socket.emit('fightRequestResult',{
+                    status: 'ACCEPT'
+                });
+
+            },function(){
+                self.socket.emit('fightRequestResult',{
+                    status: 'DECLINE'
+                });
+            });
+        }
+    };
+
+    ConnectionController.prototype.onFightStart = function(){
+        var self = this;
+        var state = this.app.getState();
+
+        state.stopProgress(function(){
+            self.app.startFight();
+        });
     };
 
     return ConnectionController;
