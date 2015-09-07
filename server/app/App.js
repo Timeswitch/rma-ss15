@@ -4,6 +4,7 @@
 
 var Promise = require('bluebird');
 var ConnectionController = require('./Controllers/ConnectionController.js');
+var FightController = require('./Controllers/FightController.js');
 var User = require('./Models/User.js');
 var Robot = require('./Models/Robot.js');
 
@@ -14,6 +15,7 @@ function App(io,server,database,config){
     this.config = config;
 
     this.connections = [];
+    this.fights = [];
     this.userMap = {};
 
     this.init();
@@ -34,7 +36,9 @@ App.prototype.onConnect = function(socket){
 };
 
 App.prototype.onDisconnect = function(connection){
-    this.unmapUser(connection.user.get('username'));
+    if(connection.user){
+        this.unmapUser(connection.user.get('username'));
+    }
     this.connections.splice(this.connections.indexOf(connection),1);
     console.log('Spieler hat die Verbindung unterbrochen.');
 };
@@ -75,7 +79,10 @@ App.prototype.getUserConnection = function(username){
 };
 
 App.prototype.startFight = function(player1,player2){
+    var fight = new FightController(this,player1,player2);
+    this.fights.push(fight);
 
+    fight.start();
 };
 
 module.exports = App;

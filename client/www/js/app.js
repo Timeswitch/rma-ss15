@@ -330,7 +330,7 @@ define([
         };
 
         App.prototype.startFight = function(info){
-            this.startState('Fight');
+            this.game.state.start('Fight',true,false,info);
         };
 
         App.prototype.requestFight = function(id){

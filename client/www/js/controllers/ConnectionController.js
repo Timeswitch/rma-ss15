@@ -183,7 +183,7 @@ define(['socket.io'],function(io){
         state.stopProgress(function(){
             switch(data.status){
                 case 'ACCEPT':
-                    this.app.startFight(data);
+                    self.app.startFight(data);
                     break;
                 case 'BUSY':
                     state.showDialog('Hinweis',data.username + ' ist beschäftigt');
@@ -222,15 +222,6 @@ define(['socket.io'],function(io){
                 });
             });
         }
-    };
-
-    ConnectionController.prototype.onFightStart = function(){
-        var self = this;
-        var state = this.app.getState();
-
-        state.stopProgress(function(){
-            self.app.startFight();
-        });
     };
 
     return ConnectionController;

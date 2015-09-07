@@ -12,6 +12,7 @@ function ConnectionController(socket,app){
     this.app = app;
 
     this.user = null;
+    this.fight = null;
 
     this.init();
 }
