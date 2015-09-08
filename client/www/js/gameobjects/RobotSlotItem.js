@@ -71,7 +71,13 @@ define(function(){
         this.infoText = this.state.add.text((this.iconBox ? (this.iconBox.x + 35) : 0),((this.boxHeight/2) - 10),'',{font: "20px vt323regular",fill: '#ffffff',align: 'left'});
 
         if(this.item){
-            this.infoText.setText('A:' + this.item.attack + ' V:' + this.item.defense + ' B:' + this.item.agility);
+            if(this.item.slot == 'item'){
+                this.infoText.setText(this.item.name);
+
+            }else{
+
+                this.infoText.setText('A:' + this.item.attack + ' V:' + this.item.defense + ' B:' + this.item.agility);
+            }
         }else{
             this.infoText.setText(this.slotType);
             this.infoText.x = ((this.boxWidth/2) - (this.infoText.width/2));

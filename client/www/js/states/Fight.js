@@ -222,7 +222,7 @@ define([
         this.buttonDefend.inputEnabled = true;
         this.buttonDefend.tint = 0xffffff;
 
-        if(this.playerRobot.item){
+        if(this.app.user.robot.item){
             this.buttonItem.inputEnabled = true;
             this.buttonItem.tint = 0xffffff;
         }
