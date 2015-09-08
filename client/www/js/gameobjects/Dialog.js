@@ -69,7 +69,7 @@ define([
         this.y = (this.state.world.centerY) - (this.boxHeight/2);
 
         this.state.disableInput();
-
+        navigator.vibrate(100);
     }
 
     Dialog.prototype = Object.create(Phaser.Group.prototype);

@@ -8,6 +8,9 @@ define(['socket.io'],function(io){
         this.app = app;
         this.socket = io(server);
         this.id = -1;
+
+        this.waitForFight = false;
+
         this.scanCallback = null;
         this.friendCallback = null;
         this.inventoryCallback = null;
@@ -197,7 +200,10 @@ define(['socket.io'],function(io){
         state.stopProgress(function(){
             switch(data.status){
                 case 'ACCEPT':
-                    self.app.startFight(data);
+                    if(this.waitForFight){
+                        self.waitForFight = false;
+                        self.app.startFight(data);
+                    }
                     break;
                 case 'BUSY':
                     state.showDialog('Hinweis',data.username + ' ist beschäftigt');
@@ -226,6 +232,7 @@ define(['socket.io'],function(io){
         }else{
             state.showDialog('Kampf',data.username + ' fordert dich heraus!',function(){
                 state.showProgress();
+                this.waitForFight = true;
                 self.socket.emit('fightRequestResult',{
                     status: 'ACCEPT'
                 });

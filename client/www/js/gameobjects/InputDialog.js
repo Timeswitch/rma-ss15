@@ -60,6 +60,7 @@ define([
         this.handler = handler;
 
         this.state.disableInput();
+        navigator.vibrate(100);
 
     }
 

@@ -37,6 +37,8 @@ ConnectionController.prototype.init = function(){
     this.socket.on('fightStopped',this.onFightStopped.bind(this));
     this.socket.on('ready',this.onReady.bind(this));
     this.socket.on('fightCommand',this.onFightCommand.bind(this));
+    this.socket.on('joinLobby',this.onJoinLobby.bind(this));
+    this.socket.on('leaveLobby',this.onLeaveLobby.bind(this));
 
     new RobotPart().fetchAll().then(function(items){
         self.socket.emit('sync',{
@@ -367,5 +369,14 @@ ConnectionController.prototype.onFightCommand = function(data){
         this.fight.parseCommand(data);
     }
 };
+
+ConnectionController.prototype.onJoinLobby = function(){
+    this.app.JoinLobby(this);
+};
+
+ConnectionController.prototype.onLeaveLobby = function(){
+    this.app.LeaveLobby(this);
+};
+
 
 module.exports = ConnectionController;

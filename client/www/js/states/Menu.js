@@ -288,7 +288,14 @@ define([
     };
 
     Menu.prototype.onBattleClick = function(){
-        this.showDialog('Debug','battle');
+        var self = this;
+        this.showProgress(function(){
+            self.app.connection.waitForFight = false;
+            self.app.emit('leaveLobby');
+        });
+
+        this.app.connection.waitForFight = true;
+        this.app.socket.emit('joinLobby');
     };
 
     Menu.prototype.onConfigClick = function(){

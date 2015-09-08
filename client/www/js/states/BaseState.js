@@ -86,9 +86,9 @@ define([
         }
     };
 
-    BaseState.prototype.showProgress = function(){
+    BaseState.prototype.showProgress = function(cancelCallback){
         if(this.pd == null && this.ind == null && this.dg == null){
-            this.pd = new ProgressDialog(this.app.game,this);
+            this.pd = new ProgressDialog(this.app.game,this,cancelCallback);
         }
     };
 

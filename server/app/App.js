@@ -17,6 +17,7 @@ function App(io,server,database,config){
     this.connections = [];
     this.fights = [];
     this.userMap = {};
+    this.lobby = [];
 
     this.init();
 }
@@ -95,6 +96,25 @@ App.prototype.stopFight = function(userconnection){
         fight.stop();
 
         this.fights.splice(fight,1);
+    }
+};
+
+App.prototype.joinLobby = function(userconnection){
+    if(this.lobby.length > 0){
+        var i = this.lobby.length-1;
+        var enemy = this.lobby[i];
+        this.lobby.slice(i,1);
+        this.startFight(userconnection,enemy);
+    }else{
+        this.lobby.push(userconnection);
+    }
+};
+
+App.prototype.leaveLobby = function(userconnection){
+    var i = this.lobby.indexOf(userconnection);
+
+    if(i){
+        this.lobby.splice(i,1);
     }
 };
 

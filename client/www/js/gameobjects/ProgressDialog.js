@@ -5,13 +5,18 @@ define([
     'gameobjects/TileBox'
 ],function(TileBox){
 
-    function ProgressDialog(game,state){
+    function ProgressDialog(game,state,cancelCallback){
         Phaser.Group.call(this,game);
 
         this.state = state;
         this.boxWidth = (state.app.width * 0.7);
         this.boxHeight = 120;
         this.dismissCallback = null;
+        this.cancelCallback = cancelCallback;
+
+        if(this.cancelCallback){
+            this.boxHeight += 50;
+        }
 
 
         this.tileBox = new TileBox(game,this.boxWidth,this.boxHeight);
@@ -36,7 +41,14 @@ define([
         this.message.alpha = 0.85;
         this.progress.alpha = 0.85;
 
+        this.buttonCancel = null;
+
+        if(this.cancelCallback){
+            this.buttonCancel = this.state.add.button((this.boxWidth/2) - 42 ,this.boxHeight - 45,'buttonCancel',this.onButtonCancelClick,this,0,0,1,0);
+        }
+
         this.state.disableInput();
+        navigator.vibrate(100);
     }
 
     ProgressDialog.prototype = Object.create(Phaser.Group.prototype);
@@ -61,6 +73,13 @@ define([
         if(this.dismissCallback){
             this.dismissCallback();
         }
+    };
+
+    ProgressDialog.prototype.onButtonCancelClick = function(){
+        var self = this;
+        this.dismiss(function(){
+            self.cancelCallback();
+        });
     };
 
     return ProgressDialog;
