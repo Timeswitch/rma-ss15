@@ -123,14 +123,19 @@ App.prototype.leaveLobby = function(userconnection){
 
 App.prototype.transferPrize = function(result){
 
-    function shuffle(o){
-        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-        return o;
+    function arrayShuffle(){
+        var tmp, rand;
+        for(var i =0; i < this.length; i++){
+            rand = Math.floor(Math.random() * this.length);
+            tmp = this[i];
+            this[i] = this[rand];
+            this[rand] =tmp;
+        }
     }
 
     if(result.reason == 'death'){
         var fields = ['head_id','arms_id','legs_id'];
-        shuffle(fields);
+        arrayShuffle.call(fields);
 
 
         return result.looser.user.robot().fetch({require: true})
@@ -160,7 +165,7 @@ App.prototype.transferPrize = function(result){
     }else{
         return result.looser.user.getItemPivot()
             .then(function(items){
-                shuffle(items);
+                arrayShuffle.call(items);
 
                 var item = (items[0] ? items[0].id : null);
 
