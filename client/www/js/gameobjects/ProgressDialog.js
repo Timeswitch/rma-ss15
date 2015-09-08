@@ -28,6 +28,13 @@ define([
         this.add(this.tileBox);
         this.add(this.message);
 
+        this.buttonCancel = null;
+
+        if(this.cancelCallback){
+            this.buttonCancel = this.state.add.button((this.boxWidth/2) - 42 ,this.boxHeight - 50,'buttonCancel2',this.onButtonCancelClick,this,0,0,1,0);
+            this.add(this.buttonCancel);
+        }
+
         this.progress = this.create((this.boxWidth/2)-60,50,'progressbar');
         this.animation = this.progress.animations.add('load',[0,1,2,3,4,5,6,7,8,9,10,11,12]);
         this.animation.onComplete.add(this.animationStopped,this);
@@ -41,11 +48,7 @@ define([
         this.message.alpha = 0.85;
         this.progress.alpha = 0.85;
 
-        this.buttonCancel = null;
 
-        if(this.cancelCallback){
-            this.buttonCancel = this.state.add.button((this.boxWidth/2) - 42 ,this.boxHeight - 45,'buttonCancel',this.onButtonCancelClick,this,0,0,1,0);
-        }
 
         this.state.disableInput();
         navigator.vibrate(100);

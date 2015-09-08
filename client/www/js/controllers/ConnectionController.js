@@ -184,6 +184,7 @@ define(['socket.io'],function(io){
     ConnectionController.prototype.requestFight = function(id){
         var state = this.app.getState();
         state.busy = true;
+        this.waitForFight = true;
 
         state.showProgress();
 
@@ -200,7 +201,7 @@ define(['socket.io'],function(io){
         state.stopProgress(function(){
             switch(data.status){
                 case 'ACCEPT':
-                    if(this.waitForFight){
+                    if(self.waitForFight){
                         self.waitForFight = false;
                         self.app.startFight(data);
                     }
@@ -232,7 +233,7 @@ define(['socket.io'],function(io){
         }else{
             state.showDialog('Kampf',data.username + ' fordert dich heraus!',function(){
                 state.showProgress();
-                this.waitForFight = true;
+                self.waitForFight = true;
                 self.socket.emit('fightRequestResult',{
                     status: 'ACCEPT'
                 });

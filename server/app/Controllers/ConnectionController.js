@@ -371,11 +371,11 @@ ConnectionController.prototype.onFightCommand = function(data){
 };
 
 ConnectionController.prototype.onJoinLobby = function(){
-    this.app.JoinLobby(this);
+    this.app.joinLobby(this);
 };
 
 ConnectionController.prototype.onLeaveLobby = function(){
-    this.app.LeaveLobby(this);
+    this.app.leaveLobby(this);
 };
 
 

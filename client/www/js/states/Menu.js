@@ -291,11 +291,11 @@ define([
         var self = this;
         this.showProgress(function(){
             self.app.connection.waitForFight = false;
-            self.app.emit('leaveLobby');
+            self.app.connection.socket.emit('leaveLobby');
         });
 
         this.app.connection.waitForFight = true;
-        this.app.socket.emit('joinLobby');
+        this.app.connection.socket.emit('joinLobby');
     };
 
     Menu.prototype.onConfigClick = function(){

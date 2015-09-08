@@ -25,6 +25,7 @@ define([
         this.load.spritesheet('progressbar','assets/spritesheets/progress__bar.png',120,40);
         this.load.spritesheet('buttonOK','assets/spritesheets/OK.png',84,40);
         this.load.spritesheet('buttonCancel','assets/spritesheets/nein.png',84,40);
+        this.load.spritesheet('buttonCancel2','assets/spritesheets/abbruch.png',84,40);
         this.load.spritesheet('buttonBattle','assets/spritesheets/battle.png',30,30);
         this.load.spritesheet('buttonDelete','assets/spritesheets/bucket.png',30,30);
     };
