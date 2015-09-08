@@ -363,6 +363,7 @@ ConnectionController.prototype.onFightStopped = function(data){
 
 ConnectionController.prototype.onFightCommand = function(data){
     if(this.fight){
+        data.who = this;
         this.fight.parseCommand(data);
     }
 };

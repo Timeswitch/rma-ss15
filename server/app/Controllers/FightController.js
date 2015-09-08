@@ -56,7 +56,7 @@ FightController.prototype.onPlayerReady = function(){
 };
 
 FightController.prototype.parseCommand = function(data){
-    var player = this.app.getUserConnection(data.who);
+    var player = data.who;
 
     switch(data.command){
         case 'ready':
@@ -78,8 +78,8 @@ FightController.prototype.parseCommand = function(data){
             break;
     }
 
-    var pause = this.currentPlayer;
-    this.currentPlayer = this.pausedPlayer;
+    var pause = this.activePlayer;
+    this.activePlayer = this.pausedPlayer;
     this.pausedPlayer = pause;
 
     this.pausedPlayer.socket.emit('fightCommand',{

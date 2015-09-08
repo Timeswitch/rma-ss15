@@ -166,7 +166,7 @@ define([
 
     Fight.prototype.onAttackClick = function(){
         this.disableButtons();
-        this.emit('fightCommand',{
+        this.socket.emit('fightCommand',{
             command: 'attack'
         })
     };
@@ -180,7 +180,9 @@ define([
     };
 
     Fight.prototype.onAbortClick = function(){
-
+        this.socket.emit('fightCommand',{
+            command: 'abort'
+        });
     };
 
     Fight.prototype.disableButtons = function(){
@@ -206,6 +208,9 @@ define([
         switch(data.command){
             case 'wait':
                 this.disableButtons();
+                break;
+            case 'active':
+                this.enableButtons();
                 break;
             case 'enemyAttack':
                 this.onEnemyAttack(data.param);
