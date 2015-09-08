@@ -13,8 +13,10 @@ define([
     Fight.prototype = Object.create(BaseState.prototype);
     Fight.prototype.constructor = Fight;
 
-    Fight.prototype.init = function(data){
+    Fight.prototype.init = function(data,socket){
         BaseState.prototype.init.call(this);
+
+        this.socket = socket;
 
         this.filterSrc = [
 
@@ -70,6 +72,9 @@ define([
         this.buttonItem = null;
         this.buttonAbort = null;
         this.buttonGroup = null;
+
+        this.parser = this.parseCommand.bind(this);
+        this.socket.on('fightCommand',this.parser);
     };
 
     Fight.prototype.preload = function(){
@@ -92,16 +97,16 @@ define([
         this.app.scaleMax(this.playerRobot,this.app.width/1.3,this.app.height,true);
 
         var scale = (this.app.width/2) / 84;
-        this.buttonAttack = this.add.button(0,0,'buttonAttack',null,null,0,0,1,0);
+        this.buttonAttack = this.add.button(0,0,'buttonAttack',this.onAttackClick,this,0,0,1,0);
         this.buttonAttack.scale.set(scale,scale);
 
-        this.buttonDefend = this.add.button(this.buttonAttack.width,0,'buttonDefend',null,null,0,0,1,0);
+        this.buttonDefend = this.add.button(this.buttonAttack.width,0,'buttonDefend',this.onDefenseClick,this,0,0,1,0);
         this.buttonDefend.scale.set(scale,scale);
 
-        this.buttonItem = this.add.button(0,this.buttonAttack.height,'buttonItem',null,null,0,0,1,0);
+        this.buttonItem = this.add.button(0,this.buttonAttack.height,'buttonItem',this.onItemClick,this,0,0,1,0);
         this.buttonItem.scale.set(scale,scale);
 
-        this.buttonAbort = this.add.button(this.buttonItem.width,this.buttonItem.y,'buttonAbort',null,null,0,0,1,0);
+        this.buttonAbort = this.add.button(this.buttonItem.width,this.buttonItem.y,'buttonAbort',this.onAbortClick,this,0,0,1,0);
         this.buttonAbort.scale.set(scale,scale);
 
         this.buttonGroup = this.add.group();
@@ -142,11 +147,75 @@ define([
         this.playerLife.x = this.app.width - this.playerLife.width - 8;
         this.playerLife.y = this.buttonGroup.y - this.playerLife.height - 8;
 
+        this.disableButtons();
+        this.socket.emit('fightCommand',{
+            command: 'ready',
+            who: this.playerName
+        });
+
     };
 
     Fight.prototype.update = function(){
         this.updateFP16Filter(this.filter);
         this.filter.update();
+    };
+
+    Fight.prototype.shutdown = function(){
+        this.socket.removeListener('fightCommand',this.parser);
+    };
+
+    Fight.prototype.onAttackClick = function(){
+        this.disableButtons();
+        this.emit('fightCommand',{
+            command: 'attack'
+        })
+    };
+
+    Fight.prototype.onDefenseClick = function(){
+
+    };
+
+    Fight.prototype.onItemClick = function(){
+
+    };
+
+    Fight.prototype.onAbortClick = function(){
+
+    };
+
+    Fight.prototype.disableButtons = function(){
+        this.buttonAttack.inputEnabled = false;
+        this.buttonAttack.tint = 0xffff00;
+        this.buttonDefend.inputEnabled = false;
+        this.buttonDefend.tint = 0xffff00;
+        this.buttonItem.inputEnabled = false;
+        this.buttonItem.tint = 0xffff00;
+
+    };
+
+    Fight.prototype.enableButtons = function(){
+        this.buttonAttack.inputEnabled = true;
+        this.buttonAttack.tint = 0xffffff;
+        this.buttonDefend.inputEnabled = true;
+        this.buttonDefend.tint = 0xffffff;
+        this.buttonItem.inputEnabled = true;
+        this.buttonItem.tint = 0xffffff;
+    };
+
+    Fight.prototype.parseCommand = function(data){
+        switch(data.command){
+            case 'wait':
+                this.disableButtons();
+                break;
+            case 'enemyAttack':
+                this.onEnemyAttack(data.param);
+                break;
+        }
+    };
+
+    Fight.prototype.onEnemyAttack = function(param){
+        this.showDialog('Debug','Gegener Angriff!');
+        this.enableButtons();
     };
 
     return new Fight();

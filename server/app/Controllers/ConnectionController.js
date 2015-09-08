@@ -36,6 +36,7 @@ ConnectionController.prototype.init = function(){
     this.socket.on('fightRequestResult',this.onFightRequestResult.bind(this));
     this.socket.on('fightStopped',this.onFightStopped.bind(this));
     this.socket.on('ready',this.onReady.bind(this));
+    this.socket.on('fightCommand',this.onFightCommand.bind(this));
 
     new RobotPart().fetchAll().then(function(items){
         self.socket.emit('sync',{
@@ -357,6 +358,12 @@ ConnectionController.prototype.onFightStopped = function(data){
     if(this.stopFightCallback){
         this.stopFightCallback(data);
         this.stopFightCallback = null;
+    }
+};
+
+ConnectionController.prototype.onFightCommand = function(data){
+    if(this.fight){
+        this.fight.parseCommand(data);
     }
 };
 

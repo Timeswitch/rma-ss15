@@ -331,7 +331,7 @@ define([
         };
 
         App.prototype.startFight = function(info){
-            this.game.state.start('Fight',true,false,info);
+            this.game.state.start('Fight',true,false,info,this.connection.socket);
             this.isFighting = true;
         };
 
