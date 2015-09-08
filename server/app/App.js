@@ -130,14 +130,25 @@ App.prototype.transferPrize = function(result){
 
     if(result.reason == 'death'){
         var fields = ['head_id','arms_id','legs_id'];
-        shuffle(fields)
+        shuffle(fields);
 
-        var field = fields[0];
 
         return result.looser.user.robot().fetch({require: true})
             .then(function(robot){
-                var item = robot.get(field);
-                robot.set(field,null);
+                var item = null;
+                var field = null;
+
+                for(var i = 0; i< fields.length; i++){
+                    if(robot.get(fields[i])){
+                        field = field[i];
+                        item = robot.get(fields[i]);
+                        break;
+                    }
+                }
+
+                if(field){
+                    robot.set(field,null);
+                }
 
                 result.prize = item;
 
@@ -151,7 +162,7 @@ App.prototype.transferPrize = function(result){
             .then(function(items){
                 shuffle(items);
 
-                var item = items[0].id;
+                var item = (items[0] ? items[0].id : null);
 
                 result.prize = item;
 
