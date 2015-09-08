@@ -157,7 +157,7 @@ FightController.prototype.attack = function(){
 
         self.endRound();
 
-        if(self.pausedPlayer.life == 0){
+        if(self.activePlayer.life == 0){
             self.app.stopFight(self.pausedPlayer.connection);
         }
 
