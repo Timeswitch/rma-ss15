@@ -247,7 +247,7 @@ define(['socket.io'],function(io){
     };
 
     ConnectionController.prototype.onStopFight = function(data){
-        this.app.stopFight();
+        this.app.stopFight(data);
         this.socket.emit('fightStopped');
     };
 

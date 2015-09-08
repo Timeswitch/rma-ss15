@@ -341,7 +341,7 @@ ConnectionController.prototype.onFightRequestResult = function(data){
     }
 };
 
-ConnectionController.prototype.stopFight = function(){
+ConnectionController.prototype.stopFight = function(result){
     var self = this;
 
     this.fight = null;
@@ -352,7 +352,19 @@ ConnectionController.prototype.stopFight = function(){
             return;
         }
         self.stopFightCallback = resolve;
-        self.socket.emit('stopFight');
+
+
+        var info = {
+            prize: result.prize
+        };
+
+        if(result.winner == this){
+            info.status = 'won';
+        }else{
+            info.status = 'lost';
+        }
+
+        self.socket.emit('stopFight',info);
     });
 };
 

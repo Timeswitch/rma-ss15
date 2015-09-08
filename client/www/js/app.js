@@ -339,6 +339,12 @@ define([
             if(this.isFighting){
                 this.isFighting = false;
                 this.startState('Menu');
+
+                if(data.status == 'won'){
+                    this.getState().showDialog('Gewonnen!',this.store.get('RobotPart',data.prize).name + ' erhalten.');
+                }else{
+                    this.getState().showDialog('Niederlage!',this.store.get('RobotPart',data.prize).name + ' verloren.');
+                }
             }
         };
 

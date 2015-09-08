@@ -70,7 +70,7 @@ App.prototype.mapUser = function(username,connection){
 App.prototype.unmapUser = function(username){
     var user = this.getUserConnection(username);
     if(user){
-        this.stopFight(user);
+        this.stopFight(user,'abort');
     }
     delete this.userMap[username];
 };
@@ -90,10 +90,13 @@ App.prototype.startFight = function(player1,player2){
     fight.start();
 };
 
-App.prototype.stopFight = function(userconnection){
+App.prototype.stopFight = function(userconnection,reason){
     if(userconnection.fight){
         var fight = userconnection.fight;
-        fight.stop();
+        fight.stop({
+            looser: userconnection.user.get('id'),
+            reason: reason
+        });
 
         this.fights.splice(fight,1);
     }
@@ -115,6 +118,48 @@ App.prototype.leaveLobby = function(userconnection){
 
     if(i){
         this.lobby.splice(i,1);
+    }
+};
+
+App.prototype.transferPrize = function(result){
+
+    function shuffle(o){
+        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+        return o;
+    }
+
+    if(result.reason == 'death'){
+        var fields = ['head_id','arms_id','legs_id'];
+        shuffle(fields)
+
+        var field = fields[0];
+
+        return result.looser.user.robot().fetch({require: true})
+            .then(function(robot){
+                var item = robot.get(field);
+                robot.set(field,null);
+
+                result.prize = item;
+
+                return Promise.all([
+                    robot.save(),
+                    winner.user.addItem(item)
+                ]);
+            });
+    }else{
+        return result.looser.user.getItemPivot()
+            .then(function(items){
+                shuffle(items);
+
+                var item = items[0].id;
+
+                result.prize = item;
+
+                return Promise.all([
+                    result.winner.user.addItem(item),
+                    result.looser.user.removeItem(item,1)
+                ]);
+            });
     }
 };
 

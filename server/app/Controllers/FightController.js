@@ -22,6 +22,11 @@ function FightController(app,player1,player2){
         life: 50,
         defending: false
     };
+
+    this.result = {
+        looser: null,
+        reason: null
+    };
 }
 
 FightController.prototype.start = function(){
@@ -31,15 +36,38 @@ FightController.prototype.start = function(){
     ]);
 };
 
-FightController.prototype.stop = function(){
-    return Promise.all([
-        this.deInitPlayer(this.player1),
-        this.deInitPlayer(this.player2)
-    ]);
+FightController.prototype.stop = function(result){
+    var self = this;
+
+    var winner = this.player1;
+    if(result.looser == winner){
+        winner = this.player2;
+    }
+
+    result.winner = winner;
+
+    return this.app.transferPrize(result).then(function(){
+        var prom = [];
+
+        if(result.winner.socket.connected){
+            prom.push(result.winner.sendUpdate());
+        }
+
+        if(result.looser.socket.connected){
+            prom.push(result.looser.sendUpdate());
+        }
+
+        return Promise.all(prom).then(function(){
+            return Promise.all([
+                self.deInitPlayer(self.player1,result),
+                self.deInitPlayer(self.player2,result)
+            ]);
+        });
+    });
 };
 
-FightController.prototype.deInitPlayer = function(player){
-    return player.stopFight();
+FightController.prototype.deInitPlayer = function(player,result){
+    return player.stopFight(result);
 };
 
 FightController.prototype.initPlayer = function(player,enemy) {
@@ -75,7 +103,7 @@ FightController.prototype.parseCommand = function(data){
             return;
             break;
         case 'abort':
-            this.app.stopFight(player);
+            this.app.stopFight(player,'abort');
             return;
     }
 
@@ -158,7 +186,7 @@ FightController.prototype.attack = function(){
         self.endRound();
 
         if(self.activePlayer.life == 0){
-            self.app.stopFight(self.pausedPlayer.connection);
+            self.app.stopFight(self.pausedPlayer.connection,'death');
         }
 
 
