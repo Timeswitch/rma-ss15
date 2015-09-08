@@ -21,6 +21,8 @@ define([
     RoboConfig.prototype.init = function(){
         BaseState.prototype.init.call(this);
 
+        this.busy = true;
+
         this.slotHeight = 40;
         this.slotWidth = (this.app.width/2)-4;
         this.configAreaY = 60;
@@ -403,6 +405,12 @@ define([
             this.app.startState('Menu');
         }
     };
+
+    RoboConfig.prototype.enableInput = function(){
+        BaseState.prototype.enableInput.call(this);
+
+        this.busy = true;
+    }
 
     return new RoboConfig();
 
