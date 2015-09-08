@@ -35,6 +35,10 @@
                         {
                             "xml": "<feature name=\"Keyboard\"><param name=\"ios-package\" onload=\"true\" value=\"IonicKeyboard\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Vibration\"><param name=\"ios-package\" value=\"CDVVibration\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -87,6 +91,10 @@
                         {
                             "xml": false,
                             "count": 1
+                        },
+                        {
+                            "xml": true,
+                            "count": 1
                         }
                     ]
                 }
@@ -110,6 +118,9 @@
             "PACKAGE_NAME": "de.timeswitch.rmass15"
         },
         "com.ionic.keyboard": {
+            "PACKAGE_NAME": "de.timeswitch.rmass15"
+        },
+        "cordova-plugin-vibration": {
             "PACKAGE_NAME": "de.timeswitch.rmass15"
         }
     },

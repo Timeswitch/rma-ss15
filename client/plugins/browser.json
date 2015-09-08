@@ -39,6 +39,9 @@
         },
         "com.ionic.keyboard": {
             "PACKAGE_NAME": "de.timeswitch.rmass15"
+        },
+        "cordova-plugin-vibration": {
+            "PACKAGE_NAME": "de.timeswitch.rmass15"
         }
     },
     "dependent_plugins": {}

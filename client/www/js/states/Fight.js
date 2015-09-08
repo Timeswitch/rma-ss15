@@ -194,11 +194,11 @@ define([
 
     Fight.prototype.disableButtons = function(){
         this.buttonAttack.inputEnabled = false;
-        this.buttonAttack.tint = 0x000000;
+        this.buttonAttack.tint = 0xaaaaaa;
         this.buttonDefend.inputEnabled = false;
-        this.buttonDefend.tint = 0x000000;
+        this.buttonDefend.tint = 0xaaaaaa;
         this.buttonItem.inputEnabled = false;
-        this.buttonItem.tint = 0x000000;
+        this.buttonItem.tint = 0xaaaaaa;
 
     };
 
@@ -232,11 +232,27 @@ define([
     };
 
     Fight.prototype.onEnemyAttack = function(param){
-        this.playerLife.setLife(param.life);
-        this.enableButtons();
+        var self = this;
+
+        var tween = this.add.tween(this.enemyRobot).to({x: this.enemyRobot.x -20, y: this.enemyRobot.y +20},100,Phaser.Easing.Default,false,0,0,true);
+        tween.chain(this.add.tween(this.playerRobot).to({x: this.playerRobot.x -10},50,Phaser.Easing.Bounce.InOut,false,0,2,true));
+        tween.start();
+        setTimeout(function(){
+            navigator.vibrate(100);
+            self.playerLife.setLife(param.life);
+            self.enableButtons();
+        },100);
     };
 
     Fight.prototype.onUpdateEnemy = function(param){
+
+        var tween = this.add.tween(this.playerRobot).to({x: this.enemyRobot.x +20, y: this.enemyRobot.y -20},100,Phaser.Easing.Default,false,0,0,true);
+        tween.chain(this.add.tween(this.enemyRobot).to({x: this.enemyRobot.x -8},50,Phaser.Easing.Bounce.InOut,true,0,2,true));
+
+        navigator.vibrate(100);
+
+        tween.start();
+
         this.enemyLife.setLife(param.life);
     };
 
