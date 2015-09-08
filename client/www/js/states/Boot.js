@@ -51,12 +51,6 @@ define([
     };
 
     Boot.prototype.create = function(){
-
-        var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
-        var text = this.add.text(this.world.centerX, this.world.centerY, "- phaser -\nwith a sprinkle of\npixi dust", style);
-
-        text.anchor.set(0.5);
-
         this.app.game.state.add('Connect', Connect);
         this.app.game.state.add('NoConnection', NoConnection);
         this.app.game.state.add('Menu', Menu);
