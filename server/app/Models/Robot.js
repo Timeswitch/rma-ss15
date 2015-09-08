@@ -26,9 +26,9 @@ var Robot = database.Model.extend({
     },
     getValues: function(){
         return {
-            attack: this.related('head').get('attack') + this.related('body').get('attack') + this.related('arms').get('attack') + this.related('legs').get('attack'),
-            defense: this.related('head').get('defense') + this.related('body').get('defense') + this.related('arms').get('defense') + this.related('legs').get('defense'),
-            agility: this.related('head').get('agility') + this.related('body').get('agility') + this.related('arms').get('agility') + this.related('legs').get('agility'),
+            attack: (this.related('head').get('attack') || 0) + (this.related('body').get('attack') || 0)+ (this.related('arms').get('attack') || 0)+ (this.related('legs').get('attack')|| 0),
+            defense: (this.related('head').get('defense') || 0) + (this.related('body').get('defense') || 0)+ (this.related('arms').get('defense') || 0)+ (this.related('legs').get('defense')|| 0),
+            agility: (this.related('head').get('agility') || 0) + (this.related('body').get('agility') || 0)+ (this.related('arms').get('agility') || 0)+ (this.related('legs').get('agility')|| 0),
         };
     }
 

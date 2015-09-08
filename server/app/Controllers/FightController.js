@@ -9,9 +9,6 @@ function FightController(app,player1,player2){
     this.player1 = player1;
     this.player2 = player2;
 
-    this.player1Robot = null;
-    this.player2Robot = null;
-
     this.player1Life = 50;
     this.player2Life = 50;
 
@@ -43,12 +40,7 @@ FightController.prototype.initPlayer = function(player,enemy) {
     var self = this;
     player.fight = this;
 
-    return enemy.user.robot().fetch({require: true, withRelated: ['head','body','arms','legs']}).then(function(robot){
-        if(self.player1 == player){
-            self.player1Robot = robot;
-        }else{
-            self.player2Robot = robot;
-        }
+    return enemy.user.robot().fetch({require: true}).then(function(robot){
 
         return player.socket.emit('requestFightResult',{
             status: 'ACCEPT',
@@ -91,6 +83,9 @@ FightController.prototype.parseCommand = function(data){
             break;
     }
 
+};
+
+FightController.prototype.endRound = function(){
     var pause = this.activePlayer;
     this.activePlayer = this.pausedPlayer;
     this.pausedPlayer = pause;
@@ -101,60 +96,62 @@ FightController.prototype.parseCommand = function(data){
 };
 
 FightController.prototype.attack = function(){
+    var self = this;
 
-    var attack = this.getRobot(this.activePlayer).getValues().attack;
-    var defense = this.getRobot(this.pausedPlayer).getValues().defense;
+    return Promise.all([
+        this.activePlayer.user.robot().fetch({require: true, withRelated: ['head','body','arms','legs']}),
+        this.pausedPlayer.user.robot().fetch({require: true, withRelated: ['head','body','arms','legs']})
+    ]).then(function(robots){
+        var attackRobot = data[0].getValues();
+        var defenseRobot = data[1].getValues();
 
-    var agilityAttacker = this.getRobot(this.activePlayer).getValues().agility;
-    var agilityDefender = this.getRobot(this.pausedPlayer).getValues().agility;
-
-    var damage = attack - ((attack/100) * defense);
-
-    if(agilityAttacker > agilityDefender){
-        if(Math.floor(Math.random() * 2) == 0) {
-            damage *= 2;
-        }
-    }else if(agilityAttacker < agilityDefender){
-        if(Math.floor(Math.random() * 2) == 0){
+        var damage = attackRobot.attack - ((attackRobotattack/100) * defenseRobot.defense);
+        
+        if(damage < 0){
             damage = 0;
         }
-    }
-
-    damage = Math.floor(damage);
-
-    var life = this.getLife(this.pausedPlayer);
-
-    life -= damage;
-    if(life <= 0){
-        life = 0;
-    }
-
-    this.setLife(this.pausedPlayer,life);
-    this.pausedPlayer.socket.emit('fightCommand',{
-        command: 'enemyAttack',
-        param: {
-            life: life
+        
+        if(attackRobot.agility > defenseRobot.agility){
+            if(Math.floor(Math.random() * 2) == 0) {
+                damage *= 2;
+            }
+        }else if(attackRobot.agility < defenseRobot.agility){
+            if(Math.floor(Math.random() * 2) == 0){
+                damage = 0;
+            }
         }
-    });
 
-    this.activePlayer.socket.emit('fightCommand',{
-        command: 'updateEnemy',
-        param: {
-            life: life
+        damage = Math.floor(damage);
+
+        var life = self.getLife(self.pausedPlayer);
+
+        life -= damage;
+        if(life <= 0){
+            life = 0;
         }
+
+        self.setLife(self.pausedPlayer,life);
+        self.pausedPlayer.socket.emit('fightCommand',{
+            command: 'enemyAttack',
+            param: {
+                life: life
+            }
+        });
+
+        self.activePlayer.socket.emit('fightCommand',{
+            command: 'updateEnemy',
+            param: {
+                life: life
+            }
+        });
+
+        if(life == 0){
+            self.app.stopFight(self.pausedPlayer);
+        }
+
+
     });
-
-    if(life == 0){
-        this.app.stopFight(this.pausedPlayer);
-    }
-};
-
-FightController.prototype.getRobot = function(player){
-    if(this.player1 == player){
-        return this.player1Robot;
-    }else{
-        return this.player2Robot;
-    }
+    
 };
 
 FightController.prototype.setLife = function(player,life){
