@@ -48,7 +48,7 @@ define([
     LifeMeter.prototype.setLife = function(life){
         this.life = life;
 
-        this.lifeBox.width = this.lifeWidth * (this.life/100);
+        this.game.add.tween(this.lifeBox).to({width: this.lifeWidth * (this.life/100)},100).start();
     };
 
     return LifeMeter;
