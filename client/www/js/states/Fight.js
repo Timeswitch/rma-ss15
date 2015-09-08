@@ -179,7 +179,10 @@ define([
     };
 
     Fight.prototype.onItemClick = function(){
-
+        this.disableButtons();
+        this.socket.emit('fightCommand',{
+            command: 'item'
+        });
     };
 
     Fight.prototype.onAbortClick = function(){
@@ -191,11 +194,11 @@ define([
 
     Fight.prototype.disableButtons = function(){
         this.buttonAttack.inputEnabled = false;
-        this.buttonAttack.tint = 0xffff00;
+        this.buttonAttack.tint = 0x000000;
         this.buttonDefend.inputEnabled = false;
-        this.buttonDefend.tint = 0xffff00;
+        this.buttonDefend.tint = 0x000000;
         this.buttonItem.inputEnabled = false;
-        this.buttonItem.tint = 0xffff00;
+        this.buttonItem.tint = 0x000000;
 
     };
 
@@ -204,8 +207,11 @@ define([
         this.buttonAttack.tint = 0xffffff;
         this.buttonDefend.inputEnabled = true;
         this.buttonDefend.tint = 0xffffff;
-        this.buttonItem.inputEnabled = true;
-        this.buttonItem.tint = 0xffffff;
+
+        if(this.playerRobot.item){
+            this.buttonItem.inputEnabled = true;
+            this.buttonItem.tint = 0xffffff;
+        }
     };
 
     Fight.prototype.parseCommand = function(data){
