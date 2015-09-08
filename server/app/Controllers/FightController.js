@@ -61,6 +61,7 @@ FightController.prototype.parseCommand = function(data){
     switch(data.command){
         case 'ready':
             this.onPlayerReady();
+            return;
             break;
         case 'abort':
             this.app.stopFight(player);
