@@ -49,7 +49,7 @@ FightController.prototype.onPlayerReady = function(){
     this.readyCount++;
 
     if(this.readyCount >= 2){
-        this.activePlayer.emit('fightCommand',{
+        this.activePlayer.socket.emit('fightCommand',{
             command: 'active'
         })
     }
@@ -81,7 +81,7 @@ FightController.prototype.parseCommand = function(data){
     this.currentPlayer = this.pausedPlayer;
     this.pausedPlayer = pause;
 
-    this.pausedPlayer.emit('fightCommand',{
+    this.pausedPlayer.socket.emit('fightCommand',{
         command: 'wait'
     });
 };
