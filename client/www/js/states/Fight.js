@@ -135,12 +135,12 @@ define([
         var lifeHeight = lifeWidth/3;
 
         this.enemyLife = new LifeMeter(this.app.game,lifeWidth,lifeHeight,this.enemyName);
-        this.enemyLife.x = 0;
-        this.enemyLife.y = 0;
+        this.enemyLife.x = 8;
+        this.enemyLife.y = 8;
 
         this.playerLife = new LifeMeter(this.app.game,lifeWidth,lifeHeight,this.playerName);
-        this.playerLife.x = this.app.width - this.playerLife.width;
-        this.playerLife.y = this.buttonGroup.y - this.playerLife.height;
+        this.playerLife.x = this.app.width - this.playerLife.width - 8;
+        this.playerLife.y = this.buttonGroup.y - this.playerLife.height - 8;
 
     };
 

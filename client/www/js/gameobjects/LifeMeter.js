@@ -26,13 +26,14 @@ define([
             lifeTex.fill(255,0,0);
         }
 
-        this.lifeBox = this.game.add.sprite(10,this.box.height-35,lifeTex);
+        this.lifeBox = this.game.add.sprite(15,this.box.height-35,lifeTex);
         this.lifeBox.height = 20;
         this.lifeBox.width = this.box.width - 30;
 
         this.lifeWidth = this.lifeBox.width;
 
-        this.captionText = this.game.add.text(10,10,this.caption,{font: (this.box.height - 50)+"px vt323regular",fill: '#ffffff',align: 'left'});
+        this.captionText = this.game.add.text(10,0,this.caption,{font: (this.box.height - 60)+"px vt323regular",fill: '#ffffff',align: 'left'});
+        this.captionText.y = (this.lifeBox.y/2) - (this.captionText.height/2);
 
         this.add(this.box);
         this.add(this.lifeBox);
