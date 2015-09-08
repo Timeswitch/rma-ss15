@@ -346,7 +346,7 @@ define([
                     if(data.status == 'won'){
                         self.getState().showDialog('Gewonnen!',(data.prize ? self.store.get('RobotPart',data.prize).name : 'Nichts') + ' erhalten.');
                     }else{
-                        self.getState().showDialog('Niederlage!', + ' verloren.');
+                        self.getState().showDialog('Niederlage!',(data.prize ? self.store.get('RobotPart',data.prize).name : 'Nichts') + ' verloren.');
                     }
 
                 },500);
