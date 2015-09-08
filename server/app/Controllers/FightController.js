@@ -102,10 +102,10 @@ FightController.prototype.attack = function(){
         this.activePlayer.user.robot().fetch({require: true, withRelated: ['head','body','arms','legs']}),
         this.pausedPlayer.user.robot().fetch({require: true, withRelated: ['head','body','arms','legs']})
     ]).then(function(robots){
-        var attackRobot = data[0].getValues();
-        var defenseRobot = data[1].getValues();
+        var attackRobot = robots[0].getValues();
+        var defenseRobot = robots[1].getValues();
 
-        var damage = attackRobot.attack - ((attackRobotattack/100) * defenseRobot.defense);
+        var damage = attackRobot.attack - ((attackRobot.attack/100) * defenseRobot.defense);
         
         if(damage < 0){
             damage = 0;
@@ -144,6 +144,8 @@ FightController.prototype.attack = function(){
                 life: life
             }
         });
+
+        self.endRound();
 
         if(life == 0){
             self.app.stopFight(self.pausedPlayer);
