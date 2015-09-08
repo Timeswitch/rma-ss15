@@ -143,7 +143,7 @@ App.prototype.transferPrize = function(result){
 
                 return Promise.all([
                     robot.save(),
-                    winner.user.addItem(item)
+                    result.winner.user.addItem(item)
                 ]);
             });
     }else{
