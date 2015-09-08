@@ -38,7 +38,7 @@ define([
         this.progress = this.create((this.boxWidth/2)-60,50,'progressbar');
         this.animation = this.progress.animations.add('load',[0,1,2,3,4,5,6,7,8,9,10,11,12]);
         this.animation.onComplete.add(this.animationStopped,this);
-        this.progress.animations.play('load',5,true);
+        this.progress.animations.play('load',10,true);
         this.progress.tint = 0x419001;
 
         this.x = this.state.world.centerX - (this.boxWidth/2);

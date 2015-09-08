@@ -132,7 +132,7 @@ define([
         this.titleContainer.x = 0;
         this.titleContainer.y = 0;
 
-        var titleText = this.app.game.add.text(this.world.centerX,30,'Zusammenstellung',{font: "35px bitwise",fill: '#ffffff',align: 'center'});
+        var titleText = this.app.game.add.text(this.world.centerX,30,'Zusammenstellung',{font: "30px bitwise",fill: '#ffffff',align: 'center'});
         titleText.anchor.set(0.5);
         this.titleContainer.add(titleText);
         this.titleContainer.forEach(function(e){
