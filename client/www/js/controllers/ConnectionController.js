@@ -6,7 +6,7 @@ define(['socket.io'],function(io){
 
     function ConnectionController(app,server){
         this.app = app;
-        this.socket = io(server);
+        this.socket = io(server,{'forceNew': true });
         this.id = -1;
 
         this.waitForFight = false;
