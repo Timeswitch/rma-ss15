@@ -94,7 +94,7 @@ App.prototype.stopFight = function(userconnection,reason){
     if(userconnection.fight){
         var fight = userconnection.fight;
         fight.stop({
-            looser: userconnection.user.get('id'),
+            looser: userconnection,
             reason: reason
         });
 
