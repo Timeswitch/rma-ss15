@@ -9,13 +9,19 @@ function FightController(app,player1,player2){
     this.player1 = player1;
     this.player2 = player2;
 
-    this.player1Life = 50;
-    this.player2Life = 50;
-
     this.readyCount = 0;
 
-    this.activePlayer = player1;
-    this.pausedPlayer = player2;
+    this.activePlayer = {
+        connection: player1,
+        life: 50,
+        defending: false
+    };
+
+    this.pausedPlayer = {
+        connection: player2,
+        life: 50,
+        defending: false
+    };
 }
 
 FightController.prototype.start = function(){
@@ -73,13 +79,16 @@ FightController.prototype.parseCommand = function(data){
             return;
     }
 
-    if(!this.currentPlayer == player || this.readyCount < 2){
+    if(!this.currentPlayer.connection == player || this.readyCount < 2){
         return;
     }
 
     switch(data.command){
         case 'attack':
             this.attack();
+            break;
+        case 'defend':
+            this.defend();
             break;
     }
 
@@ -90,7 +99,7 @@ FightController.prototype.endRound = function(){
     this.activePlayer = this.pausedPlayer;
     this.pausedPlayer = pause;
 
-    this.pausedPlayer.socket.emit('fightCommand',{
+    this.pausedPlayer.connection.socket.emit('fightCommand',{
         command: 'wait'
     });
 };
@@ -99,11 +108,16 @@ FightController.prototype.attack = function(){
     var self = this;
 
     return Promise.all([
-        this.activePlayer.user.robot().fetch({require: true, withRelated: ['head','body','arms','legs']}),
-        this.pausedPlayer.user.robot().fetch({require: true, withRelated: ['head','body','arms','legs']})
+        this.activePlayer.connection.user.robot().fetch({require: true, withRelated: ['head','body','arms','legs']}),
+        this.pausedPlayer.connection.user.robot().fetch({require: true, withRelated: ['head','body','arms','legs']})
     ]).then(function(robots){
         var attackRobot = robots[0].getValues();
         var defenseRobot = robots[1].getValues();
+
+        if(self.pausedPlayer.defending){
+            self.pausedPlayer.defending = false;
+            defenseRobot.defense *= 2;
+        }
 
         var damage = attackRobot.attack - ((attackRobot.attack/100) * defenseRobot.defense);
         
@@ -122,33 +136,29 @@ FightController.prototype.attack = function(){
         }
 
         damage = Math.floor(damage);
-
-        var life = self.getLife(self.pausedPlayer);
-
-        life -= damage;
-        if(life <= 0){
-            life = 0;
+        self.pausedPlayer.life -= damage;
+        if(self.pausedPlayer.life <= 0){
+            self.pausedPlayer.life = 0;
         }
 
-        self.setLife(self.pausedPlayer,life);
         self.pausedPlayer.socket.emit('fightCommand',{
             command: 'enemyAttack',
             param: {
-                life: life
+                life: self.pausedPlayer.life
             }
         });
 
         self.activePlayer.socket.emit('fightCommand',{
             command: 'updateEnemy',
             param: {
-                life: life
+                life: self.pausedPlayer.life
             }
         });
 
         self.endRound();
 
         if(life == 0){
-            self.app.stopFight(self.pausedPlayer);
+            self.app.stopFight(self.pausedPlayer.connection);
         }
 
 
@@ -156,20 +166,9 @@ FightController.prototype.attack = function(){
     
 };
 
-FightController.prototype.setLife = function(player,life){
-    if(this.player1 == player){
-        this.player1Life = life;
-    }else{
-        this.player2Life = life;
-    }
-};
-
-FightController.prototype.getLife = function(player){
-    if(this.player1 == player){
-        return this.player1Life;
-    }else{
-        return this.player2Life;
-    }
+FightController.prototype.defend = function(){
+    this.activePlayer.defending = true;
+    this.endRound();
 };
 
 module.exports = FightController;

@@ -168,11 +168,14 @@ define([
         this.disableButtons();
         this.socket.emit('fightCommand',{
             command: 'attack'
-        })
+        });
     };
 
     Fight.prototype.onDefenseClick = function(){
-
+        this.disableButtons();
+        this.socket.emit('fightCommand',{
+            command: 'defend'
+        });
     };
 
     Fight.prototype.onItemClick = function(){
@@ -180,6 +183,7 @@ define([
     };
 
     Fight.prototype.onAbortClick = function(){
+        this.disableButtons();
         this.socket.emit('fightCommand',{
             command: 'abort'
         });
