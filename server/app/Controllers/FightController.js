@@ -169,6 +169,9 @@ FightController.prototype.attack = function(){
 FightController.prototype.defend = function(){
     this.activePlayer.defending = true;
     this.endRound();
+    this.activePlayer.connection.socket.emit('fightCommand',{
+        command: 'active'
+    })
 };
 
 module.exports = FightController;
