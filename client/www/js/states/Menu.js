@@ -267,7 +267,7 @@ define([
                     self.showDialog('Bauteil gefunden!',self.app.store.get('RobotPart',data.item).name);
                     break;
                 case 'used':
-                    self.showDialog('Info','Du hast diesen Code heute bereits gescant!');
+                    self.showDialog('Info','Du hast diesen Code\nheute bereits gescant!');
                     break;
                 case 'empty':
                     self.showDialog('Info','Dieser Code war leider leer.');
