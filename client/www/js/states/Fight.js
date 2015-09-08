@@ -215,12 +215,19 @@ define([
             case 'enemyAttack':
                 this.onEnemyAttack(data.param);
                 break;
+            case 'updateEnemy':
+                this.onUpdateEnemy(data.param);
+                break;
         }
     };
 
     Fight.prototype.onEnemyAttack = function(param){
-        this.showDialog('Debug','Gegener Angriff!');
+        this.playerLife.setLife(param.life);
         this.enableButtons();
+    };
+
+    Fight.prototype.onUpdateEnemy = function(param){
+        this.enemyLife.setLife(param.life);
     };
 
     return new Fight();

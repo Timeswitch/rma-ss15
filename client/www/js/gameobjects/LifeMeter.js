@@ -15,7 +15,7 @@ define([
         this.caption = caption;
         this.game = game;
 
-        this.life = 100;
+        this.life = 50;
 
         this.box = new TileBox(game,this.boxWidth,this.boxHeight);
         this.box.x = 0;
@@ -48,7 +48,7 @@ define([
     LifeMeter.prototype.setLife = function(life){
         this.life = life;
 
-        this.game.add.tween(this.lifeBox).to({width: this.lifeWidth * (this.life/100)},100).start();
+        this.game.add.tween(this.lifeBox).to({width: this.lifeWidth * (this.life/50)},100).start();
     };
 
     return LifeMeter;
