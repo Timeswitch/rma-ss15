@@ -10,6 +10,11 @@ define(function() {
             name: 'RobotPart',
             methods: {
                 getImage: function(back,side){
+
+                    if(this.slot == 'item'){
+                        return 'item_' + this.image;
+                    }
+
                     var path = 'robo_';
 
                     if(this.slot == 'arms'){

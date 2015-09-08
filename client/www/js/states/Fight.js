@@ -109,12 +109,27 @@ define([
         this.buttonAbort = this.add.button(this.buttonItem.width,this.buttonItem.y,'buttonAbort',this.onAbortClick,this,0,0,1,0);
         this.buttonAbort.scale.set(scale,scale);
 
+        this.itemIcon = null;
+
+        if(this.playerRobotConfig.item){
+            this.itemIcon = this.add.sprite(0,0,this.playerRobotConfig.item.getImage());
+            this.itemIcon.height = this.buttonItem.height - 20;
+            this.itemIcon.width = this.itemIcon.height;
+
+            this.itemIcon.x = this.buttonItem.width - this.itemIcon.width - 10;
+            this.itemIcon.y = this.buttonItem.y + 10;
+        }
+
         this.buttonGroup = this.add.group();
 
         this.buttonGroup.add(this.buttonAttack);
         this.buttonGroup.add(this.buttonDefend);
         this.buttonGroup.add(this.buttonItem);
         this.buttonGroup.add(this.buttonAbort);
+
+        if(this.itemIcon){
+            this.buttonGroup.add(this.itemIcon);
+        }
 
         this.buttonGroup.y = this.app.height - this.buttonGroup.height;
 
@@ -152,7 +167,6 @@ define([
             command: 'ready',
             who: this.playerName
         });
-
     };
 
     Fight.prototype.update = function(){

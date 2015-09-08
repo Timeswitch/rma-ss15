@@ -46,7 +46,7 @@ define(function(){
         if(this.config.db){
 
             for(var k in this.config){
-                if(k != 'db' && this.config[k]){
+                if(k != 'db' && k != 'item' && this.config[k]){
                     if(k == 'arms'){
                         this.armLeft.loadTexture(this.config.arms.getImageLeft(this.back));
                         this.armRight.loadTexture(this.config.arms.getImageRight(this.back));

@@ -16,18 +16,17 @@ module.exports.up = function(knex,Promise) {
 
     }).createTable('robot', function (table) {
         table.increments('id').primary();
-        table.integer('arms_id').references('robotpart.slot');
-        table.integer('legs_id').references('robotpart.slot');
-        table.integer('body_id').references('robotpart.slot');
-        table.integer('head_id').references('robotpart.slot');
+        table.integer('arms_id').references('robotpart.id');
+        table.integer('legs_id').references('robotpart.id');
+        table.integer('body_id').references('robotpart.id');
+        table.integer('head_id').references('robotpart.id');
+        table.integer('item_id').references('robotpart.id');
         table.integer('user_id').unique().references('user.id');
 
     }).createTable('user', function (table) {
         table.increments('id').primary();
         table.string('username').unique();
         table.uuid('logintoken');
-        table.integer('wins');
-        table.integer('defeats');
 
     }).createTable('inventar', function (table) {
         table.integer('user_id').references('user.id');

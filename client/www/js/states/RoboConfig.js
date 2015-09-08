@@ -328,11 +328,11 @@ define([
         }
 
         if(!this.slotShield){
-            this.slotShield = new RobotSlotItem(this.app.game,this,null,'Schild',this.slotWidth);
+            this.slotShield = new RobotSlotItem(this.app.game,this,robot.item,'Item',this.slotWidth);
             this.slotShield.x = 0;
             this.slotShield.y = this.slotLegs.y + this.slotHeight;
         }else{
-            this.slotShield.setItem(null);
+            this.slotShield.setItem(robot.item);
         }
     };
 

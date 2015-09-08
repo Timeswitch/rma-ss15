@@ -255,6 +255,23 @@ define([
             this.game.load.image('robo_head_back_12','assets/robotparts/head_back_12.png');
             this.game.load.image('robo_arm_left_back_12','assets/robotparts/arm_left_back_12.png');
             this.game.load.image('robo_arm_right_back_12','assets/robotparts/arm_right_back_12.png');
+
+
+            this.game.load.image('item_1','assets/items/item_1.png');
+            this.game.load.image('item_2','assets/items/item_2.png');
+            this.game.load.image('item_3','assets/items/item_3.png');
+            this.game.load.image('item_4','assets/items/item_4.png');
+            this.game.load.image('item_5','assets/items/item_5.png');
+            this.game.load.image('item_6','assets/items/item_6.png');
+            this.game.load.image('item_7','assets/items/item_7.png');
+            this.game.load.image('item_8','assets/items/item_8.png');
+            this.game.load.image('item_9','assets/items/item_9.png');
+            this.game.load.image('item_10','assets/items/item_10.png');
+            this.game.load.image('item_11','assets/items/item_11.png');
+            this.game.load.image('item_12','assets/items/item_12.png');
+            this.game.load.image('item_13','assets/items/item_13.png');
+            this.game.load.image('item_14','assets/items/item_14.png');
+            this.game.load.image('item_15','assets/items/item_15.png');
         };
 
         App.prototype.makeRobot = function(config,back){

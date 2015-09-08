@@ -24,6 +24,9 @@ var Robot = database.Model.extend({
     legs: function(){
         return this.belongsTo(RobotPart,'legs_id');
     },
+    item: function(){
+        return this.belongsTo(RobotPart,'item_id');
+    },
     getValues: function(){
         return {
             attack: (this.related('head').get('attack') || 0) + (this.related('body').get('attack') || 0)+ (this.related('arms').get('attack') || 0)+ (this.related('legs').get('attack')|| 0),

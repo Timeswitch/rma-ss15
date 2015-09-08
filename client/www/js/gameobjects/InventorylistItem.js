@@ -35,14 +35,17 @@ define(function(){
         this.countText = new Phaser.Text(game,5,5,countString,{font: "28px vt323regular",fill: '#ffffff',align: 'left'});
         this.nameText = new Phaser.Text(game,this.countText.width + 10, 5, this.item.robotpart.name,{font: "28px vt323regular",fill: '#ffffff',align: 'left'});
 
-        var attackString = 'ANGR:' + (this.item.robotpart.attack || '-');
-        this.attackText = new Phaser.Text(game,5, 10 + this.countText.height, attackString,{font: "26px vt323regular",fill: '#ffffff',align: 'left'});
+        if(this.item.slot != 'item'){
+            var attackString = 'ANGR:' + (this.item.robotpart.attack || '-');
+            this.attackText = new Phaser.Text(game,5, 10 + this.countText.height, attackString,{font: "26px vt323regular",fill: '#ffffff',align: 'left'});
 
-        var defenseString = 'VRT:' + (this.item.robotpart.defense || '-');
-        this.defenseText = new Phaser.Text(game,10 + this.attackText.width, 10 + this.countText.height, defenseString,{font: "26px vt323regular",fill: '#ffffff',align: 'left'});
+            var defenseString = 'VRT:' + (this.item.robotpart.defense || '-');
+            this.defenseText = new Phaser.Text(game,10 + this.attackText.width, 10 + this.countText.height, defenseString,{font: "26px vt323regular",fill: '#ffffff',align: 'left'});
 
-        var agilityString = 'BWG:' + (this.item.robotpart.agility || '-');
-        this.agilityText = new Phaser.Text(game,15 + this.attackText.width + this.defenseText.width, 10 + this.countText.height, agilityString,{font: "26px vt323regular",fill: '#ffffff',align: 'left'});
+            var agilityString = 'BWG:' + (this.item.robotpart.agility || '-');
+            this.agilityText = new Phaser.Text(game,15 + this.attackText.width + this.defenseText.width, 10 + this.countText.height, agilityString,{font: "26px vt323regular",fill: '#ffffff',align: 'left'});
+
+        }
 
         this.iconContainer = this.getIcon();
 
@@ -50,11 +53,16 @@ define(function(){
         this.iconContainer.y = (this.boxHeight/2) - 32;
 
         this.add(this.box);
-        this.add(this.countText);
-        this.add(this.nameText);
-        this.add(this.attackText);
-        this.add(this.defenseText);
-        this.add(this.agilityText);
+
+        if(this.item.slot != 'item') {
+
+            this.add(this.countText);
+            this.add(this.nameText);
+            this.add(this.attackText);
+            this.add(this.defenseText);
+            this.add(this.agilityText);
+        }
+
         this.add(this.iconContainer);
 
         this.alpha = 0.7;

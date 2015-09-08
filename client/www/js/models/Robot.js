@@ -32,6 +32,10 @@ define(function() {
                         {
                             localField: 'legs',
                             localKey: 'legs_id'
+                        },
+                        {
+                            localField: 'item',
+                            localKey: 'item_id'
                         }
                     ]
                 }
@@ -43,6 +47,7 @@ define(function() {
                         body: this.body,
                         arms: this.arms,
                         legs: this.legs,
+                        item: this.item,
                         db: true
                     }
 
