@@ -152,6 +152,10 @@ var User = database.Model.extend({
                 prom.push(self.addItem(robot.get('legs_id')));
             }
 
+            if(robot.get('item_id') && robot.get('item_id') != config.item_id){
+                prom.push(self.addItem(robot.get('item_id')));
+            }
+
             return Promise.all(prom).then(function(){
 
                 var prom = [];
@@ -175,6 +179,11 @@ var User = database.Model.extend({
                 if(robot.get('legs_id') != config.legs_id){
                     prom.push(self.removeItem(config.legs_id));
                     changes.push('legs_id');
+                }
+
+                if(robot.get('item_id') != config.item_id){
+                    prom.push(self.removeItem(config.item_id));
+                    changes.push('item_id');
                 }
 
                 return Promise.all(prom).then(function(results){
