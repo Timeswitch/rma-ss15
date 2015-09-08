@@ -88,20 +88,21 @@ database.knex.migrate.latest().then(function(){
     newItem('Batbot Beine','legs',12,8,0,10,0,1);
 
     //items
-    newItem('Angriff +2','item',2,0,2,0,'attack',0);
-    newItem('Angriff +4','item',4,0,4,0,'attack',0);
-    newItem('Angriff +6','item',6,0,6,0,'attack',1);
-    newItem('Angriff +10','item',10,0,10,0,'attack',2);
+    newItem('Angriff +2','item',1,0,2,0,'attack',0);
+    newItem('Angriff +4','item',2,0,4,0,'attack',0);
+    newItem('Angriff +6','item',3,0,6,0,'attack',1);
+    newItem('Angriff +8','item',4,0,8,0,'attack',1);
+    newItem('Angriff +10','item',5,0,10,0,'attack',2);
 
-    newItem('Verteidigung +10%','item',10,0,0,10,'defense',0);
-    newItem('Verteidigung +20%','item',20,0,0,20,'defense',0);
-    newItem('Verteidigung +30%','item',30,0,0,30,'defense',1);
-    newItem('Verteidigung +40%','item',40,0,0,40,'defense',1);
-    newItem('Verteidigung +50%','item',50,0,0,50,'defense',2);
+    newItem('Verteidigung +10%','item',6,0,0,10,'defense',0);
+    newItem('Verteidigung +20%','item',7,0,0,20,'defense',0);
+    newItem('Verteidigung +30%','item',8,0,0,30,'defense',1);
+    newItem('Verteidigung +40%','item',9,0,0,40,'defense',1);
+    newItem('Verteidigung +50%','item',10,0,0,50,'defense',2);
 
-    newItem('Heilung 25%','item',25,25,0,0,'heal',0);
-    newItem('Heilung 50%','item',50,50,0,0,'heal',1);
-    newItem('Heilung 75%','item',75,75,0,0,'heal',2);
+    newItem('Heilung 25%','item',13,25,0,0,'heal',0);
+    newItem('Heilung 50%','item',14,50,0,0,'heal',1);
+    newItem('Heilung 75%','item',15,75,0,0,'heal',2);
 
     Promise.all(defaultItems).then(function(){
         process.exit();
