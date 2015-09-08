@@ -110,7 +110,6 @@ define([
         this.showProgress();
         this.app.connection.addFriend(this.friendInput.value,function(data){
             self.stopProgress(function(){
-                self.showDialog('Info',data.code);
                 self.initList();
             });
         });

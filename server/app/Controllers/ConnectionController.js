@@ -122,7 +122,7 @@ ConnectionController.prototype.onScan = function(data){
         .then(function(scan){
                 var currentDate = (new Date().toISOString().substring(0,10));
                 if(scan.get('lastscan') == currentDate){
-                    self.socket.emit('scanResult',{valid: false});
+                    self.socket.emit('scanResult',{status: 'used'});
                 }else{
                     scan.save({lastscan: currentDate},{patch: true}).then(function(){
                         self.getLoot().then(function(loot){
