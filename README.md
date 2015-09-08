@@ -10,3 +10,5 @@ Anschließeng kann der Server einfach über "npm start" gestartet werden.
 
 Der Client kann ganz normal von Cordova verarbeitet werden, man sollte allerdings vorher
 im www Ordner "bower install" aufrufen um die Abhängigkeiten (Phaser, etc) zu installieren.
+
+Achtung: auch hier wird eine Konfigurationsdateo bebötigt!
