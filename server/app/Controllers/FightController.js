@@ -60,7 +60,7 @@ FightController.prototype.onPlayerReady = function(){
     this.readyCount++;
 
     if(this.readyCount >= 2){
-        this.activePlayer.socket.emit('fightCommand',{
+        this.activePlayer.connection.socket.emit('fightCommand',{
             command: 'active'
         })
     }
@@ -141,14 +141,14 @@ FightController.prototype.attack = function(){
             self.pausedPlayer.life = 0;
         }
 
-        self.pausedPlayer.socket.emit('fightCommand',{
+        self.pausedPlayer.connection.socket.emit('fightCommand',{
             command: 'enemyAttack',
             param: {
                 life: self.pausedPlayer.life
             }
         });
 
-        self.activePlayer.socket.emit('fightCommand',{
+        self.activePlayer.connection.socket.emit('fightCommand',{
             command: 'updateEnemy',
             param: {
                 life: self.pausedPlayer.life
