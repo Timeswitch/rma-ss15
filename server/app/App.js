@@ -145,7 +145,7 @@ App.prototype.transferPrize = function(result){
 
                 for(var i = 0; i< fields.length; i++){
                     if(robot.get(fields[i])){
-                        field = field[i];
+                        field = fields[i];
                         item = robot.get(fields[i]);
                         break;
                     }
