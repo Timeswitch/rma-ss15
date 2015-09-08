@@ -194,6 +194,24 @@ define([
 
     Fight.prototype.onItemClick = function(){
         this.disableButtons();
+
+        this.playItemAnimation(this.playerRobot);
+
+        var item = this.app.user.robot.item;
+
+        if(item.agility){
+            var life = this.playerLife.life;
+            life += item.agility;
+
+            if(life > 50){
+                life = 50;
+            }
+
+            this.playerLife.setLife(life);
+
+            this.app.user.robot.set('item_id',null);
+        }
+
         this.socket.emit('fightCommand',{
             command: 'item'
         });
@@ -242,6 +260,8 @@ define([
             case 'updateEnemy':
                 this.onUpdateEnemy(data.param);
                 break;
+            case 'enemyItem':
+                this.onEnemyItem(data.param)
         }
     };
 
@@ -268,6 +288,22 @@ define([
         tween.start();
 
         this.enemyLife.setLife(param.life);
+    };
+
+    Fight.prototype.onEnemyItem = function(param){
+        var self = this;
+        this.playItemAnimation(this.enemyRobot);
+        if(param.life){
+            this.enemyLife.setLife(param.life);
+        }
+
+        setTimeout(function(){
+            self.enableButtons();
+        },100);
+    };
+
+    Fight.prototype.playItemAnimation = function(target){
+        this.add.tween(target).to({alpha: 0.5},100,Phaser.Easing.Default,false,0,0,true).start();
     };
 
     return new Fight();

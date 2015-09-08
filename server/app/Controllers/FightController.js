@@ -14,13 +14,17 @@ function FightController(app,player1,player2){
     this.activePlayer = {
         connection: player1,
         life: 50,
-        defending: false
+        defending: false,
+        extraAttack: 0,
+        extraDefense: 0,
     };
 
     this.pausedPlayer = {
         connection: player2,
         life: 50,
-        defending: false
+        defending: false,
+        extraAttack: 0,
+        extraDefense: 0
     };
 
     this.result = {
@@ -118,6 +122,8 @@ FightController.prototype.parseCommand = function(data){
         case 'defend':
             this.defend();
             break;
+        case 'item':
+            this.useItem();
     }
 
 };
@@ -141,6 +147,9 @@ FightController.prototype.attack = function(){
     ]).then(function(robots){
         var attackRobot = robots[0].getValues();
         var defenseRobot = robots[1].getValues();
+
+        attackRobot.attack += self.activePlayer.extraAttack;
+        defenseRobot.defense += self.pausedPlayer.extraDefense;
 
         if(self.pausedPlayer.defending){
             self.pausedPlayer.defending = false;
@@ -199,7 +208,51 @@ FightController.prototype.defend = function(){
     this.endRound();
     this.activePlayer.connection.socket.emit('fightCommand',{
         command: 'active'
-    })
+    });
+};
+
+FightController.prototype.useItem = function(){
+    var self = this;
+
+    return this.activePlayer.connection.user.robot().fetch({require: true, withRelated: ['head','body','arms','legs']})
+        .then(function(robot){
+            return robot.related('item').fetch({require:true}).then(function(item){
+
+                var life = null;
+
+                if(item.get('attack')){
+                    self.activePlayer.extraAttack = item.get('attack');
+                }else if(item.get('defense')){
+                    self.activePlayer.extraDefense = item.get('defense');
+                }else if(item.get('agility')){
+                    self.activePlayer.life += item.get('agility');
+                    if(self.activePlayer.life > 50){
+                        self.activePlayer.life = 50;
+                    }
+
+                    life = self.activePlayer.life;
+                }
+
+                robot.set('item_id',null);
+
+                return robot.save().then(function(){
+                    self.pausedPlayer.connection.socket.emit('fightCommand',{
+                        command: 'enemyItem',
+                        param: {
+                            life: life
+                        }
+                    });
+
+                    self.endRound();
+
+                    self.activePlayer.connection.socket.emit('fightCommand',{
+                        command: 'active'
+                    });
+                });
+
+            });
+
+        });
 };
 
 module.exports = FightController;
