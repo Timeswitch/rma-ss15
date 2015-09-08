@@ -79,7 +79,7 @@ FightController.prototype.parseCommand = function(data){
             return;
     }
 
-    if(!this.currentPlayer.connection == player || this.readyCount < 2){
+    if(!this.activePlayer.connection == player || this.readyCount < 2){
         return;
     }
 
