@@ -336,15 +336,21 @@ define([
         };
 
         App.prototype.stopFight = function(data){
+            var self = this;
             if(this.isFighting){
                 this.isFighting = false;
                 this.startState('Menu');
 
-                if(data.status == 'won'){
-                    this.getState().showDialog('Gewonnen!',this.store.get('RobotPart',data.prize).name + ' erhalten.');
-                }else{
-                    this.getState().showDialog('Niederlage!',this.store.get('RobotPart',data.prize).name + ' verloren.');
-                }
+                setTimeout(function(){
+
+                    if(data.status == 'won'){
+                        self.getState().showDialog('Gewonnen!',self.store.get('RobotPart',data.prize).name + ' erhalten.');
+                    }else{
+                        self.getState().showDialog('Niederlage!',self.store.get('RobotPart',data.prize).name + ' verloren.');
+                    }
+
+                },500);
+
             }
         };
 

@@ -36,7 +36,9 @@ var User = database.Model.extend({
                         });
                     }});
             }).catch(function(){
-                return self.inventory().attach({user_id: self.id, robotpart_id: item, count: 1});
+                if(item){
+                    return self.inventory().attach({user_id: self.id, robotpart_id: item, count: 1});
+                }
             });
     },
     removeItem: function(item, count) {

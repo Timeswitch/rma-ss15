@@ -358,7 +358,7 @@ ConnectionController.prototype.stopFight = function(result){
             prize: result.prize
         };
 
-        if(result.winner == this){
+        if(result.winner == self){
             info.status = 'won';
         }else{
             info.status = 'lost';
